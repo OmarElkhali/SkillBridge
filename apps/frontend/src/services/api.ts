@@ -13,7 +13,7 @@ import type {
   UserSummary,
 } from "../types/api";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8081";
 const TOKEN_STORAGE_KEY = "skillbridge.access-token";
 
 let accessToken = localStorage.getItem(TOKEN_STORAGE_KEY);

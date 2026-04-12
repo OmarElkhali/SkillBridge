@@ -1,0 +1,5236 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< com.skillbridge:skillbridge >---------------------
+[INFO] Building SkillBridge 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.3:run (default-cli) > test-compile @ skillbridge >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ skillbridge ---
+[INFO] Copying 3 resources from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ skillbridge ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 88 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ skillbridge ---
+[INFO] Copying 1 resource from src\test\resources to target\test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ skillbridge ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] <<< spring-boot:4.0.3:run (default-cli) < test-compile @ skillbridge <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.3:run (default-cli) @ skillbridge ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.3)
+
+2026-04-12T23:06:36.314+01:00  INFO 34224 --- [SkillBridge] [           main] com.skillbridge.SkillBridgeApplication   : Starting SkillBridgeApplication using Java 21.0.5 with PID 34224 (C:\Users\AYOUB\Documents\Projects\Bdio\SkillBridge\apps\backend\target\classes started by Ayoub in C:\Users\AYOUB\Documents\Projects\Bdio\SkillBridge\apps\backend)
+2026-04-12T23:06:36.320+01:00  INFO 34224 --- [SkillBridge] [           main] com.skillbridge.SkillBridgeApplication   : The following 1 profile is active: "dev"
+2026-04-12T23:06:36.322+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.boot.SpringApplication               : Loading source class com.skillbridge.SkillBridgeApplication
+2026-04-12T23:06:36.418+01:00 DEBUG 34224 --- [SkillBridge] [           main] ConfigServletWebServerApplicationContext : Refreshing org.springframework.boot.web.server.servlet.context.AnnotationConfigServletWebServerApplicationContext@29ca3d04
+2026-04-12T23:06:37.340+01:00 DEBUG 34224 --- [SkillBridge] [           main] ySourcesPropertyResolver$DefaultResolver : Found key 'DB_URL' in PropertySource 'Config resource 'file [.env]' via location 'optional:file:.env[.properties]'' with value of type String
+2026-04-12T23:06:37.899+01:00  INFO 34224 --- [SkillBridge] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-12T23:06:37.938+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.a.AutoConfigurationPackages        : @EnableAutoConfiguration was declared on a class in the package 'com.skillbridge'. Automatic @Repository and @Entity scanning is enabled.
+2026-04-12T23:06:38.124+01:00  INFO 34224 --- [SkillBridge] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 205 ms. Found 12 JPA repository interfaces.
+2026-04-12T23:06:39.700+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.t.s.TomcatServletWebServerFactory  : Code archive: C:\Users\AYOUB\.m2\repository\org\springframework\boot\spring-boot-web-server\4.0.3\spring-boot-web-server-4.0.3.jar
+2026-04-12T23:06:39.701+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.t.s.TomcatServletWebServerFactory  : Code archive: C:\Users\AYOUB\.m2\repository\org\springframework\boot\spring-boot-web-server\4.0.3\spring-boot-web-server-4.0.3.jar
+2026-04-12T23:06:39.702+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.t.s.TomcatServletWebServerFactory  : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2026-04-12T23:06:39.753+01:00  INFO 34224 --- [SkillBridge] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-04-12T23:06:39.781+01:00  INFO 34224 --- [SkillBridge] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-12T23:06:39.782+01:00  INFO 34224 --- [SkillBridge] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-04-12T23:06:39.889+01:00 DEBUG 34224 --- [SkillBridge] [           main] b.w.c.s.WebApplicationContextInitializer : Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
+2026-04-12T23:06:39.891+01:00  INFO 34224 --- [SkillBridge] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3472 ms
+2026-04-12T23:06:40.294+01:00  INFO 34224 --- [SkillBridge] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-04-12T23:06:40.454+01:00  INFO 34224 --- [SkillBridge] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-04-12T23:06:41.567+01:00  INFO 34224 --- [SkillBridge] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-12T23:06:41.656+01:00  INFO 34224 --- [SkillBridge] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-12T23:06:42.947+01:00  INFO 34224 --- [SkillBridge] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2bc2e022
+2026-04-12T23:06:42.950+01:00  INFO 34224 --- [SkillBridge] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-12T23:06:43.393+01:00  INFO 34224 --- [SkillBridge] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://aws-0-eu-west-1.pooler.supabase.com:5432/postgres?user=postgres.kjhnukvekqkhixqymdgy&password=lw8UK6t0qQ6SBhlW&sslmode=require]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 17.6
+	Default catalog/schema: postgres/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-12T23:06:46.825+01:00  INFO 34224 --- [SkillBridge] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-12T23:06:47.550+01:00  INFO 34224 --- [SkillBridge] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-12T23:06:47.765+01:00  INFO 34224 --- [SkillBridge] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-12T23:06:48.343+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.w.s.ServletContextInitializerBeans : Mapping filters: springSecurityFilterChain urls=[/*] order=-100, characterEncodingFilter urls=[/*] order=-2147483648, formContentFilter urls=[/*] order=-9900, requestContextFilter urls=[/*] order=-105, jwtAuthenticationFilter urls=[/*] order=2147483647
+2026-04-12T23:06:48.344+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.w.s.ServletContextInitializerBeans : Mapping servlets: dispatcherServlet urls=[/]
+2026-04-12T23:06:48.443+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.s.f.OrderedRequestContextFilter    : Filter 'requestContextFilter' configured for use
+2026-04-12T23:06:48.445+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.s.f.OrderedCharacterEncodingFilter : Filter 'characterEncodingFilter' configured for use
+2026-04-12T23:06:48.448+01:00 DEBUG 34224 --- [SkillBridge] [           main] .DelegatingFilterProxyRegistrationBean$1 : Filter 'springSecurityFilterChain' configured for use
+2026-04-12T23:06:48.448+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.s.filter.OrderedFormContentFilter  : Filter 'formContentFilter' configured for use
+2026-04-12T23:06:49.757+01:00  INFO 34224 --- [SkillBridge] [           main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-12T23:06:49.760+01:00  WARN 34224 --- [SkillBridge] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-12T23:06:50.764+01:00 DEBUG 34224 --- [SkillBridge] [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 34 mappings in 'requestMappingHandlerMapping'
+2026-04-12T23:06:50.871+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-04-12T23:06:50.950+01:00 DEBUG 34224 --- [SkillBridge] [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 2 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-12T23:06:51.182+01:00 DEBUG 34224 --- [SkillBridge] [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-12T23:06:51.732+01:00  INFO 34224 --- [SkillBridge] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-04-12T23:06:51.751+01:00 DEBUG 34224 --- [SkillBridge] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+
+============================
+CONDITIONS EVALUATION REPORT
+============================
+
+
+Positive matches:
+-----------------
+
+   AopAutoConfiguration matched:
+      - @ConditionalOnBooleanProperty (spring.aop.auto=true) matched (OnPropertyCondition)
+
+   AopAutoConfiguration.AspectJAutoProxyingConfiguration matched:
+      - @ConditionalOnClass found required class 'org.aspectj.weaver.Advice' (OnClassCondition)
+
+   AopAutoConfiguration.AspectJAutoProxyingConfiguration.CglibAutoProxyConfiguration matched:
+      - @ConditionalOnBooleanProperty (spring.aop.proxy-target-class=true) matched (OnPropertyCondition)
+
+   ApplicationAvailabilityAutoConfiguration#applicationAvailability matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.availability.ApplicationAvailability; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataJpaRepositoriesAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.data.jpa.repository.JpaRepository' (OnClassCondition)
+      - @ConditionalOnBooleanProperty (spring.data.jpa.repositories.enabled=true) matched (OnPropertyCondition)
+      - @ConditionalOnBean (types: javax.sql.DataSource; SearchStrategy: all) found bean 'dataSource'; @ConditionalOnMissingBean (types: org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean,org.springframework.data.jpa.repository.config.JpaRepositoryConfigExtension; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataSourceAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.sql.DataSource', 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+      - @ConditionalOnMissingBean (types: io.r2dbc.spi.ConnectionFactory; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataSourceAutoConfiguration.PooledDataSourceConfiguration matched:
+      - AnyNestedCondition 1 matched 1 did not; NestedCondition on DataSourceAutoConfiguration.PooledDataSourceCondition.PooledDataSourceAvailable PooledDataSource found supported DataSource; NestedCondition on DataSourceAutoConfiguration.PooledDataSourceCondition.ExplicitType @ConditionalOnProperty (spring.datasource.type) did not find property 'spring.datasource.type' (DataSourceAutoConfiguration.PooledDataSourceCondition)
+      - @ConditionalOnMissingBean (types: javax.sql.DataSource,javax.sql.XADataSource; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataSourceAutoConfiguration.PooledDataSourceConfiguration#jdbcConnectionDetails matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.jdbc.autoconfigure.JdbcConnectionDetails; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataSourceConfiguration.Hikari matched:
+      - @ConditionalOnClass found required class 'com.zaxxer.hikari.HikariDataSource' (OnClassCondition)
+      - @ConditionalOnProperty (spring.datasource.type=com.zaxxer.hikari.HikariDataSource) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: javax.sql.DataSource; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataSourceInitializationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.jdbc.datasource.init.DatabasePopulator' (OnClassCondition)
+      - SQL InitializationDatabase Initialization default value is EMBEDDED (OnSqlInitializationCondition)
+      - @ConditionalOnSingleCandidate (types: javax.sql.DataSource; SearchStrategy: all) found a single bean 'dataSource'; @ConditionalOnMissingBean (types: org.springframework.boot.sql.autoconfigure.init.ApplicationScriptDatabaseInitializer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataSourcePoolMetadataProvidersConfiguration.HikariPoolDataSourceMetadataProviderConfiguration matched:
+      - @ConditionalOnClass found required class 'com.zaxxer.hikari.HikariDataSource' (OnClassCondition)
+
+   DataSourceTransactionManagerAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.sql.DataSource', 'org.springframework.jdbc.core.JdbcTemplate', 'org.springframework.transaction.TransactionManager' (OnClassCondition)
+
+   DataSourceTransactionManagerAutoConfiguration.JdbcTransactionManagerConfiguration matched:
+      - @ConditionalOnSingleCandidate (types: javax.sql.DataSource; SearchStrategy: all) found a single bean 'dataSource' (OnBeanCondition)
+
+   DataWebAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'org.springframework.data.web.PageableHandlerMethodArgumentResolver', 'org.springframework.web.servlet.config.annotation.WebMvcConfigurer' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.data.web.PageableHandlerMethodArgumentResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataWebAutoConfiguration#pageableCustomizer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.data.web.config.PageableHandlerMethodArgumentResolverCustomizer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataWebAutoConfiguration#sortCustomizer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.data.web.config.SortHandlerMethodArgumentResolverCustomizer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DataWebAutoConfiguration#springDataWebSettings matched:
+      - @ConditionalOnMissingBean (types: org.springframework.data.web.config.SpringDataWebSettings; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   DispatcherServletAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.servlet.DispatcherServlet' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletConfiguration matched:
+      - @ConditionalOnClass found required class 'jakarta.servlet.ServletRegistration' (OnClassCondition)
+      - Default DispatcherServlet did not find dispatcher servlet beans (DispatcherServletAutoConfiguration.DefaultDispatcherServletCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletRegistrationConfiguration matched:
+      - @ConditionalOnClass found required class 'jakarta.servlet.ServletRegistration' (OnClassCondition)
+      - DispatcherServlet Registration did not find servlet registration bean (DispatcherServletAutoConfiguration.DispatcherServletRegistrationCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletRegistrationConfiguration#dispatcherServletRegistration matched:
+      - @ConditionalOnBean (names: dispatcherServlet types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet' (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'jakarta.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   ErrorMvcAutoConfiguration#basicErrorController matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.webmvc.error.ErrorController; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration#errorAttributes matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.webmvc.error.ErrorAttributes; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.DefaultErrorViewResolverConfiguration#conventionErrorViewResolver matched:
+      - @ConditionalOnBean (types: org.springframework.web.servlet.DispatcherServlet; SearchStrategy: all) found bean 'dispatcherServlet'; @ConditionalOnMissingBean (types: org.springframework.boot.webmvc.autoconfigure.error.ErrorViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration matched:
+      - @ConditionalOnBooleanProperty (spring.web.error.whitelabel.enabled=true) matched (OnPropertyCondition)
+      - ErrorTemplate Missing did not find error template view (ErrorMvcAutoConfiguration.ErrorTemplateMissingCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration#beanNameViewResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ErrorMvcAutoConfiguration.WhitelabelErrorViewConfiguration#defaultErrorView matched:
+      - @ConditionalOnMissingBean (names: error; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   HibernateJpaAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean', 'jakarta.persistence.EntityManager', 'org.hibernate.engine.spi.SessionImplementor' (OnClassCondition)
+
+   HibernateJpaConfiguration matched:
+      - @ConditionalOnSingleCandidate (types: javax.sql.DataSource; SearchStrategy: all) found a single bean 'dataSource' (OnBeanCondition)
+
+   HttpEncodingAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.web.filter.CharacterEncodingFilter' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnBooleanProperty (spring.servlet.encoding.enabled=true) matched (OnPropertyCondition)
+
+   HttpEncodingAutoConfiguration#characterEncodingFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.CharacterEncodingFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   HttpMessageConvertersAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.converter.HttpMessageConverter' (OnClassCondition)
+      - NoneNestedConditions 0 matched 1 did not; NestedCondition on HttpMessageConvertersAutoConfiguration.NotReactiveWebApplicationCondition.ReactiveWebApplication did not find reactive web application classes (HttpMessageConvertersAutoConfiguration.NotReactiveWebApplicationCondition)
+
+   HttpMessageConvertersAutoConfiguration.StringHttpMessageConverterConfiguration#stringHttpMessageConvertersCustomizer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.StringHttpMessageConverter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'tools.jackson.databind.json.JsonMapper' (OnClassCondition)
+
+   JacksonAutoConfiguration#jacksonJsonMapper matched:
+      - @ConditionalOnMissingBean (types: tools.jackson.databind.json.JsonMapper; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration#jsonMapperBuilder matched:
+      - @ConditionalOnMissingBean (types: tools.jackson.databind.json.JsonMapper$Builder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JacksonAutoConfiguration.JsonProblemDetailsConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.http.ProblemDetail' (OnClassCondition)
+
+   JacksonHttpMessageConvertersConfiguration.JacksonJsonHttpMessageConverterConfiguration matched:
+      - @ConditionalOnClass found required class 'tools.jackson.databind.json.JsonMapper' (OnClassCondition)
+      - @ConditionalOnProperty (spring.http.converters.preferred-json-mapper=jackson) matched (OnPropertyCondition)
+      - @ConditionalOnBean (types: tools.jackson.databind.json.JsonMapper; SearchStrategy: all) found bean 'jacksonJsonMapper' (OnBeanCondition)
+
+   JacksonHttpMessageConvertersConfiguration.JacksonJsonHttpMessageConverterConfiguration#jacksonJsonHttpMessageConvertersCustomizer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.http.converter.json.JacksonJsonHttpMessageConverter ignored: org.springframework.hateoas.server.mvc.TypeConstrainedJacksonJsonHttpMessageConverter,org.springframework.data.rest.webmvc.alps.AlpsJacksonJsonHttpMessageConverter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JdbcClientAutoConfiguration matched:
+      - @ConditionalOnSingleCandidate (types: org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate; SearchStrategy: all) found a single bean 'namedParameterJdbcTemplate'; @ConditionalOnMissingBean (types: org.springframework.jdbc.core.simple.JdbcClient; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JdbcTemplateAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'javax.sql.DataSource', 'org.springframework.jdbc.core.JdbcTemplate' (OnClassCondition)
+      - @ConditionalOnSingleCandidate (types: javax.sql.DataSource; SearchStrategy: all) found a single bean 'dataSource' (OnBeanCondition)
+
+   JdbcTemplateConfiguration matched:
+      - @ConditionalOnMissingBean (types: org.springframework.jdbc.core.JdbcOperations; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JpaBaseConfiguration#entityManagerFactory matched:
+      - @ConditionalOnMissingBean (types: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean,jakarta.persistence.EntityManagerFactory; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JpaBaseConfiguration#entityManagerFactoryBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.jpa.EntityManagerFactoryBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JpaBaseConfiguration#jpaVendorAdapter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.orm.jpa.JpaVendorAdapter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JpaBaseConfiguration#transactionManager matched:
+      - @ConditionalOnMissingBean (types: org.springframework.transaction.TransactionManager; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JpaBaseConfiguration.PersistenceManagedTypesConfiguration matched:
+      - @ConditionalOnMissingBean (types: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean,jakarta.persistence.EntityManagerFactory; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JpaBaseConfiguration.PersistenceManagedTypesConfiguration#persistenceManagedTypes matched:
+      - @ConditionalOnMissingBean (types: org.springframework.orm.jpa.persistenceunit.PersistenceManagedTypes; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   JtaAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'jakarta.transaction.Transaction' (OnClassCondition)
+      - @ConditionalOnBooleanProperty (spring.jta.enabled=true) matched (OnPropertyCondition)
+
+   LifecycleAutoConfiguration#defaultLifecycleProcessor matched:
+      - @ConditionalOnMissingBean (names: lifecycleProcessor; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   MultipartAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'jakarta.servlet.Servlet', 'org.springframework.web.multipart.support.StandardServletMultipartResolver', 'jakarta.servlet.MultipartConfigElement' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnBooleanProperty (spring.servlet.multipart.enabled=true) matched (OnPropertyCondition)
+
+   MultipartAutoConfiguration#multipartConfigElement matched:
+      - @ConditionalOnMissingBean (types: jakarta.servlet.MultipartConfigElement; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   MultipartAutoConfiguration#multipartResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   NamedParameterJdbcTemplateConfiguration matched:
+      - @ConditionalOnSingleCandidate (types: org.springframework.jdbc.core.JdbcTemplate; SearchStrategy: all) found a single bean 'jdbcTemplate'; @ConditionalOnMissingBean (types: org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   PersistenceExceptionTranslationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor' (OnClassCondition)
+
+   PersistenceExceptionTranslationAutoConfiguration#persistenceExceptionTranslationPostProcessor matched:
+      - @ConditionalOnBooleanProperty (spring.persistence.exceptiontranslation.enabled=true) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   PropertyPlaceholderAutoConfiguration#propertySourcesPlaceholderConfigurer matched:
+      - @ConditionalOnMissingBean (types: org.springframework.context.support.PropertySourcesPlaceholderConfigurer; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   SecurityAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.DefaultAuthenticationEventPublisher' (OnClassCondition)
+
+   SecurityAutoConfiguration#authenticationEventPublisher matched:
+      - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationEventPublisher; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   SecurityFilterAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer', 'org.springframework.security.config.http.SessionCreationPolicy' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   SecurityFilterAutoConfiguration#securityFilterChainRegistration matched:
+      - @ConditionalOnBean (names: springSecurityFilterChain; SearchStrategy: all) found bean 'springSecurityFilterChain' (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   ServletWebSecurityAutoConfiguration.EnableWebSecurityConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration.PathPatternRequestMatcherBuilderConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.boot.webmvc.autoconfigure.DispatcherServletPath' (OnClassCondition)
+      - @ConditionalOnBean (types: org.springframework.boot.webmvc.autoconfigure.DispatcherServletPath; SearchStrategy: all) found bean 'dispatcherServletRegistration' (OnBeanCondition)
+
+   ServletWebSecurityAutoConfiguration.PathPatternRequestMatcherBuilderConfiguration#pathPatternRequestMatcherBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher$Builder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   SslAutoConfiguration#sslBundleRegistry matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.ssl.SslBundleRegistry,org.springframework.boot.ssl.SslBundles; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TaskExecutionAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor' (OnClassCondition)
+
+   TaskExecutorConfigurations.AsyncConfigurerConfiguration matched:
+      - @ConditionalOnMissingBean (types: org.springframework.scheduling.annotation.AsyncConfigurer; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TaskExecutorConfigurations.SimpleAsyncTaskExecutorBuilderConfiguration#simpleAsyncTaskExecutorBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.task.SimpleAsyncTaskExecutorBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+      - @ConditionalOnThreading found PLATFORM (OnThreadingCondition)
+
+   TaskExecutorConfigurations.TaskExecutorConfiguration matched:
+      - AnyNestedCondition 1 matched 1 did not; NestedCondition on TaskExecutorConfigurations.OnExecutorCondition.ModelCondition @ConditionalOnProperty (spring.task.execution.mode=force) did not find property 'spring.task.execution.mode'; NestedCondition on TaskExecutorConfigurations.OnExecutorCondition.ExecutorBeanCondition @ConditionalOnMissingBean (types: java.util.concurrent.Executor; SearchStrategy: all) did not find any beans (TaskExecutorConfigurations.OnExecutorCondition)
+
+   TaskExecutorConfigurations.TaskExecutorConfiguration#applicationTaskExecutor matched:
+      - @ConditionalOnThreading found PLATFORM (OnThreadingCondition)
+
+   TaskExecutorConfigurations.ThreadPoolTaskExecutorBuilderConfiguration#threadPoolTaskExecutorBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.task.ThreadPoolTaskExecutorBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TaskSchedulingAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler' (OnClassCondition)
+
+   TaskSchedulingConfigurations.SimpleAsyncTaskSchedulerBuilderConfiguration#simpleAsyncTaskSchedulerBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.task.SimpleAsyncTaskSchedulerBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+      - @ConditionalOnThreading found PLATFORM (OnThreadingCondition)
+
+   TaskSchedulingConfigurations.ThreadPoolTaskSchedulerBuilderConfiguration#threadPoolTaskSchedulerBuilder matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.task.ThreadPoolTaskSchedulerBuilder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TomcatServletWebServerAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'jakarta.servlet.ServletRequest', 'org.apache.catalina.startup.Tomcat', 'org.apache.coyote.UpgradeProtocol', 'org.springframework.boot.tomcat.servlet.TomcatServletWebServerFactory' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+
+   TomcatServletWebServerAutoConfiguration#tomcatServletWebServerFactory matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.web.server.servlet.ServletWebServerFactory; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   TomcatWebServerConfiguration matched:
+      - @ConditionalOnWarDeployment the application is not deployed as a WAR file. (OnWarDeploymentCondition)
+
+   TomcatWebServerConfiguration.TomcatWebSocketConfiguration matched:
+      - @ConditionalOnClass found required class 'org.apache.tomcat.websocket.server.WsSci' (OnClassCondition)
+
+   TransactionAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.transaction.PlatformTransactionManager' (OnClassCondition)
+
+   TransactionAutoConfiguration.EnableTransactionManagementConfiguration matched:
+      - @ConditionalOnBean (types: org.springframework.transaction.TransactionManager; SearchStrategy: all) found bean 'transactionManager'; @ConditionalOnMissingBean (types: org.springframework.transaction.annotation.AbstractTransactionManagementConfiguration; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TransactionAutoConfiguration.EnableTransactionManagementConfiguration.CglibAutoProxyConfiguration matched:
+      - @ConditionalOnBooleanProperty (spring.aop.proxy-target-class=true) matched (OnPropertyCondition)
+
+   TransactionAutoConfiguration.TransactionTemplateConfiguration matched:
+      - @ConditionalOnSingleCandidate (types: org.springframework.transaction.PlatformTransactionManager; SearchStrategy: all) found a single bean 'transactionManager' (OnBeanCondition)
+
+   TransactionAutoConfiguration.TransactionTemplateConfiguration#transactionTemplate matched:
+      - @ConditionalOnMissingBean (types: org.springframework.transaction.support.TransactionOperations; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TransactionManagerCustomizationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.transaction.PlatformTransactionManager' (OnClassCondition)
+
+   TransactionManagerCustomizationAutoConfiguration#platformTransactionManagerCustomizers matched:
+      - @ConditionalOnMissingBean (types: org.springframework.boot.transaction.autoconfigure.TransactionManagerCustomizers; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'jakarta.validation.executable.ExecutableValidator' (OnClassCondition)
+      - @ConditionalOnResource found location classpath:META-INF/services/jakarta.validation.spi.ValidationProvider (OnResourceCondition)
+
+   ValidationAutoConfiguration#defaultValidator matched:
+      - @ConditionalOnMissingBean (types: jakarta.validation.Validator; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   ValidationAutoConfiguration#methodValidationPostProcessor matched:
+      - @ConditionalOnMissingBean (types: org.springframework.validation.beanvalidation.MethodValidationPostProcessor; SearchStrategy: current) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration matched:
+      - @ConditionalOnClass found required classes 'jakarta.servlet.Servlet', 'org.springframework.web.servlet.DispatcherServlet', 'org.springframework.web.servlet.config.annotation.WebMvcConfigurer' (OnClassCondition)
+      - found 'session' scope (OnWebApplicationCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration#formContentFilter matched:
+      - @ConditionalOnBooleanProperty (spring.mvc.formcontent.filter.enabled=true) matched (OnPropertyCondition)
+      - @ConditionalOnMissingBean (types: org.springframework.web.filter.FormContentFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.EnableWebMvcConfiguration#flashMapManager matched:
+      - @ConditionalOnMissingBean (names: flashMapManager; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.EnableWebMvcConfiguration#localeResolver matched:
+      - @ConditionalOnMissingBean (names: localeResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.EnableWebMvcConfiguration#viewNameTranslator matched:
+      - @ConditionalOnMissingBean (names: viewNameTranslator; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#defaultViewResolver matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.InternalResourceViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#requestContextFilter matched:
+      - @ConditionalOnMissingBean (types: org.springframework.web.context.request.RequestContextListener,org.springframework.web.filter.RequestContextFilter; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#viewResolver matched:
+      - @ConditionalOnBean (types: org.springframework.web.servlet.ViewResolver; SearchStrategy: all) found beans 'defaultViewResolver', 'beanNameViewResolver', 'mvcViewResolver'; @ConditionalOnMissingBean (names: viewResolver types: org.springframework.web.servlet.view.ContentNegotiatingViewResolver; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+   AopAutoConfiguration.AspectJAutoProxyingConfiguration.JdkDynamicAutoProxyConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.aop.proxy-target-class=false) did not find property 'spring.aop.proxy-target-class' (OnPropertyCondition)
+
+   AopAutoConfiguration.ClassProxyingConfiguration:
+      Did not match:
+         - @ConditionalOnMissingClass found unwanted class 'org.aspectj.weaver.Advice' (OnClassCondition)
+
+   DataJpaRepositoriesAutoConfiguration#entityManagerFactoryBootstrapExecutorCustomizer:
+      Did not match:
+         - AnyNestedCondition 0 matched 2 did not; NestedCondition on DataJpaRepositoriesAutoConfiguration.BootstrapExecutorCondition.LazyBootstrapMode @ConditionalOnProperty (spring.data.jpa.repositories.bootstrap-mode=lazy) did not find property 'spring.data.jpa.repositories.bootstrap-mode'; NestedCondition on DataJpaRepositoriesAutoConfiguration.BootstrapExecutorCondition.DeferredBootstrapMode @ConditionalOnProperty (spring.data.jpa.repositories.bootstrap-mode=deferred) did not find property 'spring.data.jpa.repositories.bootstrap-mode' (DataJpaRepositoriesAutoConfiguration.BootstrapExecutorCondition)
+
+   DataRepositoryMetricsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBean did not find required type 'io.micrometer.core.instrument.MeterRegistry' (OnBeanCondition)
+
+   DataSourceAutoConfiguration.EmbeddedDatabaseConfiguration:
+      Did not match:
+         - EmbeddedDataSource spring.datasource.url is set (DataSourceAutoConfiguration.EmbeddedDatabaseCondition)
+
+   DataSourceCheckpointRestoreConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.crac.Resource' (OnClassCondition)
+
+   DataSourceConfiguration.Dbcp2:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.commons.dbcp2.BasicDataSource' (OnClassCondition)
+
+   DataSourceConfiguration.Generic:
+      Did not match:
+         - @ConditionalOnProperty (spring.datasource.type) did not find property 'spring.datasource.type' (OnPropertyCondition)
+
+   DataSourceConfiguration.OracleUcp:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'oracle.ucp.jdbc.PoolDataSourceImpl', 'oracle.jdbc.OracleConnection' (OnClassCondition)
+
+   DataSourceConfiguration.Tomcat:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.tomcat.jdbc.pool.DataSource' (OnClassCondition)
+
+   DataSourceHealthContributorAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.health.autoconfigure.contributor.ConditionalOnEnabledHealthIndicator' (OnClassCondition)
+
+   DataSourceJmxConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.jmx.enabled=true) did not find property 'spring.jmx.enabled' (OnPropertyCondition)
+
+   DataSourcePoolMetadataProvidersConfiguration.CommonsDbcp2PoolDataSourceMetadataProviderConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.commons.dbcp2.BasicDataSource' (OnClassCondition)
+
+   DataSourcePoolMetadataProvidersConfiguration.OracleUcpPoolDataSourceMetadataProviderConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'oracle.ucp.jdbc.PoolDataSource', 'oracle.jdbc.OracleConnection' (OnClassCondition)
+
+   DataSourcePoolMetadataProvidersConfiguration.TomcatDataSourcePoolMetadataProviderConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.apache.tomcat.jdbc.pool.DataSource' (OnClassCondition)
+
+   DataSourcePoolMetricsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.micrometer.core.instrument.MeterRegistry' (OnClassCondition)
+
+   DataSourceTransactionManagerAutoConfiguration.JdbcTransactionManagerConfiguration#transactionManager:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.transaction.TransactionManager; SearchStrategy: all) found beans of type 'org.springframework.transaction.TransactionManager' transactionManager (OnBeanCondition)
+
+   DispatcherServletAutoConfiguration.DispatcherServletConfiguration#multipartResolver:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.web.multipart.MultipartResolver; SearchStrategy: all) did not find any beans of type org.springframework.web.multipart.MultipartResolver (OnBeanCondition)
+
+   GsonHttpMessageConvertersConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.google.gson.Gson' (OnClassCondition)
+
+   HibernateMetricsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.micrometer.core.instrument.MeterRegistry' (OnClassCondition)
+
+   Jackson2HttpMessageConvertersConfiguration.MappingJackson2HttpMessageConverterConfiguration:
+      Did not match:
+         - AnyNestedCondition 0 matched 2 did not; NestedCondition on Jackson2HttpMessageConvertersConfiguration.PreferJackson2OrJacksonUnavailableCondition.JacksonUnavailable @ConditionalOnMissingBean (types: org.springframework.boot.http.converter.autoconfigure.JacksonHttpMessageConvertersConfiguration$JacksonJsonHttpMessageConvertersCustomizer; SearchStrategy: all) found beans of type 'org.springframework.boot.http.converter.autoconfigure.JacksonHttpMessageConvertersConfiguration$JacksonJsonHttpMessageConvertersCustomizer' jacksonJsonHttpMessageConvertersCustomizer; NestedCondition on Jackson2HttpMessageConvertersConfiguration.PreferJackson2OrJacksonUnavailableCondition.Jackson2Preferred @ConditionalOnProperty (spring.http.converters.preferred-json-mapper=jackson2) did not find property 'spring.http.converters.preferred-json-mapper' (Jackson2HttpMessageConvertersConfiguration.PreferJackson2OrJacksonUnavailableCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'com.fasterxml.jackson.databind.ObjectMapper' (OnClassCondition)
+
+   Jackson2HttpMessageConvertersConfiguration.MappingJackson2XmlHttpMessageConverterConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'com.fasterxml.jackson.dataformat.xml.XmlMapper' (OnClassCondition)
+
+   JacksonAutoConfiguration.CborConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'tools.jackson.dataformat.cbor.CBORMapper' (OnClassCondition)
+
+   JacksonAutoConfiguration.XmlConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'tools.jackson.dataformat.xml.XmlMapper' (OnClassCondition)
+
+   JacksonHttpMessageConvertersConfiguration.JacksonXmlHttpMessageConverterConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'tools.jackson.dataformat.xml.XmlMapper' (OnClassCondition)
+
+   JmxAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.jmx.enabled=true) did not find property 'spring.jmx.enabled' (OnPropertyCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.jmx.export.MBeanExporter' (OnClassCondition)
+
+   JndiDataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnProperty (spring.datasource.jndi-name) did not find property 'spring.datasource.jndi-name' (OnPropertyCondition)
+      Matched:
+         - @ConditionalOnClass found required classes 'javax.sql.DataSource', 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+   JndiJtaConfiguration:
+      Did not match:
+         - @ConditionalOnJndi JNDI environment is not available (OnJndiCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.transaction.jta.JtaTransactionManager' (OnClassCondition)
+
+   JpaBaseConfiguration.JpaWebConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.jpa.open-in-view=true) found different value in property 'spring.jpa.open-in-view' (OnPropertyCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.web.servlet.config.annotation.WebMvcConfigurer' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+
+   JsonbHttpMessageConvertersConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'jakarta.json.bind.Jsonb' (OnClassCondition)
+
+   KotlinSerializationHttpMessageConvertersConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required classes 'kotlinx.serialization.Serializable', 'kotlinx.serialization.json.Json' (OnClassCondition)
+
+   ManagementWebSecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration' (OnClassCondition)
+
+   MessageSourceAutoConfiguration:
+      Did not match:
+         - ResourceBundle did not find bundle with basename messages (MessageSourceAutoConfiguration.ResourceBundleCondition)
+
+   ProjectInfoAutoConfiguration#buildProperties:
+      Did not match:
+         - @ConditionalOnResource did not find resource '${spring.info.build.location:classpath:META-INF/build-info.properties}' (OnResourceCondition)
+
+   ProjectInfoAutoConfiguration#gitProperties:
+      Did not match:
+         - GitResource did not find git info at classpath:git.properties (ProjectInfoAutoConfiguration.GitResourceAvailableCondition)
+
+   RSocketSecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.rsocket.server.RSocketServerCustomizer' (OnClassCondition)
+
+   ReactiveManagementWebSecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration' (OnClassCondition)
+
+   ReactiveUserDetailsServiceAutoConfiguration:
+      Did not match:
+         - AnyNestedCondition 0 matched 2 did not; NestedCondition on ReactiveUserDetailsServiceAutoConfiguration.RSocketEnabledOrReactiveWebApplication.ReactiveWebApplicationCondition did not find reactive web application classes; NestedCondition on ReactiveUserDetailsServiceAutoConfiguration.RSocketEnabledOrReactiveWebApplication.RSocketSecurityEnabledCondition @ConditionalOnBean (types: org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler; SearchStrategy: all) did not find any beans of type org.springframework.messaging.rsocket.annotation.support.RSocketMessageHandler (ReactiveUserDetailsServiceAutoConfiguration.RSocketEnabledOrReactiveWebApplication)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.ReactiveAuthenticationManager' (OnClassCondition)
+         - AnyNestedCondition 1 matched 2 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) did not find property 'spring.security.user.password'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) did not find property 'spring.security.user.name'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+
+   ReactiveWebSecurityAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'reactor.core.publisher.Flux' (OnClassCondition)
+
+   SecurityAutoConfiguration.SecurityDataConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.security.data.repository.query.SecurityEvaluationContextExtension' (OnClassCondition)
+
+   ServletHttpExchangesAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBean did not find required type 'org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository' (OnBeanCondition)
+
+   ServletManagementContextAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties' (OnClassCondition)
+
+   ServletMappingsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint' (OnClassCondition)
+
+   ServletWebSecurityAutoConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   ServletWebServerConfiguration#forwardedHeaderFilter:
+      Did not match:
+         - @ConditionalOnProperty (server.forward-headers-strategy=framework) did not find property 'server.forward-headers-strategy' (OnPropertyCondition)
+
+   SpringApplicationAdminJmxAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.application.admin.enabled=true) did not find property 'spring.application.admin.enabled' (OnPropertyCondition)
+
+   TaskExecutorConfigurations.AsyncConfigurerWrapperConfiguration:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.scheduling.annotation.AsyncConfigurer; SearchStrategy: all) did not find any beans of type org.springframework.scheduling.annotation.AsyncConfigurer (OnBeanCondition)
+
+   TaskExecutorConfigurations.SimpleAsyncTaskExecutorBuilderConfiguration#simpleAsyncTaskExecutorBuilderVirtualThreads:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.boot.task.SimpleAsyncTaskExecutorBuilder; SearchStrategy: all) found beans of type 'org.springframework.boot.task.SimpleAsyncTaskExecutorBuilder' simpleAsyncTaskExecutorBuilder (OnBeanCondition)
+
+   TaskExecutorConfigurations.TaskExecutorConfiguration#applicationTaskExecutorVirtualThreads:
+      Did not match:
+         - @ConditionalOnThreading did not find VIRTUAL (OnThreadingCondition)
+
+   TaskSchedulingAutoConfiguration#scheduledBeanLazyInitializationExcludeFilter:
+      Did not match:
+         - @ConditionalOnBean (names: org.springframework.scheduling.config.internalScheduledAnnotationProcessor; SearchStrategy: all) did not find any beans named org.springframework.scheduling.config.internalScheduledAnnotationProcessor (OnBeanCondition)
+
+   TaskSchedulingConfigurations.SimpleAsyncTaskSchedulerBuilderConfiguration#simpleAsyncTaskSchedulerBuilderVirtualThreads:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.boot.task.SimpleAsyncTaskSchedulerBuilder; SearchStrategy: all) found beans of type 'org.springframework.boot.task.SimpleAsyncTaskSchedulerBuilder' simpleAsyncTaskSchedulerBuilder (OnBeanCondition)
+
+   TaskSchedulingConfigurations.TaskSchedulerConfiguration:
+      Did not match:
+         - @ConditionalOnBean (names: org.springframework.scheduling.config.internalScheduledAnnotationProcessor; SearchStrategy: all) did not find any beans named org.springframework.scheduling.config.internalScheduledAnnotationProcessor (OnBeanCondition)
+
+   TomcatMetricsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'io.micrometer.core.instrument.binder.tomcat.TomcatMetrics' (OnClassCondition)
+
+   TomcatReactiveManagementContextAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextFactory' (OnClassCondition)
+
+   TomcatReactiveWebServerAutoConfiguration:
+      Did not match:
+         - @ConditionalOnWebApplication did not find reactive web application classes (OnWebApplicationCondition)
+
+   TomcatServletManagementContextAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.web.server.ManagementContextFactory' (OnClassCondition)
+
+   TomcatServletWebServerAutoConfiguration#tomcatForwardedHeaderFilterCustomizer:
+      Did not match:
+         - @ConditionalOnProperty (server.forward-headers-strategy=framework) did not find property 'server.forward-headers-strategy' (OnPropertyCondition)
+
+   TomcatWebServerConfiguration#tomcatVirtualThreadsProtocolHandlerCustomizer:
+      Did not match:
+         - @ConditionalOnThreading did not find VIRTUAL (OnThreadingCondition)
+
+   TransactionAutoConfiguration#transactionalOperator:
+      Did not match:
+         - @ConditionalOnSingleCandidate (types: org.springframework.transaction.ReactiveTransactionManager; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   TransactionAutoConfiguration.AspectJTransactionManagementConfiguration:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.transaction.aspectj.AbstractTransactionAspect; SearchStrategy: all) did not find any beans of type org.springframework.transaction.aspectj.AbstractTransactionAspect (OnBeanCondition)
+
+   TransactionAutoConfiguration.EnableTransactionManagementConfiguration.JdkDynamicAutoProxyConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.aop.proxy-target-class=false) did not find property 'spring.aop.proxy-target-class' (OnPropertyCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) found beans of type 'org.springframework.security.authentication.AuthenticationManager' authenticationManager and found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' customUserDetailsService and found beans of type 'org.springframework.security.authentication.AuthenticationProvider' authenticationProvider (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager' (OnClassCondition)
+         - found 'session' scope (OnWebApplicationCondition)
+         - AnyNestedCondition 1 matched 2 did not; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.PasswordConfigured @ConditionalOnProperty (spring.security.user.password) did not find property 'spring.security.user.password'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.NameConfigured @ConditionalOnProperty (spring.security.user.name) did not find property 'spring.security.user.name'; NestedCondition on MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured.MissingAlternative @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (MissingAlternativeUserDetailsManagerOrUserPropertiesConfigured)
+
+   WebMvcAutoConfiguration#hiddenHttpMethodFilter:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.mvc.hiddenmethod.filter.enabled=true) did not find property 'spring.mvc.hiddenmethod.filter.enabled' (OnPropertyCondition)
+
+   WebMvcAutoConfiguration.ProblemDetailsErrorHandlingConfiguration:
+      Did not match:
+         - @ConditionalOnBooleanProperty (spring.mvc.problemdetails.enabled=true) did not find property 'spring.mvc.problemdetails.enabled' (OnPropertyCondition)
+
+   WebMvcAutoConfiguration.ResourceChainCustomizerConfiguration:
+      Did not match:
+         - @ConditionalOnEnabledResourceChain did not find class org.webjars.WebJarVersionLocator (OnEnabledResourceChainCondition)
+
+   WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter#beanNameViewResolver:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.web.servlet.view.BeanNameViewResolver; SearchStrategy: all) found beans of type 'org.springframework.web.servlet.view.BeanNameViewResolver' beanNameViewResolver (OnBeanCondition)
+
+   WebMvcHealthEndpointExtensionAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.health.actuate.endpoint.HealthEndpoint' (OnClassCondition)
+
+   WebMvcMappingsAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint' (OnClassCondition)
+
+   WebMvcObservationAutoConfiguration:
+      Did not match:
+         - @ConditionalOnClass did not find required class 'org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties' (OnClassCondition)
+
+   XADataSourceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnBean (types: org.springframework.boot.jdbc.XADataSourceWrapper; SearchStrategy: all) did not find any beans of type org.springframework.boot.jdbc.XADataSourceWrapper (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required classes 'javax.sql.DataSource', 'jakarta.transaction.TransactionManager', 'org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType' (OnClassCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
+
+    org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
+
+    org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration
+
+    org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+
+    org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
+
+    org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+
+
+
+2026-04-12T23:06:51.760+01:00  INFO 34224 --- [SkillBridge] [           main] com.skillbridge.SkillBridgeApplication   : Started SkillBridgeApplication in 16.339 seconds (process running for 17.231)
+2026-04-12T23:06:51.764+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.a.ApplicationAvailabilityBean      : Application availability state LivenessState changed to CORRECT
+2026-04-12T23:06:53.061+01:00 DEBUG 34224 --- [SkillBridge] [           main] org.hibernate.SQL                        : 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+2026-04-12T23:06:53.229+01:00 DEBUG 34224 --- [SkillBridge] [           main] org.hibernate.SQL                        : 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+2026-04-12T23:06:53.349+01:00 DEBUG 34224 --- [SkillBridge] [           main] org.hibernate.SQL                        : 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        upper(u1_0.email)=upper(?) 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        upper(u1_0.email)=upper(?) 
+    fetch
+        first ? rows only
+2026-04-12T23:06:53.483+01:00 DEBUG 34224 --- [SkillBridge] [           main] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        skills s1_0
+Hibernate: 
+    select
+        count(*) 
+    from
+        skills s1_0
+2026-04-12T23:06:53.603+01:00 DEBUG 34224 --- [SkillBridge] [           main] o.s.b.a.ApplicationAvailabilityBean      : Application availability state ReadinessState changed to ACCEPTING_TRAFFIC
+2026-04-12T23:08:07.199+01:00  INFO 34224 --- [SkillBridge] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-12T23:08:07.200+01:00  INFO 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-12T23:08:07.201+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-04-12T23:08:07.201+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-04-12T23:08:07.205+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@2d7b117
+2026-04-12T23:08:07.206+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@67441705
+2026-04-12T23:08:07.206+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-12T23:08:07.207+01:00  INFO 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-04-12T23:08:07.277+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-04-12T23:08:07.300+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.user.controller.AuthController#login(LoginRequest)
+2026-04-12T23:08:07.551+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=admin@skillbridge.local, password=Admin123!]]
+2026-04-12T23:08:08.169+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:08.510+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:08.823+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:08.836+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBza2lsbGJyaWRnZS5sb2NhbCIsInVzZXJJZC (truncated)...]
+2026-04-12T23:08:08.891+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:09.069+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:09.125+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:08:09.126+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:08:09.142+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:09.307+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:08:09.434+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:09.435+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:09.443+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:09.477+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:09.535+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:08:09.535+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:08:09.540+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:09.656+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:08:09.773+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:09.773+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:09.786+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:09.818+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:09.879+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:08:09.880+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:08:09.886+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:10.003+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:08:10.119+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:10.120+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:10.124+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:51.306+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/login", parameters={}
+2026-04-12T23:08:51.307+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.user.controller.AuthController#login(LoginRequest)
+2026-04-12T23:08:51.308+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest[email=admin@skillbridge.local, password=Admin123!]]
+2026-04-12T23:08:52.767+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:52.990+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.102+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:53.103+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBza2lsbGJyaWRnZS5sb2NhbCIsInVzZXJJZC (truncated)...]
+2026-04-12T23:08:53.103+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:53.252+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.269+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.273+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.311+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:08:53.312+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:08:53.315+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:53.385+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:08:53.385+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:08:53.387+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:08:53.387+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:08:53.397+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:53.401+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:53.427+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:08:53.519+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:08:53.531+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:08:53.538+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:53.538+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:53.540+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:53.554+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.634+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:08:53.635+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:08:53.657+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:53.682+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:53.683+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:53.684+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:53.688+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:53.690+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:53.692+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:53.697+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.705+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:53.754+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:08:53.755+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:08:53.761+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:08:53.762+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:08:53.763+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:53.766+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:53.774+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:08:53.882+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:53.882+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:08:53.882+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:08:53.883+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:53.885+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:54.000+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:54.000+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:54.001+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:54.001+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:54.003+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:54.003+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:57.235+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:57.348+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/users/me", parameters={}
+2026-04-12T23:08:57.348+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.user.controller.UserController#me(AppUserPrincipal)
+2026-04-12T23:08:57.353+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:57.485+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:57.487+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserSummaryResponse[id=1, firstName=Platform, lastName=Admin, email=admin@skillbridge.local, role=AD (truncated)...]
+2026-04-12T23:08:57.489+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:57.517+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:57.587+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:57.597+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/users/me", parameters={}
+2026-04-12T23:08:57.598+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.user.controller.UserController#me(AppUserPrincipal)
+2026-04-12T23:08:57.614+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:57.619+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:57.626+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:57.701+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:08:57.701+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:08:57.703+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:57.737+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:57.739+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:08:57.739+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [UserSummaryResponse[id=1, firstName=Platform, lastName=Admin, email=admin@skillbridge.local, role=AD (truncated)...]
+2026-04-12T23:08:57.739+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:08:57.741+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:08:57.923+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:08:57.773+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:57.826+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:08:57.931+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:58.047+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:58.151+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:58.152+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:58.154+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:58.225+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:08:58.239+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:58.250+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:08:58.336+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:58.337+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:58.339+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:58.348+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:58.357+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:08:58.358+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:08:58.371+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:58.372+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:58.375+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:58.385+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:08:58.393+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:58.408+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:08:58.408+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:08:58.425+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:58.460+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:08:58.461+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:08:58.467+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:08:58.523+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:08:58.541+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:08:58.583+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:08:58.633+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:58.634+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:58.635+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:58.658+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:58.660+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:58.662+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:08:58.699+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:08:58.700+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:08:58.702+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:12:33.373+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/auth/register", parameters={}
+2026-04-12T23:12:33.375+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.user.controller.AuthController#register(RegisterRequest)
+2026-04-12T23:12:33.392+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [RegisterRequest[firstName=Ayoub, lastName=Moutik, email=moutik.ayoub@ensam-casa.ma, password=azertyu (truncated)...]
+2026-04-12T23:12:33.518+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        upper(u1_0.email)=upper(?) 
+    fetch
+        first ? rows only
+Hibernate: 
+    select
+        u1_0.id 
+    from
+        users u1_0 
+    where
+        upper(u1_0.email)=upper(?) 
+    fetch
+        first ? rows only
+2026-04-12T23:12:33.577+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.name=?
+2026-04-12T23:12:33.837+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] org.hibernate.SQL                        : 
+    insert 
+    into
+        users
+        (active, created_at, email, first_name, last_name, password_hash, role_id, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        users
+        (active, created_at, email, first_name, last_name, password_hash, role_id, updated_at) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2026-04-12T23:12:33.997+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:33.999+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Writing [AuthResponse[accessToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb3V0aWsuYXlvdWJAZW5zYW0tY2FzYS5tYSIsInVzZX (truncated)...]
+2026-04-12T23:12:33.999+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-04-12T23:12:34.186+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:12:34.186+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:12:34.220+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:12:34.282+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:12:34.283+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:12:34.290+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:12:34.335+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:12:34.335+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:12:34.335+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:12:34.335+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:12:34.340+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:12:34.340+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:12:34.403+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:12:34.456+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:12:34.456+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:12:34.519+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:34.519+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:12:34.521+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:12:34.538+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:12:34.576+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:34.576+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:12:34.577+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:34.579+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:12:34.580+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:12:34.583+01:00 DEBUG 34224 --- [SkillBridge] [io-8081-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:12:34.588+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:12:34.594+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        upper(u1_0.email)=upper(?)
+2026-04-12T23:12:34.598+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/projects", parameters={}
+2026-04-12T23:12:34.599+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.projectidea.controller.ProjectIdeaController#list(AppUserPrincipal)
+2026-04-12T23:12:34.606+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:12:34.648+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/progress", parameters={}
+2026-04-12T23:12:34.649+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.progress.controller.ProgressController#list(AppUserPrincipal)
+2026-04-12T23:12:34.650+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/saved-courses", parameters={}
+2026-04-12T23:12:34.650+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.skillbridge.savedcourse.controller.SavedCourseController#list(AppUserPrincipal)
+2026-04-12T23:12:34.653+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:12:34.654+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password_hash,
+        u1_0.role_id,
+        r1_0.id,
+        r1_0.name,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    join
+        roles r1_0 
+            on r1_0.id=u1_0.role_id 
+    where
+        u1_0.id=?
+2026-04-12T23:12:34.725+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] org.hibernate.SQL                        : 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+Hibernate: 
+    select
+        pi1_0.id,
+        pi1_0.created_at,
+        pi1_0.description,
+        ds1_0.project_idea_id,
+        ds1_0.id,
+        ds1_0.confidence_score,
+        ds1_0.created_at,
+        ds1_0.match_source,
+        ds1_0.matched_keyword,
+        ds1_0.skill_id,
+        s1_0.id,
+        s1_0.created_at,
+        s1_0.description,
+        s1_0.name,
+        s1_0.slug,
+        s1_0.updated_at,
+        ds1_0.updated_at,
+        pi1_0.status,
+        pi1_0.title,
+        pi1_0.updated_at,
+        pi1_0.user_id 
+    from
+        project_ideas pi1_0 
+    left join
+        project_detected_skills ds1_0 
+            on pi1_0.id=ds1_0.project_idea_id 
+    left join
+        skills s1_0 
+            on s1_0.id=ds1_0.skill_id 
+    where
+        pi1_0.user_id=? 
+    order by
+        pi1_0.created_at desc
+2026-04-12T23:12:34.763+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] org.hibernate.SQL                        : 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+Hibernate: 
+    select
+        cp1_0.id,
+        cp1_0.completed_at,
+        cp1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        cp1_0.last_updated_at,
+        cp1_0.progress_percent,
+        cp1_0.started_at,
+        cp1_0.status,
+        cp1_0.user_id 
+    from
+        course_progress cp1_0 
+    join
+        courses c1_0 
+            on c1_0.id=cp1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        cp1_0.user_id=? 
+    order by
+        cp1_0.last_updated_at desc
+2026-04-12T23:12:34.763+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] org.hibernate.SQL                        : 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+Hibernate: 
+    select
+        sc1_0.id,
+        sc1_0.course_id,
+        c1_0.id,
+        c1_0.category_id,
+        c2_0.id,
+        c2_0.created_at,
+        c2_0.description,
+        c2_0.name,
+        c2_0.slug,
+        c2_0.updated_at,
+        c1_0.created_at,
+        c1_0.description,
+        c1_0.language,
+        c1_0.level,
+        c1_0.popularity_score,
+        c1_0.provider_id,
+        p1_0.id,
+        p1_0.created_at,
+        p1_0.description,
+        p1_0.name,
+        p1_0.updated_at,
+        p1_0.website_url,
+        c1_0.published,
+        s1_0.course_id,
+        s1_1.id,
+        s1_1.created_at,
+        s1_1.description,
+        s1_1.name,
+        s1_1.slug,
+        s1_1.updated_at,
+        c1_0.slug,
+        c1_0.source_url,
+        c1_0.thumbnail_url,
+        c1_0.title,
+        c1_0.updated_at,
+        sc1_0.saved_at,
+        sc1_0.user_id 
+    from
+        saved_courses sc1_0 
+    join
+        courses c1_0 
+            on c1_0.id=sc1_0.course_id 
+    join
+        categories c2_0 
+            on c2_0.id=c1_0.category_id 
+    join
+        providers p1_0 
+            on p1_0.id=c1_0.provider_id 
+    left join
+        course_skills s1_0 
+            on c1_0.id=s1_0.course_id 
+    left join
+        skills s1_1 
+            on s1_1.id=s1_0.skill_id 
+    where
+        sc1_0.user_id=? 
+    order by
+        sc1_0.saved_at desc
+2026-04-12T23:12:34.895+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:34.895+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:34.895+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-04-12T23:12:34.903+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:12:34.903+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:12:34.903+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Writing [[]]
+2026-04-12T23:12:34.905+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:12:34.905+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-12T23:12:34.905+01:00 DEBUG 34224 --- [SkillBridge] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

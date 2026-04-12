@@ -21,9 +21,9 @@ Supabase is used here only as the PostgreSQL database.
 - The React app talks only to the Spring Boot API
 
 ## Project Structure
-- `src/main/java/com/skillbridge`: backend source
-- `src/main/resources`: backend config
-- `frontend/`: React frontend
+- `apps/backend/src/main/java/com/skillbridge`: backend source
+- `apps/backend/src/main/resources`: backend config
+- `apps/frontend/`: React frontend
 - `docs/`: architecture, database, and API notes
 
 ## Backend Configuration
@@ -36,10 +36,10 @@ Main variables:
 - `JWT_SECRET`
 - `CORS_ALLOWED_ORIGINS`
 
-An example is available in [.env.example](./.env.example).
+An example is available in [apps/backend/.env.example](../apps/backend/.env.example).
 
 ## Frontend Configuration
-Create `frontend/.env` from [frontend/.env.example](./frontend/.env.example):
+Create `apps/frontend/.env` from [apps/frontend/.env.example](../apps/frontend/.env.example):
 
 ```env
 VITE_API_BASE_URL=http://localhost:8080
@@ -49,12 +49,12 @@ VITE_API_BASE_URL=http://localhost:8080
 
 ### Backend
 ```powershell
-.\mvnw.cmd spring-boot:run
+..\..\mvnw.cmd spring-boot:run
 ```
 
 ### Frontend
 ```powershell
-cd frontend
+cd apps/frontend
 cmd /c npm.cmd install
 cmd /c npm.cmd run dev
 ```
@@ -63,13 +63,14 @@ cmd /c npm.cmd run dev
 Backend tests:
 
 ```powershell
-.\mvnw.cmd test
+cd apps/backend
+..\..\mvnw.cmd test
 ```
 
 Frontend production build:
 
 ```powershell
-cd frontend
+cd apps/frontend
 cmd /c npm.cmd run build
 ```
 
