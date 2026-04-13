@@ -26,6 +26,12 @@ Supabase is used here only as the PostgreSQL database.
 - `apps/frontend/`: React frontend
 - `docs/`: architecture, database, and API notes
 
+Key references:
+- `docs/architecture/architecture.md`
+- `docs/database/database-schema.md`
+- `docs/database/supabase-integration.md`
+- `docs/architecture/big-data-roadmap.md`
+
 ## Backend Configuration
 Create a local `.env`-style setup or export environment variables before running Spring Boot.
 
@@ -86,3 +92,8 @@ To connect the backend to your real Supabase database, one of these is needed:
    - database password
 
 The public project URL and publishable key are not enough for Spring Boot database access.
+
+## Java Version
+The backend is configured for Java 21.
+
+If your machine still defaults to Java 25, set `JAVA_HOME` and your `Path` to `C:\Program Files\Java\jdk-21`.

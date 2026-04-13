@@ -40,3 +40,6 @@ frontend/dist/
 /apps/frontend/.env
 apps/frontend/node_modules/
 apps/frontend/dist/
+apps/backend/*.log
+apps/frontend/*.log
+apps/frontend/*.pid
