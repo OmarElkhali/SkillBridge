@@ -3,7 +3,7 @@
 ## Overview
 SkillBridge is split into two applications:
 
-- `Spring Boot backend` at the repository root
+- `Spring Boot backend` in `apps/backend/`
 - `React + Vite frontend` in `apps/frontend/`
 
 The system follows an API-first design. The frontend never talks directly to Supabase services; it only calls the Spring Boot REST API. The backend uses Supabase strictly as a PostgreSQL database.

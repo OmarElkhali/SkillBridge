@@ -54,6 +54,14 @@ VITE_API_BASE_URL=http://localhost:8080
 ## Run Locally
 
 ### Backend
+From the repository root:
+
+```powershell
+.\mvnw.cmd -f apps\backend\pom.xml spring-boot:run
+```
+
+Or from `apps/backend`:
+
 ```powershell
 ..\..\mvnw.cmd spring-boot:run
 ```
@@ -67,6 +75,14 @@ cmd /c npm.cmd run dev
 
 ## Verification
 Backend tests:
+
+From the repository root:
+
+```powershell
+.\mvnw.cmd -f apps\backend\pom.xml test
+```
+
+Or from `apps/backend`:
 
 ```powershell
 cd apps/backend
