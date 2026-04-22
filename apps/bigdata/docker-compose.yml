@@ -1,0 +1,185 @@
+services:
+  postgres-mirror:
+    image: postgres:16
+    container_name: skillbridge-postgres-mirror
+    environment:
+      POSTGRES_DB: skillbridge
+      POSTGRES_USER: skillbridge
+      POSTGRES_PASSWORD: skillbridge
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_mirror_data:/var/lib/postgresql/data
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    container_name: skillbridge-namenode
+    environment:
+      CLUSTER_NAME: skillbridge
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      HDFS_CONF_dfs_datanode_use_datanode_hostname: "true"
+    ports:
+      - "9870:50070"
+      - "9000:9000"
+    volumes:
+      - namenode_data:/hadoop/dfs/name
+      - ./:/opt/skillbridge
+
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: skillbridge-datanode
+    environment:
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_datanode_hostname: datanode
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      HDFS_CONF_dfs_datanode_use_datanode_hostname: "true"
+      SERVICE_PRECONDITION: namenode:50070
+    ports:
+      - "9864:50075"
+    volumes:
+      - datanode_data:/hadoop/dfs/data
+      - ./:/opt/skillbridge
+
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop2.7.4-java8
+    container_name: skillbridge-resourcemanager
+    depends_on:
+      - namenode
+      - datanode
+    environment:
+      HADOOP_MAPRED_HOME: /opt/hadoop-2.7.4
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      YARN_CONF_yarn_resourcemanager_hostname: resourcemanager
+      MAPRED_CONF_mapreduce_framework_name: yarn
+      MAPRED_CONF_yarn_app_mapreduce_am_env: HADOOP_MAPRED_HOME=/opt/hadoop-2.7.4
+      MAPRED_CONF_mapreduce_map_env: HADOOP_MAPRED_HOME=/opt/hadoop-2.7.4
+      MAPRED_CONF_mapreduce_reduce_env: HADOOP_MAPRED_HOME=/opt/hadoop-2.7.4
+      MAPRED_CONF_mapreduce_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
+      YARN_CONF_yarn_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
+      YARN_CONF_yarn_nodemanager_env_whitelist: JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./:/opt/skillbridge
+
+  nodemanager:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop2.7.4-java8
+    container_name: skillbridge-nodemanager
+    depends_on:
+      - resourcemanager
+    environment:
+      HADOOP_MAPRED_HOME: /opt/hadoop-2.7.4
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      YARN_CONF_yarn_resourcemanager_hostname: resourcemanager
+      MAPRED_CONF_mapreduce_framework_name: yarn
+      MAPRED_CONF_yarn_app_mapreduce_am_env: HADOOP_MAPRED_HOME=/opt/hadoop-2.7.4
+      MAPRED_CONF_mapreduce_map_env: HADOOP_MAPRED_HOME=/opt/hadoop-2.7.4
+      MAPRED_CONF_mapreduce_reduce_env: HADOOP_MAPRED_HOME=/opt/hadoop-2.7.4
+      MAPRED_CONF_mapreduce_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
+      YARN_CONF_yarn_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
+      YARN_CONF_yarn_nodemanager_env_whitelist: JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
+    ports:
+      - "8042:8042"
+    volumes:
+      - ./:/opt/skillbridge
+
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: skillbridge-hive-metastore-postgresql
+
+  hive-metastore:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: skillbridge-hive-metastore
+    depends_on:
+      - namenode
+      - datanode
+      - hive-metastore-postgresql
+    command: /opt/hive/bin/hive --service metastore
+    environment:
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+    ports:
+      - "9083:9083"
+    volumes:
+      - ./conf/hive/hive-site.xml:/opt/hive/conf/hive-site.xml:ro
+
+  hive-server:
+    image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: skillbridge-hive-server
+    depends_on:
+      - hive-metastore
+    environment:
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      SERVICE_PRECONDITION: "hive-metastore:9083"
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./:/opt/skillbridge
+      - ./conf/hive/hive-site.xml:/opt/hive/conf/hive-site.xml:ro
+
+  sqoop-client:
+    build:
+      context: ./docker/sqoop
+    image: skillbridge-sqoop:1.4.7-hadoop2.7.4
+    container_name: skillbridge-sqoop-client
+    depends_on:
+      - postgres-mirror
+      - namenode
+      - datanode
+      - resourcemanager
+      - nodemanager
+    environment:
+      HADOOP_HOME: /opt/hadoop-2.7.4
+      HADOOP_COMMON_HOME: /opt/hadoop-2.7.4
+      HADOOP_MAPRED_HOME: /opt/hadoop-2.7.4
+      HADOOP_HDFS_HOME: /opt/hadoop-2.7.4
+      HADOOP_YARN_HOME: /opt/hadoop-2.7.4
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      YARN_CONF_yarn_resourcemanager_hostname: resourcemanager
+    volumes:
+      - ./:/opt/skillbridge
+    working_dir: /opt/skillbridge
+
+  flume-agent:
+    build:
+      context: ./docker/flume
+    image: skillbridge-flume:1.9.0-hadoop2.7.4
+    container_name: skillbridge-flume-agent
+    depends_on:
+      - namenode
+      - datanode
+    environment:
+      CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_client_use_datanode_hostname: "true"
+      HADOOP_HOME: /opt/hadoop-2.7.4
+      HADOOP_CONF_DIR: /opt/hadoop-2.7.4/etc/hadoop
+      FLUME_CLASSPATH: /opt/hadoop-2.7.4/etc/hadoop:/opt/hadoop-2.7.4/share/hadoop/common/*:/opt/hadoop-2.7.4/share/hadoop/common/lib/*:/opt/hadoop-2.7.4/share/hadoop/hdfs/*:/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*
+    volumes:
+      - ./:/opt/skillbridge
+    command: >
+      /opt/flume/bin/flume-ng agent
+      --name skillbridge
+      --conf /opt/flume/conf
+      --conf-file /opt/skillbridge/flume/skillbridge-events.conf
+      -Dflume.root.logger=INFO,console
+
+  hbase:
+    image: harisekhon/hbase:latest
+    container_name: skillbridge-hbase
+    ports:
+      - "16010:16010"
+    volumes:
+      - ./:/opt/skillbridge
+
+volumes:
+  postgres_mirror_data:
+  namenode_data:
+  datanode_data:

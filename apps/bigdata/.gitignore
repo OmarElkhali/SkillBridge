@@ -1,0 +1,8 @@
+data/events/events.log
+output/*
+!output/.gitkeep
+*.pyc
+__pycache__/
+mapreduce/target/
+/*.java
+/*.jar

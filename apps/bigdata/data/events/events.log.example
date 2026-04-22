@@ -1,0 +1,11 @@
+{"eventType":"COURSE_SEARCH","userId":1,"query":"spring boot security","timestamp":"2026-04-20T10:15:00Z"}
+{"eventType":"COURSE_CLICK","userId":1,"courseId":1,"timestamp":"2026-04-20T10:16:00Z"}
+{"eventType":"PROJECT_SUBMISSION","userId":2,"projectId":1,"timestamp":"2026-04-20T10:17:00Z"}
+{"eventType":"COURSE_SAVE","userId":2,"courseId":2,"timestamp":"2026-04-20T10:18:00Z"}
+{"eventType":"COURSE_SEARCH","userId":3,"query":"data engineering spark airflow","timestamp":"2026-04-20T10:20:00Z"}
+{"eventType":"COURSE_CLICK","userId":3,"courseId":3,"timestamp":"2026-04-20T10:21:00Z"}
+{"eventType":"COURSE_SEARCH","userId":4,"query":"react frontend developer","timestamp":"2026-04-20T10:22:00Z"}
+{"eventType":"COURSE_CLICK","userId":4,"courseId":4,"timestamp":"2026-04-20T10:23:00Z"}
+{"eventType":"COURSE_SEARCH","userId":5,"query":"machine learning python","timestamp":"2026-04-20T10:24:00Z"}
+{"eventType":"COURSE_CLICK","userId":5,"courseId":5,"timestamp":"2026-04-20T10:25:00Z"}
+

@@ -1,0 +1,6 @@
+if exists 'course_stats'
+  disable 'course_stats'
+  drop 'course_stats'
+end
+create 'course_stats', 'activity', 'meta'
+scan 'course_stats'
