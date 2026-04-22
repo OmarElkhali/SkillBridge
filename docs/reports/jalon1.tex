@@ -16,10 +16,10 @@
 \usepackage{caption}
 
 \geometry{
-    top=2.4cm,
-    bottom=2.4cm,
-    left=2.4cm,
-    right=2.4cm
+    top=1.8cm,
+    bottom=1.8cm,
+    left=2cm,
+    right=2cm
 }
 
 \setstretch{1.15}
@@ -37,59 +37,83 @@
 % ---------------- Page de garde ----------------
 \begin{titlepage}
     \thispagestyle{empty}
-    \centering
 
-    % -------- En-tête : logo + établissement --------
-    \begin{minipage}[c]{0.22\textwidth}
-        \centering
-        \includegraphics[width=0.9\linewidth]{Image/logo-uni-sm1.png}
+    \noindent
+    \begin{minipage}[t]{0.48\textwidth}
+        \IfFileExists{bdiologo.png}
+            {\includegraphics[height=2cm,width=1.6cm]{bdiologo.png}}
+            {\fbox{\rule{0pt}{2cm}\hspace{1cm}BDIO\hspace{1cm}}}
     \end{minipage}
     \hfill
-    \begin{minipage}[c]{0.72\textwidth}
-        \centering
-        {\Large \textbf{ENSAM Casablanca}}\\[0.2cm]
-        {\large \textbf{Master Big Data et Internet des Objets (BDIO)}}\\[0.15cm]
-        {\normalsize Année Universitaire : 2025/2026}
+    \begin{minipage}[t]{0.48\textwidth}
+        \raggedleft
+        \IfFileExists{ensamlogo.png}
+            {\includegraphics[height=1.6cm]{ensamlogo.png}}
+            {\fbox{\rule{0pt}{1.6cm}\hspace{1cm}ENSAM\hspace{1cm}}}
     \end{minipage}
 
-    \vspace{2cm}
+    \vspace{3.2cm}
 
-    % -------- Intitulé du module --------
-    {\large \textbf{Module :}}\\[0.2cm]
-    {\Large Architecture Spring sécurisée pour le traitement de données massives}
+    \begin{center}
+        {\small Projet JEE \& BigData}
 
-    \vspace{1.4cm}
+        \vspace{0.35cm}
 
-    % -------- Titre du rapport --------
-    {\Huge \textbf{Jalon 1 : Cadrage \& Conception}}\\[0.6cm]
-    {\LARGE \textbf{SkillBridge}}\\[0.3cm]
-    {\large Plateforme éducative orientée projet pour la recommandation de cours}
+        {\LARGE \bfseries SkillBridge}
 
-    \vspace{2cm}
+        \vspace{0.45cm}
 
-    % -------- Bloc Réalisé / Encadré --------
+        {\Large Description du sujet}
 
-\begin{tabular}{l l}
-\textbf{Réalisé par :} & \textbf{Encadré par :} \\[0.5cm]
+        \vspace{0.8cm}
 
-\begin{tabular}[t]{l}
-Omar Elkhali \\
-Ayoub Moutik \\
-Jamila Ouzzane
-\end{tabular}
-&
-\begin{tabular}[t]{l}
-Dr.El Faquih Loubna \\
-Dr.Hirchoua Badr \\
-Dr.Sekkate Sara
-\end{tabular}
-\end{tabular}
+        {\normalsize
+        SkillBridge est une plateforme éducative orientée projet qui part d'une idée concrète
+        proposée par l'utilisateur pour l'aider à comprendre quoi apprendre, dans quel ordre,
+        et vers quels cours s'orienter. L'objectif est de transformer un besoin souvent flou en
+        un parcours d'apprentissage clair, pertinent et directement lié au projet à réaliser.}
+    \end{center}
 
+    \vspace{4.8cm}
+
+    \noindent
+    \begin{minipage}[t]{0.42\textwidth}
+        {\small Réalisé par :}
+
+        \vspace{0.35cm}
+
+        {\small Omar Elkhali}
+
+        \vspace{0.25cm}
+
+        {\small Ayoub Moutik}
+
+        \vspace{0.25cm}
+
+        {\small Jamila Ouzzane}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        {\small Encadré par :}
+
+        \vspace{0.35cm}
+
+        {\small Pr. EL Faquih Loubna}
+
+        \vspace{0.25cm}
+
+        {\small Pr. HIRCHOUA Bader}
+
+        \vspace{0.25cm}
+
+        {\small Pr. SEKKATE Sara}
+    \end{minipage}
 
     \vfill
 
-    % -------- Pied de page --------
-    {\large Avril 2026}
+    \begin{center}
+        {\small AU : 25-26}
+    \end{center}
 
 \end{titlepage}
 
@@ -100,45 +124,20 @@ Dr.Sekkate Sara
 
 % ---------------- Rapport ----------------
 \section{Introduction}
-Dans le cadre du premier jalon,il nous est demandé de définir le domaine du projet, de présenter le problème traité, de proposer une architecture globale, de réaliser une modélisation du système et de justifier les choix technologiques. Le livrable attendu est un mini-rapport de cadrage et de conception. 
+\textbf{SkillBridge} est une plateforme éducative qui part d'une idée de projet proposée par l'apprenant pour la transformer en parcours d'apprentissage. Au lieu de demander simplement ``quel cours veux-tu suivre ?'', la plateforme pose une question plus utile : \textbf{``qu'est-ce que tu veux construire ?''}. À partir de cette intention, elle cherche à faire le lien entre le projet visé, les compétences à acquérir et les cours les plus pertinents.
 
-Le domaine retenu dans notre cas est \textbf{l'éducation}. Ce choix répond à une difficulté réelle rencontrée par de nombreux étudiants et débutants : ils disposent souvent d'une idée de projet, mais ne savent pas toujours quelles notions apprendre ni quels cours suivre pour progresser de manière structurée.
-
-Pour répondre à ce besoin, nous proposons \textbf{SkillBridge}, une plateforme éducative qui part d'une idée de projet saisie par l'utilisateur afin de l'orienter vers des cours pertinents. L'objectif n'est pas seulement d'afficher un catalogue de ressources, mais de faire le lien entre un projet concret, les compétences nécessaires et les contenus de formation correspondants.
-
-\section{Domaine et problématique}
-Le domaine choisi est celui de \textbf{l'éducation numérique}. Aujourd'hui, les ressources pédagogiques sont nombreuses : cours en ligne, tutoriels, plateformes spécialisées, contenus universitaires et professionnels. Cependant, cette abondance crée un autre problème : il devient difficile de sélectionner rapidement les ressources vraiment utiles selon un besoin précis.
-
-Prenons le cas d'un étudiant qui souhaite réaliser une application web sécurisée, une plateforme e-commerce ou encore un projet Big Data. Dans la plupart des cas, il connaît le résultat qu'il veut atteindre, mais il ne possède pas toujours une vision claire des compétences à maîtriser ni du chemin d'apprentissage à suivre. Il peut alors perdre du temps à consulter des ressources dispersées, parfois redondantes, parfois trop avancées ou au contraire trop générales.
-
-La problématique retenue est donc la suivante : \textbf{comment concevoir une plateforme éducative capable d'associer une idée de projet à des cours pertinents, tout en s'appuyant sur une application Spring sécurisée et un pipeline Big Data pour collecter, stocker et analyser les données ?}
-
-\section{Acteurs et fonctionnalités principales}
-Le système met en jeu deux acteurs principaux : \textbf{l'utilisateur} et \textbf{l'administrateur}.
-
-L'utilisateur est le bénéficiaire principal de la plateforme. Il peut créer un compte, se connecter, rechercher des cours, consulter les ressources disponibles, soumettre une idée de projet, recevoir des recommandations, enregistrer des cours et suivre sa progression. L'administrateur intervient pour gérer le contenu global de la plateforme. Il peut ajouter, modifier ou supprimer des cours, organiser les catégories, gérer les fournisseurs de contenu et superviser les données générales du système.
-
-Les fonctionnalités prévues à ce stade sont les suivantes :
-\begin{itemize}
-    \item authentification et gestion des rôles ;
-    \item gestion des utilisateurs ;
-    \item gestion des cours, catégories et fournisseurs ;
-    \item saisie d'une idée de projet ;
-    \item recherche de cours par mots-clés ;
-    \item recommandation de cours adaptés ;
-    \item enregistrement de cours favoris ;
-    \item suivi de progression ;
-    \item collecte des événements utilisateurs pour analyse Big Data.
-\end{itemize}
+Le projet s'inscrit dans le domaine de \textbf{l'éducation numérique}. Il répond à une difficulté simple : beaucoup d'étudiants savent ce qu'ils veulent réaliser, mais ne savent pas clairement quoi apprendre pour y arriver. Face à des ressources nombreuses mais dispersées, l'objectif de SkillBridge est de transformer un besoin concret en un parcours d'apprentissage cohérent. La problématique du projet peut donc se résumer ainsi : \textbf{comment partir d'une idée de projet et orienter l'utilisateur vers les compétences et les cours les plus pertinents ?}
 
 \section{Architecture globale du système}
-L'architecture générale de \textbf{SkillBridge} repose sur deux parties complémentaires : une \textbf{application web Spring Boot} et un \textbf{pipeline Big Data Hadoop}.
+L'organisation générale de \textbf{SkillBridge} repose sur deux ensembles complémentaires : une application principale destinée aux interactions avec l'utilisateur, et un pipeline Big Data chargé de collecter, stocker et analyser les données produites par la plateforme.
 
-La première partie correspond à la couche applicative. L'interface utilisateur est réalisée avec \textbf{React}, ce qui permet de séparer clairement le frontend du backend. Les requêtes sont traitées côté serveur par \textbf{Spring MVC}, tandis que la logique métier est centralisée dans les services applicatifs. La persistance des données relationnelles est gérée via \textbf{Spring Data JPA} en lien avec une base \textbf{PostgreSQL}. La sécurité de l'application est assurée par \textbf{Spring Security}, avec authentification, contrôle d'accès et gestion des rôles. Dans une étape ultérieure, des mécanismes comme OAuth2 et JWT pourront être ajoutés pour renforcer le processus d'authentification, mais ils ne constituent pas ici le cœur de la modélisation métier.
+Deux acteurs interviennent dans ce système : \textbf{l'utilisateur} et \textbf{l'administrateur}. L'utilisateur peut créer un compte, soumettre une idée de projet, consulter les recommandations proposées, enregistrer des cours et suivre sa progression. L'administrateur, de son côté, gère le catalogue de cours, les catégories, les fournisseurs ainsi que les données générales nécessaires au bon fonctionnement de la plateforme.
 
-La seconde partie correspond au pipeline Big Data. Les données structurées stockées dans la base relationnelle sont transférées en mode batch vers l'écosystème Hadoop à l'aide de \textbf{Sqoop}. En parallèle, les événements générés par l'application, comme les recherches, les consultations ou les interactions de l'utilisateur, sont collectés en continu via \textbf{Flume}. Les données sont ensuite stockées dans \textbf{HDFS}, tandis que \textbf{HBase} sert à conserver certaines informations analytiques ou résultats utiles à réinjecter rapidement dans l'application.
+Sur le plan fonctionnel, l'application prend en charge l'authentification, la gestion des utilisateurs, la gestion du catalogue, la saisie d'idées de projet, la recommandation de cours, l'enregistrement de favoris et le suivi de progression. En parallèle, le pipeline Big Data a pour rôle de centraliser les événements d'usage et de produire des données d'analyse qui pourront enrichir la compréhension du comportement utilisateur et améliorer la pertinence des recommandations.
 
-Le traitement repose sur trois approches complémentaires : \textbf{MapReduce} pour les agrégations batch, \textbf{Hive} pour les requêtes analytiques et \textbf{Python} pour des traitements ciblés comme le nettoyage de texte, l'extraction de mots-clés ou le calcul de scores simples. Dans cette première version, la recherche et la recommandation ne reposent pas sur du machine learning ; elles s'appuient plutôt sur des méthodes plus explicables, fondées sur les correspondances entre projets, compétences et cours, ainsi que sur les statistiques d'usage.
+Une évolution envisagée consiste à intégrer un wrapper d'API d'intelligence artificielle, comme Claude ou ChatGPT, dans la partie frontend. Son rôle serait d'aider à interpréter la demande formulée par l'utilisateur et à construire une première arborescence de compétences à partir du prompt saisi. La même logique pourrait aussi être appliquée aux cours collectés afin de produire des informations structurées avant leur traitement dans le pipeline Big Data.
+
+Cette séparation permet de distinguer clairement la partie opérationnelle, centrée sur l'expérience utilisateur, de la partie analytique, centrée sur l'exploitation des données.
 
 \begin{figure}[H]
     \centering
@@ -146,10 +145,20 @@ Le traitement repose sur trois approches complémentaires : \textbf{MapReduce} p
     \caption{Architecture globale de SkillBridge}
 \end{figure}
 
-Le schéma d'architecture met clairement en évidence les deux acteurs du système, la séparation entre l'application Spring Boot et le pipeline Big Data, ainsi que le rôle de chaque composant. Il montre également comment les données circulent entre le frontend, la base relationnelle et l'environnement Hadoop.
+Le schéma d'architecture met ainsi en évidence les acteurs du système, la séparation entre l'application principale et le pipeline Big Data, ainsi que la circulation des données entre les différentes parties de la solution.
+
+\section{Sources de données envisagées}
+Pour alimenter le catalogue de cours, plusieurs sources ont déjà été identifiées. À ce stade, les principales ressources retenues sont les jeux de données suivants :
+
+\begin{itemize}
+    \item Kaggle --- \textit{EdX, Coursera, and Udemy Course Data} ;
+    \item Kaggle --- \textit{Online Course Dataset (EdX, Udacity, Coursera)} ;
+    \item Kaggle --- \textit{Global Online Tech Courses Dataset}.
+\end{itemize}
+
+Ces jeux de données offrent une première base pour récupérer des métadonnées de cours, comparer plusieurs plateformes et enrichir le catalogue de départ. En complément, il est aussi prévu de développer un outil capable de scraper automatiquement des cours gratuits afin d'ajouter de nouvelles ressources de manière progressive.
 
 \section{Modélisation du système}
-Pour la modélisation, nous avons retenu un \textbf{diagramme de classes UML}. Ce choix permet de représenter les principales entités métier ainsi que leurs relations, et constitue une base logique pour la future implémentation avec les entités JPA dans Spring Boot.
 
 L'entité centrale est \textbf{User}, qui représente l'utilisateur de la plateforme. Chaque utilisateur possède un \textbf{Role}, ce qui permet de distinguer les droits d'un utilisateur simple de ceux d'un administrateur. Un utilisateur peut soumettre plusieurs \textbf{ProjectIdea}, enregistrer plusieurs \textbf{SavedCourse} et suivre son avancement dans différents cours à travers l'entité \textbf{Progress}.
 
@@ -163,20 +172,18 @@ Lorsqu'un utilisateur soumet une idée de projet, celle-ci peut être liée à p
     \caption{Diagramme de classes UML de SkillBridge}
 \end{figure}
 
-Ce diagramme met en évidence les relations essentielles entre utilisateurs, projets, cours, compétences et recommandations. Il donne une vision claire du noyau métier du système et servira directement de base à la conception de la couche de persistance.
-
 \section{Choix technologiques}
-Les technologies retenues ont été choisies en fonction de la cohérence du projet et des exigences du module. \textbf{React} a été sélectionné pour le frontend afin de proposer une interface moderne, réactive et facilement connectable à une API REST. \textbf{Spring Boot} a été retenu pour le backend, car il permet de structurer l'application de manière claire et robuste. \textbf{Spring MVC} s'occupe de la gestion des contrôleurs et des requêtes HTTP, tandis que \textbf{Spring Data JPA} simplifie l'accès à la base relationnelle et le mapping objet--relationnel.
-
-Pour la sécurité, \textbf{Spring Security} est un choix naturel puisqu'il permet de gérer l'authentification, l'autorisation et la protection des routes. La base \textbf{PostgreSQL} est utilisée pour stocker les données transactionnelles de la plateforme : utilisateurs, cours, catégories, projets, progression et historique.
-
-Du côté Big Data, le pipeline repose sur les briques attendues dans le sujet. \textbf{Sqoop} sert à importer les données structurées depuis la base relationnelle. \textbf{Flume} permet de collecter les événements et logs en continu. \textbf{HDFS} est utilisé comme espace de stockage distribué pour les données massives, tandis que \textbf{HBase} sert à conserver certaines données analytiques ou index utiles à l'application. \textbf{MapReduce} est prévu pour les traitements batch, \textbf{Hive} pour les requêtes analytiques, et \textbf{Python} pour les traitements complémentaires liés à l'analyse textuelle et au calcul de scores.
-
-\section{Conclusion}
-Ce premier jalon a permis de poser les bases du projet \textbf{SkillBridge}, une plateforme éducative orientée projet qui a pour but d'aider l'utilisateur à identifier les cours les plus pertinents en fonction de son besoin. Le domaine choisi est l'éducation, et la problématique retenue répond à un besoin réel d'orientation pédagogique.
-
-L'architecture globale proposée relie une application web Spring Boot sécurisée à un pipeline Big Data conforme aux technologies attendues. Le diagramme de classes fournit une représentation claire des principales entités métier et prépare la suite du développement. Enfin, les choix technologiques effectués sont cohérents à la fois avec les exigences du module et avec la logique fonctionnelle du projet.
-
-Cette phase de cadrage et de conception constitue donc une base solide pour le deuxième jalon, qui portera sur l'implémentation de l'application JEE et de la couche de sécurité.
+\begin{itemize}
+    \item \textbf{React} : pour une interface dynamique et fluide.
+    \item \textbf{Spring Boot} : pour structurer le backend rapidement et proprement.
+    \item \textbf{Spring Security} : pour gérer l'authentification et les droits d'accès.
+    \item \textbf{PostgreSQL} : pour stocker les données relationnelles du système.
+    \item \textbf{Sqoop} : pour échanger les données entre la base relationnelle et l'environnement Big Data.
+    \item \textbf{Flume} : pour collecter les événements et les logs.
+    \item \textbf{HDFS} : pour le stockage distribué des données massives.
+    \item \textbf{HBase} : pour conserver certaines données analytiques exploitables rapidement.
+    \item \textbf{MapReduce} et \textbf{Hive} : pour les traitements batch et les requêtes analytiques.
+    \item \textbf{Python} : pour les traitements complémentaires sur les données et le texte.
+\end{itemize}
 
 \end{document}
