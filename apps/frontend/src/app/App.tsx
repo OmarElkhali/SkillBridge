@@ -1,8 +1,7 @@
-import type { ReactElement } from "react";
+import { useEffect, type ReactElement } from "react";
 import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
 import { AppShell } from "../components/AppShell";
+import { useAuth } from "../hooks/useAuth";
 import { AdminCatalogPage } from "../pages/AdminCatalogPage";
 import { AdminDashboardPage } from "../pages/AdminDashboardPage";
 import { CoursesPage } from "../pages/CoursesPage";
@@ -13,6 +12,9 @@ import { ProjectDetailPage } from "../pages/ProjectDetailPage";
 import { ProjectsPage } from "../pages/ProjectsPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import { SavedCoursesPage } from "../pages/SavedCoursesPage";
+
+const loadingScreenClassName =
+  "flex min-h-screen items-center justify-center px-6 text-center font-medium text-[var(--color-text-muted)]";
 
 function RouteMeta({ title }: { title: string }) {
   useEffect(() => {
@@ -27,11 +29,11 @@ function AuthGate() {
   const location = useLocation();
 
   if (!initialized) {
-    return <div className="loading-screen">Preparing SkillBridge…</div>;
+    return <div className={loadingScreenClassName}>Preparing SkillBridge...</div>;
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
+    return <Navigate replace state={{ from: location }} to="/login" />;
   }
 
   return (
@@ -44,7 +46,7 @@ function AuthGate() {
 function AdminGate() {
   const { user } = useAuth();
   if (user?.role !== "ADMIN") {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate replace to="/dashboard" />;
   }
   return <Outlet />;
 }
@@ -52,58 +54,72 @@ function AdminGate() {
 function PublicOnly({ children }: { children: ReactElement }) {
   const { initialized, isAuthenticated } = useAuth();
   if (!initialized) {
-    return <div className="loading-screen">Preparing SkillBridge…</div>;
+    return <div className={loadingScreenClassName}>Preparing SkillBridge...</div>;
   }
-  return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
+  return isAuthenticated ? <Navigate replace to="/dashboard" /> : children;
 }
 
 export function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route element={<Navigate replace to="/dashboard" />} path="/" />
 
       <Route element={<RouteMeta title="Login" />}>
-        <Route path="/login" element={<PublicOnly><LoginPage /></PublicOnly>} />
+        <Route
+          element={
+            <PublicOnly>
+              <LoginPage />
+            </PublicOnly>
+          }
+          path="/login"
+        />
       </Route>
       <Route element={<RouteMeta title="Register" />}>
-        <Route path="/register" element={<PublicOnly><RegisterPage /></PublicOnly>} />
+        <Route
+          element={
+            <PublicOnly>
+              <RegisterPage />
+            </PublicOnly>
+          }
+          path="/register"
+        />
       </Route>
 
       <Route element={<AuthGate />}>
-        <Route element={<RouteMeta title="Dashboard" />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
+        <Route element={<RouteMeta title="Welcome" />}>
+          <Route element={<DashboardPage />} path="/dashboard" />
         </Route>
         <Route element={<RouteMeta title="Courses" />}>
-          <Route path="/courses" element={<CoursesPage />} />
+          <Route element={<CoursesPage />} path="/courses" />
         </Route>
         <Route element={<RouteMeta title="Projects" />}>
-          <Route path="/projects" element={<ProjectsPage />} />
+          <Route element={<ProjectsPage />} path="/projects" />
         </Route>
         <Route element={<RouteMeta title="Project Details" />}>
-          <Route path="/projects/:id" element={<ProjectDetailPage />} />
+          <Route element={<ProjectDetailPage />} path="/projects/:id" />
         </Route>
         <Route element={<RouteMeta title="Saved Courses" />}>
-          <Route path="/saved-courses" element={<SavedCoursesPage />} />
+          <Route element={<SavedCoursesPage />} path="/saved-courses" />
         </Route>
         <Route element={<RouteMeta title="Progress" />}>
-          <Route path="/progress" element={<ProgressPage />} />
+          <Route element={<ProgressPage />} path="/progress" />
         </Route>
 
         <Route element={<AdminGate />}>
           <Route element={<RouteMeta title="Admin Overview" />}>
-            <Route path="/admin" element={<AdminDashboardPage />} />
+            <Route element={<AdminDashboardPage />} path="/admin" />
           </Route>
           <Route element={<RouteMeta title="Admin Courses" />}>
-            <Route path="/admin/courses" element={<AdminCatalogPage resource="courses" />} />
+            <Route element={<AdminCatalogPage resource="courses" />} path="/admin/courses" />
           </Route>
           <Route element={<RouteMeta title="Admin Categories" />}>
-            <Route path="/admin/categories" element={<AdminCatalogPage resource="categories" />} />
+            <Route element={<AdminCatalogPage resource="categories" />} path="/admin/categories" />
           </Route>
           <Route element={<RouteMeta title="Admin Providers" />}>
-            <Route path="/admin/providers" element={<AdminCatalogPage resource="providers" />} />
+            <Route element={<AdminCatalogPage resource="providers" />} path="/admin/providers" />
           </Route>
           <Route element={<RouteMeta title="Admin Skills" />}>
-            <Route path="/admin/skills" element={<AdminCatalogPage resource="skills" />} />
+            <Route element={<AdminCatalogPage resource="skills" />} path="/admin/skills" />
           </Route>
         </Route>
       </Route>

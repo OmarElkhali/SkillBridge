@@ -1,10 +1,11 @@
-import { NavLink, useLocation } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import type { PropsWithChildren, ReactNode } from "react";
 import { useEffect, useState, type MouseEvent } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { cx } from "./ui";
 
 const userLinks = [
-  { to: "/dashboard", label: "Dashboard", icon: <DashboardIcon /> },
+  { to: "/dashboard", label: "Home", icon: <DashboardIcon /> },
   { to: "/courses", label: "Courses", icon: <CoursesIcon /> },
   { to: "/projects", label: "Project Ideas", icon: <ProjectsIcon /> },
   { to: "/saved-courses", label: "Saved", icon: <SavedIcon /> },
@@ -19,11 +20,47 @@ const adminLinks = [
   { to: "/admin/skills", label: "Skills", icon: <SkillsIcon /> },
 ];
 
+function SidebarLink({
+  collapsed,
+  label,
+  icon,
+  to,
+  onClick,
+}: {
+  collapsed: boolean;
+  label: string;
+  icon: ReactNode;
+  to: string;
+  onClick: (event: MouseEvent<HTMLAnchorElement>) => void;
+}) {
+  return (
+    <NavLink
+      className={({ isActive }) =>
+        cx(
+          "group flex items-center gap-3 rounded-[1.15rem] border px-3 py-3 text-sm font-medium transition",
+          isActive
+            ? "border-[var(--accent-border-strong)] bg-[var(--accent-wash-strong)] text-[var(--color-accent-dark)]"
+            : "border-transparent text-[var(--color-text-muted)] hover:border-[var(--accent-border)] hover:bg-[var(--accent-wash)] hover:text-[var(--color-accent-dark)]",
+        )
+      }
+      onClick={onClick}
+      to={to}
+    >
+      <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center text-current">
+        {icon}
+      </span>
+      <span className={cx("whitespace-nowrap transition", collapsed ? "pointer-events-none w-0 overflow-hidden opacity-0" : "opacity-100")}>
+        {label}
+      </span>
+    </NavLink>
+  );
+}
+
 export function AppShell({ children }: PropsWithChildren) {
   const { user, logout } = useAuth();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [desktopCollapsed, setDesktopCollapsed] = useState(false);
+  const [desktopCollapsed, setDesktopCollapsed] = useState(true);
 
   useEffect(() => {
     const closeOnResize = () => {
@@ -51,83 +88,113 @@ export function AppShell({ children }: PropsWithChildren) {
     }
   }
 
+  const collapsed = !mobileOpen && desktopCollapsed;
+
   return (
-    <div className="app-frame">
+    <div className="min-h-screen">
       <button
         aria-expanded={mobileOpen}
         aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
-        className="sidebar-burger"
+        className="fixed left-4 top-4 z-40 inline-grid gap-1 rounded-2xl border border-[var(--line)] bg-[var(--color-surface-strong)] p-3 shadow-[0_14px_32px_rgba(48,25,17,0.12)] lg:hidden"
         onClick={() => setMobileOpen((value) => !value)}
         type="button"
       >
-        <span />
-        <span />
-        <span />
+        <span className="h-0.5 w-5 rounded-full bg-[var(--color-text)]" />
+        <span className="h-0.5 w-5 rounded-full bg-[var(--color-text)]" />
+        <span className="h-0.5 w-5 rounded-full bg-[var(--color-text)]" />
       </button>
 
-      {mobileOpen ? <button aria-label="Close navigation" className="sidebar-backdrop" onClick={() => setMobileOpen(false)} type="button" /> : null}
+      {mobileOpen ? (
+        <button
+          aria-label="Close navigation"
+          className="fixed inset-0 z-30 bg-[rgba(28,18,14,0.32)] lg:hidden"
+          onClick={() => setMobileOpen(false)}
+          type="button"
+        />
+      ) : null}
 
       <aside
-        className={`sidebar ${mobileOpen ? "mobile-open" : ""} ${desktopCollapsed ? "desktop-collapsed" : ""}`}
-        onMouseLeave={() => setDesktopCollapsed(false)}
+        className={cx(
+          "fixed inset-y-0 left-0 z-40 flex min-h-screen flex-col justify-between border-r border-[var(--line)] bg-[rgba(248,241,232,0.9)] px-3 py-5 shadow-[24px_0_60px_rgba(48,25,17,0.08)] backdrop-blur-2xl transition-all duration-200",
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          collapsed ? "w-[84px]" : "w-[292px]",
+        )}
+        onMouseEnter={() => {
+          if (window.innerWidth > 1100) {
+            setDesktopCollapsed(false);
+          }
+        }}
+        onMouseLeave={() => {
+          if (window.innerWidth > 1100) {
+            setDesktopCollapsed(true);
+          }
+        }}
       >
-        <div className="sidebar-top">
-          <div className="brand-lockup">
-            <div className="brand-mark">SB</div>
-            <div className="sidebar-copy">
-              <p className="eyebrow">Learning Navigator</p>
-              <h1>SkillBridge</h1>
+        <div className="grid gap-6">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[var(--brand-gradient)] font-bold tracking-[0.08em] text-white">
+              SB
+            </div>
+            <div className={cx("min-w-0 transition", collapsed ? "w-0 overflow-hidden opacity-0" : "opacity-100")}>
+              <h1 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-[1.65rem] text-[var(--color-text)]">
+                SkillBridge
+              </h1>
             </div>
           </div>
 
-          <nav className="nav-stack">
+          <nav className="grid gap-2">
             {userLinks.map((link) => (
-              <NavLink key={link.to} className="nav-link" onClick={handleNavClick} to={link.to}>
-                <span className="nav-icon" aria-hidden="true">{link.icon}</span>
-                <span className="nav-label">{link.label}</span>
-              </NavLink>
+              <SidebarLink collapsed={collapsed} icon={link.icon} key={link.to} label={link.label} onClick={handleNavClick} to={link.to} />
             ))}
           </nav>
+
+          {user?.role === "ADMIN" ? (
+            <div className="grid gap-3 border-t border-[var(--line)] pt-4">
+              <p className={cx("text-xs uppercase tracking-[0.3em] text-[var(--color-accent-dark)] transition", collapsed ? "opacity-0" : "opacity-100")}>
+                Admin
+              </p>
+              <div className="grid gap-2">
+                {adminLinks.map((link) => (
+                  <SidebarLink collapsed={collapsed} icon={link.icon} key={link.to} label={link.label} onClick={handleNavClick} to={link.to} />
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
 
-        {user?.role === "ADMIN" ? (
-          <div className="admin-panel">
-            <p className="eyebrow sidebar-section-label">Admin</p>
-            <div className="nav-stack">
-              {adminLinks.map((link) => (
-                <NavLink key={link.to} className="nav-link" onClick={handleNavClick} to={link.to}>
-                  <span className="nav-icon" aria-hidden="true">{link.icon}</span>
-                  <span className="nav-label">{link.label}</span>
-                </NavLink>
-              ))}
-            </div>
-          </div>
-        ) : null}
+        <div className="grid gap-4 border-t border-[var(--line)] pt-4">
+          <button
+            className="inline-flex items-center gap-3 rounded-full border border-[var(--line)] bg-white/50 px-3 py-3 text-sm font-medium text-[var(--color-text-strong)] transition hover:-translate-y-0.5 hover:bg-white/80"
+            onClick={logout}
+            type="button"
+          >
+            <span aria-hidden="true" className="grid size-5 shrink-0 place-items-center text-[var(--color-accent-dark)]">
+              <LogoutIcon />
+            </span>
+            <span className={cx("whitespace-nowrap transition", collapsed ? "w-0 overflow-hidden opacity-0" : "opacity-100")}>Logout</span>
+          </button>
 
-        <div className="profile-card">
-          <div className="profile-summary">
-            <div className="profile-avatar" aria-hidden="true">
+          <div className="grid grid-cols-[2.8rem_minmax(0,1fr)] items-center gap-3">
+            <div
+              aria-hidden="true"
+              className="grid size-[2.8rem] shrink-0 place-items-center rounded-full bg-[var(--brand-gradient)] font-bold tracking-[0.08em] text-white"
+            >
               {user?.firstName?.[0]}
               {user?.lastName?.[0]}
             </div>
-            <div className="profile-copy">
-              <p className="profile-name">
+            <div className={cx("min-w-0 transition", collapsed ? "w-0 overflow-hidden opacity-0" : "opacity-100")}>
+              <p className="truncate text-sm font-semibold text-[var(--color-text)]">
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="profile-role">{user?.role}</p>
+              <p className="truncate text-sm text-[var(--color-text-muted)]">{user?.role}</p>
             </div>
           </div>
-
-          <button className="ghost-button sidebar-action" onClick={logout} type="button">
-            <span className="nav-icon" aria-hidden="true">
-              <LogoutIcon />
-            </span>
-            <span className="nav-label">Logout</span>
-          </button>
         </div>
       </aside>
 
-      <main className="main-panel">{children}</main>
+      <main className={cx("min-h-screen px-4 py-20 transition-all sm:px-6 lg:px-8 lg:py-8", collapsed ? "lg:ml-[84px]" : "lg:ml-[292px]")}>
+        {children}
+      </main>
     </div>
   );
 }
@@ -222,7 +289,7 @@ function SkillsIcon() {
     <SidebarIcon>
       <path d="M7 7h7l3 3-7 7-3-3z" />
       <path d="M14 7l3-3" />
-      <circle cx="8.5" cy="8.5" r=".5" fill="currentColor" stroke="none" />
+      <circle cx="8.5" cy="8.5" fill="currentColor" r=".5" stroke="none" />
     </SidebarIcon>
   );
 }

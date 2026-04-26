@@ -1,4 +1,5 @@
 import { useDeferredValue, useEffect, useState } from "react";
+import { cx, emptyText, eyebrow, heroPanel, input, messageBanner, pageStack, panel, primaryButton, secondaryButton, tag } from "../components/ui";
 import { api } from "../services/api";
 import type { Course, SavedCourse } from "../types/api";
 
@@ -48,53 +49,56 @@ export function CoursesPage() {
   }
 
   return (
-    <div className="page-stack">
-      <section className="hero-panel compact">
-        <div>
-          <p className="eyebrow">Course catalog</p>
-          <h2>Explore the learning inventory behind the recommendation engine.</h2>
+    <div className={cx(pageStack, "max-w-[1440px]")}>
+      <section className={cx(heroPanel, "grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end")}>
+        <div className="grid gap-2">
+          <p className={eyebrow}>Course catalog</p>
+          <h2 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-4xl leading-tight text-[#261b18]">
+            Explore the learning inventory behind the recommendation engine.
+          </h2>
         </div>
         <input
-          className="search-input"
+          className={input}
           placeholder="Search by title, category, or skill"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
       </section>
 
-      {message ? <p className="hint-banner">{message}</p> : null}
+      {message ? <p className={messageBanner}>{message}</p> : null}
 
-      <section className="card-grid">
+      <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
         {filteredCourses.map((course) => (
-          <article className="course-card" key={course.id}>
-            <div className="course-meta">
+          <article className={cx(panel, "grid gap-4")} key={course.id}>
+            <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-[#6f5b54]">
               <span>{course.category.name}</span>
               <span>{course.level}</span>
             </div>
-            <h3>{course.title}</h3>
-            <p>{course.description}</p>
-            <div className="tag-row">
+            <div className="grid gap-2">
+              <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">{course.title}</h3>
+              <p className="text-sm leading-6 text-[#6f5b54]">{course.description}</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
               {course.skills.map((skill) => (
-                <span className="tag" key={skill}>
+                <span className={tag} key={skill}>
                   {skill}
                 </span>
               ))}
             </div>
-            <div className="button-row">
-              <a className="primary-button" href={course.sourceUrl} rel="noreferrer" target="_blank">
+            <div className="flex flex-wrap items-center gap-3">
+              <a className={primaryButton} href={course.sourceUrl} rel="noreferrer" target="_blank">
                 Open course
               </a>
-              <div className="button-row">
-                <button className="ghost-button" onClick={() => toggleSave(course.id)} type="button">
-                  {savedIds.has(course.id) ? "Remove" : "Save"}
-                </button>
-                <button className="ghost-button" onClick={() => startTracking(course.id)} type="button">
-                  Start
-                </button>
-              </div>
+              <button className={secondaryButton} onClick={() => toggleSave(course.id)} type="button">
+                {savedIds.has(course.id) ? "Remove" : "Save"}
+              </button>
+              <button className={secondaryButton} onClick={() => startTracking(course.id)} type="button">
+                Start
+              </button>
             </div>
           </article>
         ))}
+        {filteredCourses.length === 0 ? <p className={emptyText}>No courses matched your search yet.</p> : null}
       </section>
     </div>
   );

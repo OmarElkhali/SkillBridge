@@ -1,4 +1,21 @@
 import { useEffect, useState, type FormEvent } from "react";
+import {
+  cx,
+  eyebrow,
+  heroPanel,
+  input,
+  label,
+  listCard,
+  messageBanner,
+  pageStack,
+  panel,
+  primaryButton,
+  secondaryButton,
+  select,
+  tag,
+  tagActive,
+  textarea,
+} from "../components/ui";
 import { api } from "../services/api";
 import type { Category, Course, Provider, Skill } from "../types/api";
 
@@ -58,17 +75,11 @@ export function AdminCatalogPage({ resource }: Props) {
     event.preventDefault();
     try {
       if (resource === "categories") {
-        simpleForm.id
-          ? await api.updateCategory(simpleForm.id, simpleForm)
-          : await api.createCategory(simpleForm);
+        simpleForm.id ? await api.updateCategory(simpleForm.id, simpleForm) : await api.createCategory(simpleForm);
       } else if (resource === "providers") {
-        simpleForm.id
-          ? await api.updateProvider(simpleForm.id, simpleForm)
-          : await api.createProvider(simpleForm);
+        simpleForm.id ? await api.updateProvider(simpleForm.id, simpleForm) : await api.createProvider(simpleForm);
       } else if (resource === "skills") {
-        simpleForm.id
-          ? await api.updateSkill(simpleForm.id, simpleForm)
-          : await api.createSkill(simpleForm);
+        simpleForm.id ? await api.updateSkill(simpleForm.id, simpleForm) : await api.createSkill(simpleForm);
       }
       setSimpleForm({ id: 0, name: "", description: "", websiteUrl: "" });
       await load();
@@ -120,59 +131,55 @@ export function AdminCatalogPage({ resource }: Props) {
   function toggleSkill(id: number) {
     setCourseForm((current) => ({
       ...current,
-      skillIds: current.skillIds.includes(id)
-        ? current.skillIds.filter((item) => item !== id)
-        : [...current.skillIds, id],
+      skillIds: current.skillIds.includes(id) ? current.skillIds.filter((item) => item !== id) : [...current.skillIds, id],
     }));
   }
 
   const simpleItems = resource === "categories" ? categories : resource === "providers" ? providers : skills;
 
   return (
-    <div className="page-stack">
-      <section className="hero-panel compact">
-        <div>
-          <p className="eyebrow">Admin catalog</p>
-          <h2>{titles[resource]}</h2>
-        </div>
+    <div className={cx(pageStack, "max-w-[1440px]")}>
+      <section className={cx(heroPanel, "grid gap-3")}>
+        <p className={eyebrow}>Admin catalog</p>
+        <h2 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-4xl leading-tight text-[#261b18]">{titles[resource]}</h2>
       </section>
-      {message ? <p className="hint-banner">{message}</p> : null}
+      {message ? <p className={messageBanner}>{message}</p> : null}
 
       {resource === "courses" ? (
-        <section className="content-grid">
-          <article className="panel">
-            <h3>{courseForm.id ? "Edit course" : "Create course"}</h3>
-            <form className="stack-form" onSubmit={submitCourse}>
-              <label>
+        <section className="grid gap-5 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+          <article className={panel}>
+            <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">{courseForm.id ? "Edit course" : "Create course"}</h3>
+            <form className="mt-4 grid gap-4" onSubmit={submitCourse}>
+              <label className={label}>
                 Title
-                <input value={courseForm.title} onChange={(e) => setCourseForm({ ...courseForm, title: e.target.value })} />
+                <input className={input} value={courseForm.title} onChange={(e) => setCourseForm({ ...courseForm, title: e.target.value })} />
               </label>
-              <label>
+              <label className={label}>
                 Description
-                <textarea rows={6} value={courseForm.description} onChange={(e) => setCourseForm({ ...courseForm, description: e.target.value })} />
+                <textarea className={textarea} rows={6} value={courseForm.description} onChange={(e) => setCourseForm({ ...courseForm, description: e.target.value })} />
               </label>
-              <div className="grid-two">
-                <label>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className={label}>
                   Level
-                  <select value={courseForm.level} onChange={(e) => setCourseForm({ ...courseForm, level: e.target.value })}>
+                  <select className={select} value={courseForm.level} onChange={(e) => setCourseForm({ ...courseForm, level: e.target.value })}>
                     <option>BEGINNER</option>
                     <option>INTERMEDIATE</option>
                     <option>ADVANCED</option>
                   </select>
                 </label>
-                <label>
+                <label className={label}>
                   Language
-                  <input value={courseForm.language} onChange={(e) => setCourseForm({ ...courseForm, language: e.target.value })} />
+                  <input className={input} value={courseForm.language} onChange={(e) => setCourseForm({ ...courseForm, language: e.target.value })} />
                 </label>
               </div>
-              <label>
+              <label className={label}>
                 Source URL
-                <input value={courseForm.sourceUrl} onChange={(e) => setCourseForm({ ...courseForm, sourceUrl: e.target.value })} />
+                <input className={input} value={courseForm.sourceUrl} onChange={(e) => setCourseForm({ ...courseForm, sourceUrl: e.target.value })} />
               </label>
-              <div className="grid-two">
-                <label>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className={label}>
                   Category
-                  <select value={courseForm.categoryId} onChange={(e) => setCourseForm({ ...courseForm, categoryId: Number(e.target.value) })}>
+                  <select className={select} value={courseForm.categoryId} onChange={(e) => setCourseForm({ ...courseForm, categoryId: Number(e.target.value) })}>
                     <option value={0}>Select</option>
                     {categories.map((category) => (
                       <option key={category.id} value={category.id}>
@@ -181,9 +188,9 @@ export function AdminCatalogPage({ resource }: Props) {
                     ))}
                   </select>
                 </label>
-                <label>
+                <label className={label}>
                   Provider
-                  <select value={courseForm.providerId} onChange={(e) => setCourseForm({ ...courseForm, providerId: Number(e.target.value) })}>
+                  <select className={select} value={courseForm.providerId} onChange={(e) => setCourseForm({ ...courseForm, providerId: Number(e.target.value) })}>
                     <option value={0}>Select</option>
                     {providers.map((provider) => (
                       <option key={provider.id} value={provider.id}>
@@ -193,19 +200,20 @@ export function AdminCatalogPage({ resource }: Props) {
                   </select>
                 </label>
               </div>
-              <label>
+              <label className={label}>
                 Popularity score
                 <input
+                  className={input}
                   min={0}
                   type="number"
                   value={courseForm.popularityScore}
                   onChange={(e) => setCourseForm({ ...courseForm, popularityScore: Number(e.target.value) })}
                 />
               </label>
-              <div className="tag-selector">
+              <div className="flex flex-wrap gap-2">
                 {skills.map((skill) => (
                   <button
-                    className={courseForm.skillIds.includes(skill.id) ? "tag active" : "tag"}
+                    className={cx(tag, courseForm.skillIds.includes(skill.id) && tagActive)}
                     key={skill.id}
                     onClick={() => toggleSkill(skill.id)}
                     type="button"
@@ -214,25 +222,25 @@ export function AdminCatalogPage({ resource }: Props) {
                   </button>
                 ))}
               </div>
-              <button className="primary-button" type="submit">
+              <button className={primaryButton} type="submit">
                 {courseForm.id ? "Update course" : "Create course"}
               </button>
             </form>
           </article>
 
-          <article className="panel">
-            <h3>Existing courses</h3>
-            <div className="stack-list">
+          <article className={panel}>
+            <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">Existing courses</h3>
+            <div className="mt-4 grid gap-3">
               {courses.map((course) => (
-                <div className="list-card" key={course.id}>
-                  <div className="list-card-header">
-                    <strong>{course.title}</strong>
-                    <span>{course.category.name}</span>
+                <div className={listCard} key={course.id}>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <strong className="text-[#261b18]">{course.title}</strong>
+                    <span className="text-sm text-[#6f5b54]">{course.category.name}</span>
                   </div>
-                  <p>{course.description.slice(0, 120)}...</p>
-                  <div className="button-row">
+                  <p className="text-sm leading-6 text-[#6f5b54]">{course.description.slice(0, 120)}...</p>
+                  <div className="flex flex-wrap gap-3">
                     <button
-                      className="ghost-button"
+                      className={secondaryButton}
                       onClick={() =>
                         setCourseForm({
                           id: course.id,
@@ -253,7 +261,7 @@ export function AdminCatalogPage({ resource }: Props) {
                     >
                       Edit
                     </button>
-                    <button className="danger-button" onClick={() => remove(course.id)} type="button">
+                    <button className="inline-flex items-center justify-center rounded-full border border-[rgba(143,45,45,0.18)] bg-[rgba(143,45,45,0.08)] px-5 py-3 text-sm font-medium text-[#8f2d2d] transition hover:-translate-y-0.5 hover:bg-[rgba(143,45,45,0.12)]" onClick={() => remove(course.id)} type="button">
                       Delete
                     </button>
                   </div>
@@ -263,43 +271,43 @@ export function AdminCatalogPage({ resource }: Props) {
           </article>
         </section>
       ) : (
-        <section className="content-grid">
-          <article className="panel">
-            <h3>{simpleForm.id ? "Edit resource" : "Create resource"}</h3>
-            <form className="stack-form" onSubmit={submitSimple}>
-              <label>
+        <section className="grid gap-5 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+          <article className={panel}>
+            <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">{simpleForm.id ? "Edit resource" : "Create resource"}</h3>
+            <form className="mt-4 grid gap-4" onSubmit={submitSimple}>
+              <label className={label}>
                 Name
-                <input value={simpleForm.name} onChange={(e) => setSimpleForm({ ...simpleForm, name: e.target.value })} />
+                <input className={input} value={simpleForm.name} onChange={(e) => setSimpleForm({ ...simpleForm, name: e.target.value })} />
               </label>
               {resource === "providers" ? (
-                <label>
+                <label className={label}>
                   Website URL
-                  <input value={simpleForm.websiteUrl} onChange={(e) => setSimpleForm({ ...simpleForm, websiteUrl: e.target.value })} />
+                  <input className={input} value={simpleForm.websiteUrl} onChange={(e) => setSimpleForm({ ...simpleForm, websiteUrl: e.target.value })} />
                 </label>
               ) : null}
-              <label>
+              <label className={label}>
                 Description
-                <textarea rows={6} value={simpleForm.description} onChange={(e) => setSimpleForm({ ...simpleForm, description: e.target.value })} />
+                <textarea className={textarea} rows={6} value={simpleForm.description} onChange={(e) => setSimpleForm({ ...simpleForm, description: e.target.value })} />
               </label>
-              <button className="primary-button" type="submit">
+              <button className={primaryButton} type="submit">
                 {simpleForm.id ? "Update" : "Create"}
               </button>
             </form>
           </article>
 
-          <article className="panel">
-            <h3>Existing items</h3>
-            <div className="stack-list">
+          <article className={panel}>
+            <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">Existing items</h3>
+            <div className="mt-4 grid gap-3">
               {simpleItems.map((item) => (
-                <div className="list-card" key={item.id}>
-                  <div className="list-card-header">
-                    <strong>{item.name}</strong>
-                    <span>{"slug" in item ? item.slug : "provider"}</span>
+                <div className={listCard} key={item.id}>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <strong className="text-[#261b18]">{item.name}</strong>
+                    <span className="text-sm text-[#6f5b54]">{"slug" in item ? item.slug : "provider"}</span>
                   </div>
-                  <p>{item.description || "No description yet."}</p>
-                  <div className="button-row">
+                  <p className="text-sm leading-6 text-[#6f5b54]">{item.description || "No description yet."}</p>
+                  <div className="flex flex-wrap gap-3">
                     <button
-                      className="ghost-button"
+                      className={secondaryButton}
                       onClick={() =>
                         setSimpleForm({
                           id: item.id,
@@ -312,7 +320,7 @@ export function AdminCatalogPage({ resource }: Props) {
                     >
                       Edit
                     </button>
-                    <button className="danger-button" onClick={() => remove(item.id)} type="button">
+                    <button className="inline-flex items-center justify-center rounded-full border border-[rgba(143,45,45,0.18)] bg-[rgba(143,45,45,0.08)] px-5 py-3 text-sm font-medium text-[#8f2d2d] transition hover:-translate-y-0.5 hover:bg-[rgba(143,45,45,0.12)]" onClick={() => remove(item.id)} type="button">
                       Delete
                     </button>
                   </div>

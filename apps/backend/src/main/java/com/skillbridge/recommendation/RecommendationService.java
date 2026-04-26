@@ -38,6 +38,8 @@ public class RecommendationService {
 
     private static final Pattern NON_WORD_PATTERN = Pattern.compile("[^a-z0-9\\s]");
     private static final String ALGORITHM_VERSION = "rule-based-v1";
+    private static final int MAX_DETECTED_SKILLS = 25;
+    private static final int MAX_SAVED_RECOMMENDATIONS = 20;
 
     private final ProjectIdeaRepository projectIdeaRepository;
     private final RecommendationSnapshotRepository recommendationSnapshotRepository;
@@ -60,9 +62,10 @@ public class RecommendationService {
         ProjectIdea projectIdea = getUserProject(projectId, user);
         projectIdea.getDetectedSkills().clear();
 
+        String normalizedProjectText = normalizeText(projectIdea.getTitle() + " " + projectIdea.getDescription());
         Set<String> normalizedTokens = extractTokens(projectIdea.getTitle() + " " + projectIdea.getDescription());
         List<Skill> skills = skillRepository.findAll();
-        List<ProjectDetectedSkill> detectedSkills = detectSkills(projectIdea, normalizedTokens, skills);
+        List<ProjectDetectedSkill> detectedSkills = detectSkills(projectIdea, normalizedProjectText, skills);
         projectIdea.getDetectedSkills().addAll(detectedSkills);
 
         RecommendationSnapshot snapshot = new RecommendationSnapshot();
@@ -71,7 +74,8 @@ public class RecommendationService {
         snapshot.setKeywordSummary(String.join(", ", normalizedTokens));
         snapshot.setAlgorithmVersion(ALGORITHM_VERSION);
 
-        List<RecommendationResult> results = rankCourses(snapshot, courseRepository.findByPublishedTrueOrderByTitleAsc(), normalizedTokens, detectedSkills);
+        List<Course> candidateCourses = findCandidateCourses(detectedSkills);
+        List<RecommendationResult> results = rankCourses(snapshot, candidateCourses, normalizedTokens, detectedSkills);
         snapshot.setResults(results);
         snapshot.setTotalResults(results.size());
         projectIdea.getRecommendationSnapshots().add(snapshot);
@@ -89,7 +93,7 @@ public class RecommendationService {
     }
 
     ProjectIdea getUserProject(Long projectId, User user) {
-        ProjectIdea projectIdea = projectIdeaRepository.findById(projectId)
+        ProjectIdea projectIdea = projectIdeaRepository.findDetailedById(projectId)
                 .orElseThrow(() -> new ResourceNotFoundException("Project idea not found."));
         if (!projectIdea.getUser().getId().equals(user.getId())) {
             throw new ResourceNotFoundException("Project idea not found.");
@@ -98,7 +102,7 @@ public class RecommendationService {
     }
 
     Set<String> extractTokens(String text) {
-        String normalized = NON_WORD_PATTERN.matcher(text.toLowerCase(Locale.ROOT)).replaceAll(" ");
+        String normalized = normalizeText(text);
         Set<String> tokens = new LinkedHashSet<>();
         for (String token : normalized.split("\\s+")) {
             if (token.length() < 2 || RecommendationKeywords.STOP_WORDS.contains(token)) {
@@ -109,25 +113,59 @@ public class RecommendationService {
         return tokens;
     }
 
-    private List<ProjectDetectedSkill> detectSkills(ProjectIdea projectIdea, Set<String> tokens, List<Skill> skills) {
+    String normalizeText(String text) {
+        String normalized = NON_WORD_PATTERN.matcher(text.toLowerCase(Locale.ROOT)).replaceAll(" ");
+        return normalized.replaceAll("\\s+", " ").trim();
+    }
+
+    private List<ProjectDetectedSkill> detectSkills(ProjectIdea projectIdea, String normalizedProjectText, List<Skill> skills) {
+        String boundedProjectText = " " + normalizedProjectText + " ";
         Map<Long, ProjectDetectedSkill> detectedBySkill = new LinkedHashMap<>();
-        for (Skill skill : skills) {
-            Set<String> skillTokens = extractTokens(skill.getName());
-            for (String skillToken : skillTokens) {
-                if (!tokens.contains(skillToken)) {
-                    continue;
-                }
-                ProjectDetectedSkill detected = new ProjectDetectedSkill();
-                detected.setProjectIdea(projectIdea);
-                detected.setSkill(skill);
-                detected.setMatchedKeyword(skillToken);
-                detected.setMatchSource(MatchSource.SKILL_NAME);
-                detected.setConfidenceScore(0.9d);
-                detectedBySkill.put(skill.getId(), detected);
-                break;
-            }
+        skills.stream()
+                .sorted(Comparator.comparingInt((Skill skill) -> normalizeText(skill.getName()).length()).reversed())
+                .forEach(skill -> {
+                    Set<String> skillTokens = extractTokens(skill.getName());
+                    if (skillTokens.isEmpty()) {
+                        return;
+                    }
+                    String normalizedSkillName = String.join(" ", skillTokens);
+                    if (normalizedSkillName.isBlank()) {
+                        return;
+                    }
+                    if (!boundedProjectText.contains(" " + normalizedSkillName + " ")) {
+                        return;
+                    }
+                    ProjectDetectedSkill detected = new ProjectDetectedSkill();
+                    detected.setProjectIdea(projectIdea);
+                    detected.setSkill(skill);
+                    detected.setMatchedKeyword(normalizedSkillName);
+                    detected.setMatchSource(MatchSource.SKILL_NAME);
+                    detected.setConfidenceScore(0.95d);
+                    detectedBySkill.put(skill.getId(), detected);
+                });
+
+        List<ProjectDetectedSkill> detected = new ArrayList<>(detectedBySkill.values());
+        if (detected.size() > MAX_DETECTED_SKILLS) {
+            return new ArrayList<>(detected.subList(0, MAX_DETECTED_SKILLS));
         }
-        return new ArrayList<>(detectedBySkill.values());
+        return detected;
+    }
+
+    private List<Course> findCandidateCourses(List<ProjectDetectedSkill> detectedSkills) {
+        if (detectedSkills.isEmpty()) {
+            return List.of();
+        }
+
+        List<Long> detectedSkillIds = detectedSkills.stream()
+                .map(item -> item.getSkill().getId())
+                .distinct()
+                .toList();
+
+        Map<Long, Course> uniqueCourses = new LinkedHashMap<>();
+        for (Course course : courseRepository.findDistinctByPublishedTrueAndSkillsIdInOrderByTitleAsc(detectedSkillIds)) {
+            uniqueCourses.putIfAbsent(course.getId(), course);
+        }
+        return new ArrayList<>(uniqueCourses.values());
     }
 
     private List<RecommendationResult> rankCourses(
@@ -136,6 +174,10 @@ public class RecommendationService {
             Set<String> tokens,
             List<ProjectDetectedSkill> detectedSkills
     ) {
+        if (courses.isEmpty()) {
+            return List.of();
+        }
+
         Set<Long> detectedSkillIds = detectedSkills.stream().map(item -> item.getSkill().getId()).collect(java.util.stream.Collectors.toSet());
         Set<String> detectedSkillNames = detectedSkills.stream()
                 .map(item -> item.getSkill().getName().toLowerCase(Locale.ROOT))
@@ -166,6 +208,10 @@ public class RecommendationService {
 
         ranked.sort(Comparator.comparingInt(RecommendationResult::getScore).reversed()
                 .thenComparing(result -> result.getCourse().getTitle()));
+
+        if (ranked.size() > MAX_SAVED_RECOMMENDATIONS) {
+            ranked = new ArrayList<>(ranked.subList(0, MAX_SAVED_RECOMMENDATIONS));
+        }
 
         for (int index = 0; index < ranked.size(); index++) {
             ranked.get(index).setRankPosition(index + 1);
@@ -202,6 +248,11 @@ public class RecommendationService {
     }
 
     private RecommendationResponse mapSnapshot(RecommendationSnapshot snapshot) {
+        Map<Long, RecommendationResult> uniqueResults = new LinkedHashMap<>();
+        snapshot.getResults().stream()
+                .sorted(Comparator.comparingInt(RecommendationResult::getRankPosition))
+                .forEach(result -> uniqueResults.putIfAbsent(result.getId(), result));
+
         return new RecommendationResponse(
                 snapshot.getId(),
                 snapshot.getGeneratedAt(),
@@ -217,8 +268,7 @@ public class RecommendationService {
                                 item.getConfidenceScore()
                         ))
                         .toList(),
-                snapshot.getResults().stream()
-                        .sorted(Comparator.comparingInt(RecommendationResult::getRankPosition))
+                uniqueResults.values().stream()
                         .map(result -> new RecommendedCourseResponse(
                                 result.getRankPosition(),
                                 result.getScore(),
