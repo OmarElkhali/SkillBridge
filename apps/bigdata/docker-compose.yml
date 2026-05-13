@@ -17,6 +17,7 @@ services:
     environment:
       CLUSTER_NAME: skillbridge
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       HDFS_CONF_dfs_datanode_use_datanode_hostname: "true"
     ports:
@@ -28,17 +29,16 @@ services:
 
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
-    container_name: skillbridge-datanode
     environment:
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
-      HDFS_CONF_dfs_datanode_hostname: datanode
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       HDFS_CONF_dfs_datanode_use_datanode_hostname: "true"
       SERVICE_PRECONDITION: namenode:50070
-    ports:
-      - "9864:50075"
+    expose:
+      - "50075"
     volumes:
-      - datanode_data:/hadoop/dfs/data
+      - /hadoop/dfs/data
       - ./:/opt/skillbridge
 
   resourcemanager:
@@ -50,6 +50,7 @@ services:
     environment:
       HADOOP_MAPRED_HOME: /opt/hadoop-2.7.4
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       YARN_CONF_yarn_resourcemanager_hostname: resourcemanager
       MAPRED_CONF_mapreduce_framework_name: yarn
@@ -59,7 +60,7 @@ services:
       MAPRED_CONF_mapreduce_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
       YARN_CONF_yarn_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
       YARN_CONF_yarn_nodemanager_env_whitelist: JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075"
+      SERVICE_PRECONDITION: "namenode:50070"
     ports:
       - "8088:8088"
     volumes:
@@ -73,6 +74,7 @@ services:
     environment:
       HADOOP_MAPRED_HOME: /opt/hadoop-2.7.4
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       YARN_CONF_yarn_resourcemanager_hostname: resourcemanager
       MAPRED_CONF_mapreduce_framework_name: yarn
@@ -82,7 +84,7 @@ services:
       MAPRED_CONF_mapreduce_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
       YARN_CONF_yarn_application_classpath: /opt/hadoop-2.7.4/etc/hadoop,/opt/hadoop-2.7.4/share/hadoop/common/*,/opt/hadoop-2.7.4/share/hadoop/common/lib/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/*,/opt/hadoop-2.7.4/share/hadoop/hdfs/lib/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/*,/opt/hadoop-2.7.4/share/hadoop/mapreduce/lib/*,/opt/hadoop-2.7.4/share/hadoop/yarn/*,/opt/hadoop-2.7.4/share/hadoop/yarn/lib/*
       YARN_CONF_yarn_nodemanager_env_whitelist: JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 resourcemanager:8088"
+      SERVICE_PRECONDITION: "namenode:50070 resourcemanager:8088"
     ports:
       - "8042:8042"
     volumes:
@@ -102,8 +104,9 @@ services:
     command: /opt/hive/bin/hive --service metastore
     environment:
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
-      SERVICE_PRECONDITION: "namenode:50070 datanode:50075 hive-metastore-postgresql:5432"
+      SERVICE_PRECONDITION: "namenode:50070 hive-metastore-postgresql:5432"
     ports:
       - "9083:9083"
     volumes:
@@ -116,6 +119,7 @@ services:
       - hive-metastore
     environment:
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       SERVICE_PRECONDITION: "hive-metastore:9083"
     ports:
@@ -142,6 +146,7 @@ services:
       HADOOP_HDFS_HOME: /opt/hadoop-2.7.4
       HADOOP_YARN_HOME: /opt/hadoop-2.7.4
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       YARN_CONF_yarn_resourcemanager_hostname: resourcemanager
     volumes:
@@ -158,6 +163,7 @@ services:
       - datanode
     environment:
       CORE_CONF_fs_defaultFS: hdfs://namenode:9000
+      HDFS_CONF_dfs_replication: "2"
       HDFS_CONF_dfs_client_use_datanode_hostname: "true"
       HADOOP_HOME: /opt/hadoop-2.7.4
       HADOOP_CONF_DIR: /opt/hadoop-2.7.4/etc/hadoop
@@ -182,4 +188,3 @@ services:
 volumes:
   postgres_mirror_data:
   namenode_data:
-  datanode_data:

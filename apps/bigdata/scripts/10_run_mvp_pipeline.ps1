@@ -1,3 +1,8 @@
+param(
+    [ValidateRange(1, 20)]
+    [int] $Datanodes = 2
+)
+
 $ErrorActionPreference = "Stop"
 $env:COMPOSE_MENU = "false"
 
@@ -56,6 +61,7 @@ function Show-Verify {
 
 Write-Host "=== SkillBridge Big Data MVP Pipeline ==="
 Write-Host "Working directory: $root"
+Write-Host "HDFS DataNodes requested: $Datanodes"
 
 Show-Step "1" "Verification des prerequis" "S'assurer que Docker, Python et les outils minimums sont disponibles."
 & .\scripts\00_check_prereqs.ps1
@@ -86,11 +92,11 @@ Show-Result "Le catalogue unifie est genere et le miroir PostgreSQL est rempli."
 Show-Verify "docker compose exec postgres-mirror psql -U skillbridge -d skillbridge -c `"select count(*) from courses;`"" "Le count des cours est superieur a 17000."
 
 Show-Step "6" "Demarrage HDFS, YARN et Sqoop" "Preparer le stockage distribue HDFS et le client Sqoop."
-Run-Native docker compose up --detach namenode datanode resourcemanager nodemanager sqoop-client
+Run-Native docker compose up --detach --scale "datanode=$Datanodes" namenode datanode resourcemanager nodemanager sqoop-client
 Start-Sleep -Seconds 35
 Run-Native docker compose ps
 Show-Result "HDFS, YARN et Sqoop sont demarres."
-Show-Verify "docker compose ps namenode datanode sqoop-client" "Les services sont Up/healthy."
+Show-Verify "docker compose ps namenode datanode sqoop-client" "Le namenode, $Datanodes datanode(s) et le client Sqoop sont Up/healthy."
 
 Show-Step "7" "Creation des dossiers HDFS" "Organiser les zones raw, processed et export du pipeline."
 Run-Native docker compose exec namenode bash /opt/skillbridge/scripts/03_create_hdfs_dirs.sh
@@ -131,7 +137,7 @@ Show-Step "13" "Chargement HBase course_stats" "Stockage resultat: rendre les st
 Run-Native docker compose up --detach hbase
 Start-Sleep -Seconds 90
 Run-Native python .\scripts\09_load_course_stats_hbase.py
-Run-Native docker compose exec hbase hbase shell /opt/skillbridge/output/load_course_stats.hbase
+Run-Native docker compose exec -T hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase
 Show-Result "HBase contient la table course_stats."
 Show-Verify "scan 'course_stats', {LIMIT => 10}" "Des lignes avec activity:clicks, activity:saves et meta:title sont visibles."
 

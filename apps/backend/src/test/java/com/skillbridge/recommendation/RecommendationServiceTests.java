@@ -11,7 +11,7 @@ class RecommendationServiceTests {
 
     @Test
     void extractTokensRemovesStopWordsAndNormalizesText() {
-        RecommendationService service = new RecommendationService(null, null, null, null);
+        RecommendationService service = new RecommendationService(null, null, null, null, null, null);
 
         Set<String> tokens = service.extractTokens("I want to build a secure e-commerce application with Spring Boot and REST API.");
 

@@ -1,5 +1,6 @@
 package com.skillbridge.skill.controller;
 
+import com.skillbridge.common.dto.PageResponse;
 import com.skillbridge.skill.dto.SkillRequest;
 import com.skillbridge.skill.dto.SkillResponse;
 import com.skillbridge.skill.service.SkillService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,15 @@ public class SkillController {
     @GetMapping
     public List<SkillResponse> list() {
         return skillService.findAll();
+    }
+
+    @GetMapping("/search")
+    public PageResponse<SkillResponse> search(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "25") int size,
+            @RequestParam(required = false, name = "q") String query
+    ) {
+        return skillService.search(page, size, query);
     }
 
     @PostMapping

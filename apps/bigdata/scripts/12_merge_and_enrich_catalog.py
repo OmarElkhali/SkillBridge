@@ -4,6 +4,7 @@ import hashlib
 import html
 import json
 import math
+import os
 import re
 import zipfile
 from collections import Counter, defaultdict
@@ -13,10 +14,29 @@ from urllib.parse import urlparse, urlunparse
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT / "output" / "catalog"
+ENV_FILE = ROOT / ".env"
 
-ARCHIVE_FINAL = Path(r"C:\Users\omare\Downloads\archive (1).zip")
-ARCHIVE_ALL = Path(r"C:\Users\omare\Downloads\archive.zip")
-ARCHIVE_RICH = Path(r"C:\Users\omare\Downloads\archive (2).zip")
+
+def load_local_env():
+    if not ENV_FILE.exists():
+        return
+    for raw_line in ENV_FILE.read_text(encoding="utf-8", errors="replace").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def env_path(name, fallback):
+    return Path(os.environ.get(name, fallback)).expanduser()
+
+
+load_local_env()
+
+ARCHIVE_FINAL = env_path("SKILLBRIDGE_DATASET_FINAL_ZIP", r"C:\Users\omare\Downloads\archive (1).zip")
+ARCHIVE_ALL = env_path("SKILLBRIDGE_DATASET_ALL_COURSES_ZIP", r"C:\Users\omare\Downloads\archive.zip")
+ARCHIVE_RICH = env_path("SKILLBRIDGE_DATASET_RICH_ZIP", r"C:\Users\omare\Downloads\archive (2).zip")
 
 UNIFIED_COLUMNS = [
     "source_dataset",

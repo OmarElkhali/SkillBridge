@@ -1,9 +1,14 @@
 import type {
   AdminOverview,
+  AdminBigDataPayload,
   ApiErrorPayload,
   AuthResponse,
+  BigDataRefreshResponse,
+  BigDataStatus,
+  CatalogAnalytics,
   Category,
   Course,
+  PageResponse,
   ProgressEntry,
   ProjectIdea,
   Provider,
@@ -17,6 +22,24 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080
 const TOKEN_STORAGE_KEY = "skillbridge.access-token";
 
 let accessToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+
+type CourseSearchParams = {
+  admin?: boolean;
+  page?: number;
+  size?: number;
+  q?: string;
+  categoryId?: number;
+  providerId?: number;
+  skillId?: number;
+  level?: string;
+  sort?: string;
+};
+
+type SkillSearchParams = {
+  page?: number;
+  size?: number;
+  q?: string;
+};
 
 function getHeaders(init?: HeadersInit) {
   const headers = new Headers(init);
@@ -48,6 +71,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return data as T;
 }
 
+function toQueryString(params: Record<string, string | number | boolean | undefined | null>) {
+  const search = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      search.set(key, String(value));
+    }
+  });
+  const query = search.toString();
+  return query ? `?${query}` : "";
+}
+
 export function persistAccessToken(token: string | null) {
   accessToken = token;
   if (token) {
@@ -77,8 +111,9 @@ export const api = {
   getCurrentUser() {
     return request<UserSummary>("/api/users/me");
   },
-  getCourses(admin = false) {
-    return request<Course[]>(admin ? "/api/courses/admin" : "/api/courses");
+  getCourses(params: CourseSearchParams = {}) {
+    const { admin = false, ...query } = params;
+    return request<PageResponse<Course>>(`${admin ? "/api/courses/admin" : "/api/courses"}${toQueryString(query)}`);
   },
   getCategories() {
     return request<Category[]>("/api/categories");
@@ -118,6 +153,9 @@ export const api = {
   },
   getSkills() {
     return request<Skill[]>("/api/skills");
+  },
+  searchSkills(params: SkillSearchParams = {}) {
+    return request<PageResponse<Skill>>(`/api/skills/search${toQueryString(params)}`);
   },
   createSkill(payload: { name: string; description: string }) {
     return request<Skill>("/api/skills", {
@@ -161,19 +199,22 @@ export const api = {
       body: JSON.stringify(payload),
     });
   },
-  generateRecommendations(projectId: number) {
-    return request<RecommendationResponse>(`/api/projects/${projectId}/recommendations`, {
+  generateRecommendations(projectId: number, limit = 10) {
+    return request<RecommendationResponse>(`/api/projects/${projectId}/recommendations/generate${toQueryString({ limit })}`, {
       method: "POST",
     });
   },
   getLatestRecommendations(projectId: number) {
-    return request<RecommendationResponse>(`/api/projects/${projectId}/recommendations/latest`);
+    return request<RecommendationResponse>(`/api/projects/${projectId}/recommendations`);
   },
   getSavedCourses() {
     return request<SavedCourse[]>("/api/saved-courses");
   },
   saveCourse(courseId: number) {
     return request<SavedCourse>(`/api/saved-courses/${courseId}`, { method: "POST" });
+  },
+  recordCourseClick(courseId: number) {
+    return request<void>(`/api/courses/${courseId}/click`, { method: "POST" });
   },
   unsaveCourse(courseId: number) {
     return request<void>(`/api/saved-courses/${courseId}`, { method: "DELETE" });
@@ -190,7 +231,55 @@ export const api = {
   getAdminOverview() {
     return request<AdminOverview>("/api/admin/overview");
   },
+  getCatalogAnalytics() {
+    return request<CatalogAnalytics>("/api/admin/catalog-analytics");
+  },
+  getAdminBigDataPipeline() {
+    return request<AdminBigDataPayload>("/api/admin/bigdata/pipeline");
+  },
+  getAdminBigDataCatalogAnalytics() {
+    return request<AdminBigDataPayload>("/api/admin/bigdata/catalog-analytics");
+  },
+  getAdminBigDataEventsAnalytics() {
+    return request<AdminBigDataPayload>("/api/admin/bigdata/events-analytics");
+  },
+  getAdminBigDataRecommendationAnalytics() {
+    return request<AdminBigDataPayload>("/api/admin/bigdata/recommendation-analytics");
+  },
+  getAdminBigDataCommands() {
+    return request<AdminBigDataPayload>("/api/admin/bigdata/commands");
+  },
   getAdminUsers() {
     return request<UserSummary[]>("/api/admin/users");
+  },
+  updateAdminUser(id: number, payload: { role?: "USER" | "ADMIN"; active?: boolean }) {
+    return request<UserSummary>(`/api/admin/users/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+  },
+  getBigDataStatus() {
+    return request<BigDataStatus>("/api/bigdata/status");
+  },
+  getBigDataCatalogSummary() {
+    return request<Record<string, unknown>>("/api/bigdata/catalog-summary");
+  },
+  getBigDataLatestEvents(limit = 20) {
+    return request<Record<string, unknown>[]>(`/api/bigdata/events/latest${toQueryString({ limit })}`);
+  },
+  getBigDataHiveSummary() {
+    return request<Record<string, unknown>>("/api/bigdata/hive/summary");
+  },
+  getBigDataTopKeywords() {
+    return request<Record<string, unknown>>("/api/bigdata/mapreduce/top-keywords");
+  },
+  getBigDataHbaseCourseStats() {
+    return request<Record<string, unknown>>("/api/bigdata/hbase/course-stats");
+  },
+  getBigDataLatestRecommendation() {
+    return request<Record<string, unknown>>("/api/bigdata/recommendation/latest");
+  },
+  refreshBigDataAnalytics() {
+    return request<BigDataRefreshResponse>("/api/bigdata/analytics/refresh", { method: "POST" });
   },
 };

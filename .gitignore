@@ -43,3 +43,4 @@ apps/frontend/dist/
 apps/backend/*.log
 apps/frontend/*.log
 apps/frontend/*.pid
+.playwright-cli/

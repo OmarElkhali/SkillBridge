@@ -1,5 +1,6 @@
 package com.skillbridge.recommendation.dto;
 
+import com.skillbridge.bigdata.dto.BigDataTraceResponse;
 import com.skillbridge.projectidea.dto.ProjectIdeaResponse;
 
 import java.time.Instant;
@@ -12,6 +13,8 @@ public record RecommendationResponse(
         String keywordSummary,
         ProjectIdeaResponse project,
         List<DetectedSkillResponse> detectedSkills,
-        List<RecommendedCourseResponse> recommendations
+        List<MatchedCategoryResponse> matchedCategories,
+        List<RecommendedCourseResponse> recommendations,
+        BigDataTraceResponse bigDataTrace
 ) {
 }

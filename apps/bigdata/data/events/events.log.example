@@ -8,4 +8,5 @@
 {"eventType":"COURSE_CLICK","userId":4,"courseId":4,"timestamp":"2026-04-20T10:23:00Z"}
 {"eventType":"COURSE_SEARCH","userId":5,"query":"machine learning python","timestamp":"2026-04-20T10:24:00Z"}
 {"eventType":"COURSE_CLICK","userId":5,"courseId":5,"timestamp":"2026-04-20T10:25:00Z"}
+{"eventType":"PROJECT_RECOMMENDATION","source":"web-app","timestamp":"2026-04-20T10:26:00Z","userId":5,"projectId":1,"projectTitle":"Secure Spring Boot ecommerce","projectDescription":"Build a secure e-commerce app with Spring Boot, JWT, PostgreSQL, React and REST APIs.","requestedLimit":10,"detectedSkills":["Spring Boot","JWT","PostgreSQL","React","REST API"],"matchedCategories":["Backend Development","Application Security","Databases","Web Development"],"topRecommendedCourseIds":[1,2,3],"scores":[92,88,81]}
 

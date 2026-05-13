@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 import psycopg2
+from psycopg2 import sql
 from psycopg2.extras import execute_batch, execute_values
 
 
@@ -85,6 +86,26 @@ def count_table(conn, table):
     with conn.cursor() as cur:
         cur.execute(f"SELECT COUNT(*) FROM {table}")
         return cur.fetchone()[0]
+
+
+def sync_identity_sequences(conn, tables):
+    synced = {}
+    with conn.cursor() as cur:
+        for table in tables:
+            cur.execute("SELECT pg_get_serial_sequence(%s, 'id')", (table,))
+            sequence_name = cur.fetchone()[0]
+            if not sequence_name:
+                synced[table] = {"sequence": None, "max_id": None, "synced": False}
+                continue
+
+            cur.execute(sql.SQL("SELECT COALESCE(MAX(id), 0) FROM {}").format(sql.Identifier(table)))
+            max_value = cur.fetchone()[0]
+            if max_value > 0:
+                cur.execute("SELECT setval(%s, %s, true)", (sequence_name, max_value))
+            else:
+                cur.execute("SELECT setval(%s, 1, false)", (sequence_name,))
+            synced[table] = {"sequence": sequence_name, "max_id": max_value, "synced": True}
+    return synced
 
 
 def allocate_ids(items, existing, key_priority, start_id):
@@ -354,12 +375,14 @@ def apply_plan(conn, plan):
         cur.execute("DELETE FROM skills WHERE lower(name) = ANY(%s)", (list(invalid_skill_names),))
         removed_invalid_skills = cur.rowcount
 
+    sequence_sync = sync_identity_sequences(conn, ["providers", "categories", "skills", "courses"])
     report["after_counts"] = {table: count_table(conn, table) for table in ["providers", "categories", "skills", "courses", "course_skills"]}
     report["cleanup_invalid_skills"] = {
         "removed_course_skills": removed_invalid_relations,
         "removed_skills": removed_invalid_skills,
         "invalid_names": list(invalid_skill_names),
     }
+    report["sequence_sync"] = sequence_sync
     return report
 
 

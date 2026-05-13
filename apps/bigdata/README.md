@@ -365,7 +365,7 @@ project_ideas: 10
 Start Hadoop and Sqoop:
 
 ```powershell
-docker compose up -d namenode datanode resourcemanager nodemanager sqoop-client
+docker compose up -d --scale datanode=2 namenode datanode resourcemanager nodemanager sqoop-client
 Start-Sleep -Seconds 35
 docker compose exec namenode bash /opt/skillbridge/scripts/03_create_hdfs_dirs.sh
 docker compose exec sqoop-client bash /opt/skillbridge/scripts/04_sqoop_import_mvp.sh
@@ -399,6 +399,37 @@ Expected:
 ```
 
 Note: Sqoop runs in local MapReduce mode for stable Docker execution. This still proves Sqoop batch collection. The separate Java job proves MapReduce processing.
+
+## 11.1. Scalable HDFS DataNodes
+
+The `datanode` service is intentionally scalable. It has no fixed `container_name`, no fixed host port, and each replica receives its own anonymous HDFS data volume. This avoids conflicts when Docker creates several replicas.
+
+Start the default two DataNodes:
+
+```powershell
+docker compose up -d --scale datanode=2 namenode datanode resourcemanager nodemanager sqoop-client
+```
+
+Run the MVP pipeline with the default two DataNodes:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\10_run_mvp_pipeline.ps1
+```
+
+Run the full terminal lab with the default two DataNodes:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\18_run_full_terminal_lab.ps1 -Project "secure Spring Boot backend with JWT and PostgreSQL"
+```
+
+Verify active DataNodes:
+
+```powershell
+docker compose ps datanode
+docker compose exec namenode hdfs dfsadmin -report
+```
+
+Important: the DataNode web UI port is exposed only inside Docker because multiple replicas cannot all bind to the same Windows host port. Use `docker compose ps datanode`, `docker compose logs datanode`, and `hdfs dfsadmin -report` for verification.
 
 ## 12. How To Run Flume
 
@@ -514,13 +545,13 @@ Start HBase and load:
 docker compose up -d hbase
 Start-Sleep -Seconds 45
 python .\scripts\09_load_course_stats_hbase.py
-docker compose exec hbase hbase shell /opt/skillbridge/output/load_course_stats.hbase
+docker compose exec -T hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase
 ```
 
 Verify:
 
 ```powershell
-docker compose exec hbase hbase shell -n
+docker compose exec -T hbase /hbase/bin/hbase shell -n
 ```
 
 Inside HBase shell:
@@ -636,6 +667,52 @@ Full terminal lab with Supabase upsert:
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\18_run_full_terminal_lab.ps1 -PushSupabase
 ```
+
+Full terminal lab with scalable HDFS beyond the default two DataNodes:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\18_run_full_terminal_lab.ps1 -Datanodes 3
+```
+
+## 18.1. Link Big Data With The Web App
+
+The Big Data pipeline remains terminal-first and separate from the Spring Boot backend. The connection with the application is done through the curated catalog:
+
+```text
+Kaggle/Open data ZIP files
+  -> Python catalog builder
+  -> output/catalog/*.csv
+  -> safe Supabase upsert
+  -> Spring Boot reads Supabase through JPA
+  -> React consumes Spring Boot REST APIs
+```
+
+This is the correct separation:
+
+- The terminal pipeline proves Sqoop, HDFS, Flume, Hive, MapReduce, Python and HBase.
+- Supabase PostgreSQL remains the application source of truth.
+- The backend does not directly call Hadoop services during normal user requests.
+- The frontend stays simple: it calls Spring Boot only.
+
+After starting the backend, verify the app sees the Big Data catalog:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\20_verify_app_bigdata_link.ps1 -BackendUrl http://localhost:8081
+```
+
+Expected result:
+
+```text
+Courses visible through backend API: 17000+
+status: OK
+```
+
+If this fails, check:
+
+- backend `.env` points to the Supabase pooler URL
+- Supabase contains rows in `courses`
+- backend is running on port `8081`
+- `/api/courses` returns JSON
 
 ## 19. Nettoyage Du Projet
 
@@ -775,7 +852,7 @@ docker compose exec namenode hdfs dfs -ls /data/skillbridge/raw/sqoop/courses
 docker compose exec namenode hdfs dfs -ls /data/skillbridge/raw/flume/events
 docker compose exec hive-server beeline -u jdbc:hive2://localhost:10000 --silent=true --showHeader=true --outputformat=table -e "use skillbridge_bigdata; select count(*) from hive_courses; select count(*) from hive_events;"
 docker compose exec namenode hdfs dfs -cat /data/skillbridge/processed/mapreduce/top_search_keywords/part-r-00000
-docker compose exec hbase hbase shell /opt/skillbridge/output/load_course_stats.hbase
+docker compose exec -T hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase
 Get-Content .\output\bigdata-summary.json
 Get-Content .\output\recommendation_result.json
 ```
@@ -906,6 +983,6 @@ python .\scripts\08_match_project_skills.py
 docker compose up -d hbase
 Start-Sleep -Seconds 45
 python .\scripts\09_load_course_stats_hbase.py
-docker compose exec hbase hbase shell /opt/skillbridge/output/load_course_stats.hbase
+docker compose exec -T hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase
 python .\scripts\15_run_project_recommendation.py --project "I want to build a secure Spring Boot backend with JWT and PostgreSQL"
 ```

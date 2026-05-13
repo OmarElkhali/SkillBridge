@@ -1,6 +1,8 @@
 param(
     [switch] $PushSupabase,
-    [string] $Project
+    [string] $Project,
+    [ValidateRange(1, 20)]
+    [int] $Datanodes = 2
 )
 
 $ErrorActionPreference = "Stop"
@@ -61,6 +63,7 @@ function Show-Verify {
 
 Write-Host "=== SkillBridge full terminal Big Data lab ==="
 Write-Host "This script runs: catalog -> optional Supabase -> mirror -> Sqoop -> Flume -> Hive -> MapReduce -> Python -> HBase."
+Write-Host "HDFS DataNodes requested: $Datanodes"
 
 Show-Step "1" "Build du catalogue unifie" "Nettoyage et fusion des datasets ZIP en CSV propres."
 Run-Native python -m pip install -r requirements.txt
@@ -80,7 +83,7 @@ if ($PushSupabase) {
 Show-Verify "Get-Content .\output\catalog\supabase_import_report.json" "Le rapport indique les tables touchees et les tables non touchees."
 
 Show-Step "3" "Pipeline Big Data terminal" "Executer miroir PostgreSQL, Sqoop, Flume, Hive, MapReduce, Python et HBase."
-powershell -ExecutionPolicy Bypass -File .\scripts\10_run_mvp_pipeline.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\10_run_mvp_pipeline.ps1 -Datanodes $Datanodes
 Show-Result "Le pipeline Big Data terminal est termine."
 Show-Verify "Get-Content .\output\bigdata-summary.json" "Le resume final du pipeline est disponible."
 
@@ -100,6 +103,7 @@ $summary = [ordered]@{
     bigdata_summary = "output/bigdata-summary.json"
     recommendation_result = "output/recommendation_result.json"
     supabase_apply_enabled = [bool]$PushSupabase
+    datanodes_requested = $Datanodes
 }
 
 $summaryPath = ".\output\final-lab-summary.json"

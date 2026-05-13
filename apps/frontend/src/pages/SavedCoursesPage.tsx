@@ -41,18 +41,19 @@ export function SavedCoursesPage() {
         <h2 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-4xl leading-tight text-[#261b18]">Your shortlist for focused learning.</h2>
       </section>
       {message ? <p className={messageBanner}>{message}</p> : null}
-      <section className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+      <section className="grid items-start gap-5 md:grid-cols-2 2xl:grid-cols-3">
         {saved.map((item) => (
-          <article className={cx(panel, "grid gap-4")} key={item.id}>
+          <article className={cx(panel, "grid self-start gap-4")} key={item.id}>
             <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-[#6f5b54]">
-              <span>{item.course.provider.name}</span>
-              <span>{item.course.level}</span>
+              <span className="rounded-full bg-white/55 px-3 py-1">{item.course.provider.name}</span>
+              <span className="rounded-full bg-white/55 px-3 py-1">{item.course.level}</span>
             </div>
             <div className="grid gap-2">
               <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">{item.course.title}</h3>
-              <p className="text-sm leading-6 text-[#6f5b54]">{item.course.description}</p>
+              <p className="max-h-32 overflow-hidden text-sm leading-6 text-[#6f5b54]">{item.course.description}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-[#8c3f29]">Saved {new Date(item.savedAt).toLocaleDateString()}</p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <a className={primaryButton} href={item.course.sourceUrl} rel="noreferrer" target="_blank">
                 Open course
               </a>

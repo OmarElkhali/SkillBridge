@@ -1,5 +1,6 @@
 package com.skillbridge.projectidea.service;
 
+import com.skillbridge.bigdata.service.BigDataEventService;
 import com.skillbridge.common.exception.ResourceNotFoundException;
 import com.skillbridge.projectidea.dto.ProjectIdeaCreateRequest;
 import com.skillbridge.projectidea.dto.ProjectIdeaResponse;
@@ -10,16 +11,20 @@ import com.skillbridge.user.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
 public class ProjectIdeaService {
 
     private final ProjectIdeaRepository projectIdeaRepository;
+    private final BigDataEventService bigDataEventService;
 
-    public ProjectIdeaService(ProjectIdeaRepository projectIdeaRepository) {
+    public ProjectIdeaService(ProjectIdeaRepository projectIdeaRepository, BigDataEventService bigDataEventService) {
         this.projectIdeaRepository = projectIdeaRepository;
+        this.bigDataEventService = bigDataEventService;
     }
 
     public ProjectIdeaResponse create(ProjectIdeaCreateRequest request, User user) {
@@ -28,7 +33,14 @@ public class ProjectIdeaService {
         projectIdea.setTitle(request.title().trim());
         projectIdea.setDescription(request.description().trim());
         projectIdea.setStatus(ProjectStatus.ACTIVE);
-        return ProjectIdeaResponse.from(projectIdeaRepository.save(projectIdea));
+        ProjectIdea saved = projectIdeaRepository.save(projectIdea);
+        Map<String, Object> event = new LinkedHashMap<>();
+        event.put("userId", user.getId());
+        event.put("projectId", saved.getId());
+        event.put("projectTitle", saved.getTitle());
+        event.put("projectDescription", saved.getDescription());
+        bigDataEventService.appendEvent("PROJECT_CREATED", event);
+        return ProjectIdeaResponse.from(saved);
     }
 
     @Transactional(readOnly = true)

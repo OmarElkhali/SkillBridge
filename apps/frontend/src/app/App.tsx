@@ -4,6 +4,7 @@ import { AppShell } from "../components/AppShell";
 import { useAuth } from "../hooks/useAuth";
 import { AdminCatalogPage } from "../pages/AdminCatalogPage";
 import { AdminDashboardPage } from "../pages/AdminDashboardPage";
+import { BigDataStatusPage } from "../pages/BigDataStatusPage";
 import { CoursesPage } from "../pages/CoursesPage";
 import { DashboardPage } from "../pages/DashboardPage";
 import { LoginPage } from "../pages/LoginPage";
@@ -120,6 +121,9 @@ export function App() {
           </Route>
           <Route element={<RouteMeta title="Admin Skills" />}>
             <Route element={<AdminCatalogPage resource="skills" />} path="/admin/skills" />
+          </Route>
+          <Route element={<RouteMeta title="Big Data Status" />}>
+            <Route element={<BigDataStatusPage />} path="/admin/bigdata" />
           </Route>
         </Route>
       </Route>

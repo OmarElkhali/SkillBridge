@@ -39,6 +39,23 @@ Suggested sources:
 - MIT OpenCourseWare feeds or scrapers
 - future platform usage logs
 
+## Current Integration Boundary
+The current project intentionally keeps two execution modes:
+
+- Web application mode: `React -> Spring Boot -> Supabase PostgreSQL`.
+- Big Data lab mode: terminal scripts run `PostgreSQL mirror -> Sqoop -> HDFS -> Hive/MapReduce/Python -> HBase`.
+
+The bridge between both modes is the curated catalog. Big Data scripts build and validate catalog data, then the safe Supabase upsert updates only catalog tables. The backend then reads the final data from Supabase through Spring Data JPA. This avoids coupling user-facing API latency to Hadoop jobs.
+
+## HDFS Scalability Direction
+For local demonstration, the DataNode Docker service can be scaled with Docker Compose:
+
+`docker compose up -d --scale datanode=2 namenode datanode`
+
+This proves horizontal storage scaling at lab level. In a real cluster, the same idea becomes physical or virtual worker nodes, each running a DataNode process with its own disk. The NameNode remains responsible for metadata and block placement.
+
+When scaling DataNodes, avoid fixed host ports and fixed container names. Each DataNode must have independent storage, otherwise replicas conflict and the demonstration is not credible.
+
 ## Role Of Each Technology
 ### HDFS
 HDFS stores the raw and transformed datasets at scale.

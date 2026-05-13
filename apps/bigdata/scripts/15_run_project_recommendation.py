@@ -9,6 +9,8 @@ import psycopg2
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_PATH = ROOT / "output" / "recommendation_result.json"
+SUMMARY_PATH = ROOT / "output" / "bigdata-summary.json"
+CATALOG_REPORT_PATH = ROOT / "output" / "catalog" / "catalog_build_report.json"
 BACKEND_ENV = ROOT.parent / "backend" / ".env"
 PROJECT_REF = "kjhnukvekqkhixqymdgy"
 
@@ -61,6 +63,52 @@ def read_env_file(path):
         key, value = line.split("=", 1)
         values[key.strip()] = value.strip().strip('"').strip("'")
     return values
+
+
+def read_json_file(path):
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text(encoding="utf-8", errors="ignore"))
+    except json.JSONDecodeError:
+        return {"error": f"Unable to parse {path.name}"}
+
+
+def pipeline_trace():
+    summary = read_json_file(SUMMARY_PATH)
+    catalog_report = read_json_file(CATALOG_REPORT_PATH)
+    return {
+        "execution_mode": "terminal-first-bigdata-recommendation",
+        "namenode": {
+            "role": "HDFS metadata manager",
+            "verify_command": "docker compose exec namenode hdfs dfsadmin -report",
+        },
+        "datanodes": {
+            "role": "HDFS block storage workers",
+            "default_scale": 2,
+            "verify_command": "docker compose ps datanode",
+        },
+        "flume": {
+            "source": "data/events/events.log",
+            "sink": "/data/skillbridge/raw/flume/events",
+        },
+        "hdfs": {
+            "raw_events_path": "/data/skillbridge/raw/flume/events",
+            "mapreduce_output_path": "/data/skillbridge/processed/mapreduce/top_search_keywords",
+        },
+        "hive": summary.get("hive", {"status": "run Hive commands to refresh counts"}),
+        "mapreduce": summary.get("mapreduce", {"topSearchKeywords": summary.get("topSearchKeywords", [])}),
+        "hbase": summary.get("hbase", summary.get("course_stats", {"status": "run HBase load to refresh course_stats"})),
+        "catalog": catalog_report,
+        "refresh_commands": [
+            "docker compose up -d --scale datanode=2 namenode datanode flume-agent hive-metastore-postgresql hive-metastore hive-server hbase",
+            "docker compose exec namenode hdfs dfsadmin -report",
+            "docker compose exec hive-server beeline -u jdbc:hive2://localhost:10000 -e \"use skillbridge_bigdata; select count(*) from hive_events;\"",
+            "powershell -ExecutionPolicy Bypass -File .\\scripts\\07_run_mapreduce.ps1",
+            "python .\\scripts\\09_load_course_stats_hbase.py",
+            "docker compose exec -T hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase",
+        ],
+    }
 
 
 def db_config(source):
@@ -243,6 +291,7 @@ def recommend(conn, project_text, limit):
         "detected_skills": detected_skills,
         "matched_categories": detected_categories,
         "recommendations": scored[:limit],
+        "pipeline_trace": pipeline_trace(),
     }
 
 

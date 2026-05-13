@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,9 +61,27 @@ public class ProjectIdeaController {
     @PostMapping("/{id}/recommendations")
     public com.skillbridge.recommendation.dto.RecommendationResponse generateRecommendations(
             @PathVariable Long id,
+            @RequestParam(defaultValue = "10") int limit,
             @AuthenticationPrincipal AppUserPrincipal principal
     ) {
-        return recommendationService.generateForProject(id, userService.getCurrentUser(principal));
+        return recommendationService.generateForProject(id, userService.getCurrentUser(principal), limit);
+    }
+
+    @PostMapping("/{id}/recommendations/generate")
+    public com.skillbridge.recommendation.dto.RecommendationResponse generateRecommendationsAlias(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "10") int limit,
+            @AuthenticationPrincipal AppUserPrincipal principal
+    ) {
+        return recommendationService.generateForProject(id, userService.getCurrentUser(principal), limit);
+    }
+
+    @GetMapping("/{id}/recommendations")
+    public com.skillbridge.recommendation.dto.RecommendationResponse recommendations(
+            @PathVariable Long id,
+            @AuthenticationPrincipal AppUserPrincipal principal
+    ) {
+        return recommendationService.latestForProject(id, userService.getCurrentUser(principal));
     }
 
     @GetMapping("/{id}/recommendations/latest")

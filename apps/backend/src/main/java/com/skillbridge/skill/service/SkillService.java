@@ -1,11 +1,14 @@
 package com.skillbridge.skill.service;
 
+import com.skillbridge.common.dto.PageResponse;
 import com.skillbridge.common.exception.BadRequestException;
 import com.skillbridge.common.exception.ResourceNotFoundException;
 import com.skillbridge.skill.dto.SkillRequest;
 import com.skillbridge.skill.dto.SkillResponse;
 import com.skillbridge.skill.entity.Skill;
 import com.skillbridge.skill.repository.SkillRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,15 @@ public class SkillService {
     @Transactional(readOnly = true)
     public List<SkillResponse> findAll() {
         return skillRepository.findAll().stream().map(SkillResponse::from).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<SkillResponse> search(int page, int size, String query) {
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.max(1, Math.min(size, 100));
+        String normalizedQuery = query == null || query.isBlank() ? null : query.trim();
+        Page<Skill> result = skillRepository.search(normalizedQuery, PageRequest.of(safePage, safeSize));
+        return PageResponse.from(result, result.getContent().stream().map(SkillResponse::from).toList());
     }
 
     public SkillResponse create(SkillRequest request) {

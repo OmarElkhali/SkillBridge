@@ -1,12 +1,16 @@
 package com.skillbridge.user.controller;
 
 import com.skillbridge.security.AppUserPrincipal;
+import com.skillbridge.user.dto.AdminUserUpdateRequest;
 import com.skillbridge.user.dto.UserSummaryResponse;
 import com.skillbridge.user.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -29,5 +33,15 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserSummaryResponse> listUsers() {
         return userService.listUsers();
+    }
+
+    @PatchMapping("/api/admin/users/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public UserSummaryResponse updateUserAssignment(
+            @PathVariable Long id,
+            @RequestBody AdminUserUpdateRequest request,
+            @AuthenticationPrincipal AppUserPrincipal principal
+    ) {
+        return userService.updateUserAssignment(id, request, principal);
     }
 }

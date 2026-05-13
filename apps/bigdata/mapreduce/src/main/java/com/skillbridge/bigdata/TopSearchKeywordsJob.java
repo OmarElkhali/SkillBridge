@@ -32,11 +32,14 @@ public class TopSearchKeywordsJob {
         @Override
         protected void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
-            if (!"COURSE_SEARCH".equals(jsonField(line, "eventType"))) {
+            String eventType = jsonField(line, "eventType");
+            if (!"COURSE_SEARCH".equals(eventType) && !"PROJECT_RECOMMENDATION".equals(eventType)) {
                 return;
             }
 
-            String query = jsonField(line, "query").toLowerCase(Locale.ROOT);
+            String query = "COURSE_SEARCH".equals(eventType)
+                    ? jsonField(line, "query").toLowerCase(Locale.ROOT)
+                    : (jsonField(line, "projectTitle") + " " + jsonField(line, "projectDescription")).toLowerCase(Locale.ROOT);
             Matcher matcher = TOKEN_PATTERN.matcher(query);
             while (matcher.find()) {
                 String token = matcher.group();
