@@ -15,11 +15,12 @@ const userLinks = [
 
 const adminLinks = [
   { to: "/admin", label: "Admin Overview", icon: <AdminIcon /> },
+  { to: "/admin/users", label: "Users", icon: <UsersIcon /> },
   { to: "/admin/courses", label: "Courses", icon: <CoursesIcon /> },
   { to: "/admin/categories", label: "Categories", icon: <CategoryIcon /> },
   { to: "/admin/providers", label: "Providers", icon: <ProviderIcon /> },
   { to: "/admin/skills", label: "Skills", icon: <SkillsIcon /> },
-  { to: "/admin/bigdata", label: "Big Data", icon: <PipelineIcon /> },
+  { to: "/admin/bigdata", label: "Big Data & Analytics", icon: <PipelineIcon /> },
 ];
 
 function SidebarLink({
@@ -39,10 +40,10 @@ function SidebarLink({
     <NavLink
       className={({ isActive }) =>
         cx(
-          "group flex items-center gap-3.5 rounded-[1.25rem] border px-4 py-3.5 text-[0.95rem] font-bold transition-all duration-300",
+          "group relative flex items-center gap-3.5 rounded-2xl border px-4 py-3.5 text-[0.95rem] font-bold transition-all duration-300 overflow-hidden",
           isActive
-            ? "border-[var(--accent-border-strong)] bg-[var(--accent-wash-strong)] text-[var(--color-accent-dark)] shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]"
-            : "border-transparent text-[var(--color-text-muted)] hover:border-[var(--accent-border)] hover:bg-[var(--accent-wash)] hover:text-[var(--color-accent-dark)]",
+            ? "border-transparent bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-accent-dark)] text-white shadow-md shadow-[var(--color-accent)]/30"
+            : "border-transparent text-[var(--color-text-muted)] hover:bg-black/5 hover:text-[var(--color-text-strong)]",
         )
       }
       onClick={onClick}
@@ -118,7 +119,7 @@ export function AppShell({ children }: PropsWithChildren) {
 
       <aside
         className={cx(
-          "fixed inset-y-0 left-0 z-40 flex min-h-screen flex-col justify-between overflow-x-hidden border-r border-[var(--line-soft)] bg-[var(--color-surface-strong)] px-4 py-8 shadow-[12px_0_40px_rgba(62,39,35,0.04)] backdrop-blur-3xl transition-all duration-300",
+          "fixed inset-y-0 left-0 z-40 flex min-h-screen flex-col justify-between overflow-x-hidden border-r border-[var(--line-soft)] bg-white/70 px-4 py-8 shadow-[12px_0_40px_rgba(62,39,35,0.03)] backdrop-blur-3xl transition-all duration-300",
           mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
           collapsed ? "w-[92px]" : "w-[300px]",
         )}
@@ -296,6 +297,17 @@ function PipelineIcon() {
       <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
       <line x1="6" y1="6" x2="6.01" y2="6" />
       <line x1="6" y1="18" x2="6.01" y2="18" />
+    </SidebarIcon>
+  );
+}
+
+function UsersIcon() {
+  return (
+    <SidebarIcon>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </SidebarIcon>
   );
 }

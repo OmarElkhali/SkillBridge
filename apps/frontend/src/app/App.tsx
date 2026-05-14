@@ -4,6 +4,7 @@ import { AppShell } from "../components/AppShell";
 import { useAuth } from "../hooks/useAuth";
 import { AdminCatalogPage } from "../pages/AdminCatalogPage";
 import { AdminDashboardPage } from "../pages/AdminDashboardPage";
+import { AdminUsersPage } from "../pages/AdminUsersPage";
 import { BigDataStatusPage } from "../pages/BigDataStatusPage";
 import { CoursesPage } from "../pages/CoursesPage";
 import { DashboardPage } from "../pages/DashboardPage";
@@ -109,6 +110,9 @@ export function App() {
         <Route element={<AdminGate />}>
           <Route element={<RouteMeta title="Admin Overview" />}>
             <Route element={<AdminDashboardPage />} path="/admin" />
+          </Route>
+          <Route element={<RouteMeta title="Admin Users" />}>
+            <Route element={<AdminUsersPage />} path="/admin/users" />
           </Route>
           <Route element={<RouteMeta title="Admin Courses" />}>
             <Route element={<AdminCatalogPage resource="courses" />} path="/admin/courses" />
