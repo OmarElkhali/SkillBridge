@@ -13,6 +13,8 @@ interface AuthContextValue {
   initialized: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: (idToken: string) => Promise<void>;
+  loginWithGithub: (code: string, redirectUri: string) => Promise<void>;
   register: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
@@ -64,6 +66,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
     initialized,
     isAuthenticated: Boolean(user),
     login: async (email, password) => applyAuthResponse(api.login(email, password)),
+    loginWithGoogle: async (idToken) => applyAuthResponse(api.loginWithGoogle(idToken)),
+    loginWithGithub: async (code, redirectUri) => applyAuthResponse(api.loginWithGithub(code, redirectUri)),
     register: async (firstName, lastName, email, password) =>
       applyAuthResponse(api.register(firstName, lastName, email, password)),
     logout: () => {

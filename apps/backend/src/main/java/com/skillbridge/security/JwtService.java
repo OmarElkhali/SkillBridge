@@ -35,12 +35,20 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
+        try {
+            return extractClaims(token).getSubject();
+        } catch (RuntimeException ex) {
+            return null;
+        }
     }
 
     public boolean isTokenValid(String token, AppUserPrincipal principal) {
-        Claims claims = extractClaims(token);
-        return principal.getUsername().equals(claims.getSubject()) && claims.getExpiration().after(new Date());
+        try {
+            Claims claims = extractClaims(token);
+            return principal.getUsername().equals(claims.getSubject()) && claims.getExpiration().after(new Date());
+        } catch (RuntimeException ex) {
+            return false;
+        }
     }
 
     private Claims extractClaims(String token) {

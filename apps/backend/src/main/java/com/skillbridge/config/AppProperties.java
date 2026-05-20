@@ -6,7 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public record AppProperties(
         Jwt jwt,
         Cors cors,
-        Bootstrap bootstrap
+        Bootstrap bootstrap,
+        Security security,
+        Oauth oauth
 ) {
     public record Jwt(String secret, long expirationMs) {}
 
@@ -17,5 +19,24 @@ public record AppProperties(
             String adminPassword,
             String adminFirstName,
             String adminLastName
+    ) {}
+
+    public record Security(
+            int maxLoginAttempts,
+            long loginLockMinutes,
+            long loginAttemptWindowMinutes
+    ) {}
+
+    public record Oauth(
+            Google google,
+            Github github
+    ) {}
+
+    public record Google(String allowedAudiences) {}
+
+    public record Github(
+            String clientId,
+            String clientSecret,
+            String redirectUri
     ) {}
 }

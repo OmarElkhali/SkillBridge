@@ -98,17 +98,31 @@ ADMIN_EMAIL=<ADMIN_EMAIL>
 ADMIN_PASSWORD=<ADMIN_PASSWORD>
 ADMIN_FIRST_NAME=Platform
 ADMIN_LAST_NAME=Admin
+SECURITY_MAX_LOGIN_ATTEMPTS=5
+SECURITY_LOGIN_LOCK_MINUTES=15
+SECURITY_LOGIN_ATTEMPT_WINDOW_MINUTES=15
+GOOGLE_ALLOWED_AUDIENCES=<GOOGLE_WEB_CLIENT_ID>
+GITHUB_CLIENT_ID=<GITHUB_CLIENT_ID>
+GITHUB_CLIENT_SECRET=<GITHUB_CLIENT_SECRET>
+GITHUB_REDIRECT_URI=http://localhost:5173/login
 ```
 
 Important:
 
 - `DB_PASSWORD` is the Supabase database password, not the website login password.
 - `JWT_SECRET` must be long. Example format: `replace-this-with-a-very-long-random-secret-123456`.
+- `CORS_ALLOWED_ORIGINS` must be explicit origins separated by commas. Do not use `*` because credentials are enabled.
+- Login endpoint now has built-in brute-force protection. After too many failed attempts from the same email+IP pair, login is temporarily blocked.
+- `GOOGLE_ALLOWED_AUDIENCES` must include your Google OAuth Web Client ID if you want Google login enabled.
+- `GITHUB_REDIRECT_URI` must match your GitHub OAuth app callback URL exactly.
 
 ### Frontend `.env`
 
 ```properties
 VITE_API_BASE_URL=http://localhost:8081
+VITE_GOOGLE_CLIENT_ID=<GOOGLE_WEB_CLIENT_ID>
+VITE_GITHUB_CLIENT_ID=<GITHUB_CLIENT_ID>
+VITE_GITHUB_REDIRECT_URI=http://localhost:5173/login
 ```
 
 ### Big Data `.env`
@@ -136,6 +150,42 @@ SKILLBRIDGE_DATASET_RICH_ZIP=C:\Users\<FRIEND_NAME>\Downloads\archive (2).zip
 HDFS_BASE=/data/skillbridge
 HIVE_DATABASE=skillbridge_bigdata
 ```
+
+## 4.5 Google OAuth Setup (Optional but Recommended)
+
+If you want users to log in with Google, configure OAuth first:
+
+1. Open Google Cloud Console and select your project.
+2. Configure OAuth consent screen.
+3. Create an OAuth 2.0 Client ID for a Web application.
+4. Add your local frontend origin (`http://localhost:5173`) to Authorized JavaScript origins.
+5. Copy the generated Web Client ID.
+6. Set both:
+   - `VITE_GOOGLE_CLIENT_ID=<that client id>` in `apps/frontend/.env`
+   - `GOOGLE_ALLOWED_AUDIENCES=<that same client id>` in `apps/backend/.env`
+
+For a complete step-by-step guide see:
+- `docs/auth/google-oauth-setup.md`
+
+## 4.6 GitHub OAuth Setup (Optional)
+
+If you also want GitHub login:
+
+1. Open GitHub `Settings` -> `Developer settings` -> `OAuth Apps`.
+2. Create a new OAuth App.
+3. Set callback URL to `http://localhost:5173/login`.
+4. Copy:
+   - `Client ID`
+   - `Client Secret`
+5. Set:
+   - `VITE_GITHUB_CLIENT_ID=<client id>` in `apps/frontend/.env`
+   - `VITE_GITHUB_REDIRECT_URI=http://localhost:5173/login` in `apps/frontend/.env`
+   - `GITHUB_CLIENT_ID=<client id>` in `apps/backend/.env`
+   - `GITHUB_CLIENT_SECRET=<client secret>` in `apps/backend/.env`
+   - `GITHUB_REDIRECT_URI=http://localhost:5173/login` in `apps/backend/.env`
+
+Complete guide:
+- `docs/auth/github-oauth-setup.md`
 
 ## 5. Run The Setup Check
 

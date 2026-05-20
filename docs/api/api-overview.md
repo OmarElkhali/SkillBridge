@@ -3,7 +3,14 @@
 ## Authentication
 - `POST /api/auth/register`
 - `POST /api/auth/login`
+- `POST /api/auth/google`
+- `POST /api/auth/github`
 - `GET /api/users/me`
+
+Auth notes:
+- Send JWT as `Authorization: Bearer <token>` for protected endpoints.
+- `POST /api/auth/login` can return HTTP `429 Too Many Requests` when temporary lockout is active after repeated failed attempts.
+- Protected endpoints return `401` when auth is missing/invalid and `403` when role/authorization checks fail.
 
 ## Public Catalog Reads
 - `GET /api/courses`

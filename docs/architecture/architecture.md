@@ -47,3 +47,16 @@ The system follows an API-first design. The frontend never talks directly to Sup
 - The frontend stays focused on workflow, usability, and explainability.
 - Skills are the bridge entity between ideas and courses.
 - Stored snapshots make demos and jury defense easier because the result is reproducible.
+
+## Security State (May 20, 2026)
+- Spring Security is fully active with stateless JWT auth.
+- Google OAuth sign-in is available through `POST /api/auth/google` (Google ID token verification on backend, SkillBridge JWT issuance).
+- GitHub OAuth sign-in is available through `POST /api/auth/github` (authorization code exchange + profile/email fetch on backend, SkillBridge JWT issuance).
+- `@PreAuthorize("hasRole('ADMIN')")` protects admin APIs, while user data APIs are owner-scoped in service logic.
+- Login brute-force mitigation is enabled:
+  - configurable max failed attempts
+  - temporary lock window
+  - HTTP `429` on lockout
+- Invalid or malformed JWTs are now treated as unauthenticated requests instead of surfacing internal parsing errors.
+- Default HTTP hardening headers are enabled (`X-Content-Type-Options`, frame deny, no-referrer, HSTS).
+- CORS config rejects wildcard origins when credentials are enabled.

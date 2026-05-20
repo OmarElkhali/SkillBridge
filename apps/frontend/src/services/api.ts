@@ -102,6 +102,18 @@ export const api = {
       body: JSON.stringify({ email, password }),
     });
   },
+  loginWithGoogle(idToken: string) {
+    return request<AuthResponse>("/api/auth/google", {
+      method: "POST",
+      body: JSON.stringify({ idToken }),
+    });
+  },
+  loginWithGithub(code: string, redirectUri: string) {
+    return request<AuthResponse>("/api/auth/github", {
+      method: "POST",
+      body: JSON.stringify({ code, redirectUri }),
+    });
+  },
   register(firstName: string, lastName: string, email: string, password: string) {
     return request<AuthResponse>("/api/auth/register", {
       method: "POST",
