@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>SkillBridge Big Data Deep Dive</title>
+<style>
+@page { size: A4; margin: 13mm 12mm; }
+* { box-sizing: border-box; }
+body { margin:0; background:#f5efe8; color:#251713; font-family: Segoe UI, Arial, sans-serif; line-height:1.45; }
+.page { max-width:1160px; margin:0 auto; background:#fff; padding:34px 42px; }
+.cover { min-height:900px; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(135deg,#fff8ef,#efd1bd); border:2px solid #e6c7b4; border-radius:22px; padding:48px; }
+h1 { font-size:38px; line-height:1.08; margin:0 0 16px; color:#1b100c; }
+h2 { font-size:25px; border-top:2px solid #efd1bd; padding-top:14px; margin:28px 0 12px; break-after:avoid; }
+h3 { font-size:18px; color:#9d431d; margin:18px 0 8px; }
+p { margin:0 0 10px; }
+.lead { font-size:18px; max-width:850px; color:#5f473d; }
+.eyebrow { text-transform:uppercase; letter-spacing:.18em; color:#b55222; font-weight:800; font-size:12px; }
+.metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:28px; }
+.metric,.card { border:1px solid #ecd1bf; background:#fffaf5; border-radius:13px; padding:13px; break-inside:avoid; }
+.metric b { display:block; font-size:25px; color:#b55222; }
+.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+table { width:100%; border-collapse:collapse; margin:10px 0 18px; font-size:11.7px; break-inside:auto; }
+th,td { border:1px solid #ecd1bf; padding:7px 8px; vertical-align:top; }
+th { background:#f1dccd; text-align:left; color:#2d1912; }
+pre { background:#21120d; color:#fff2e7; border-radius:9px; padding:12px; font-size:10.5px; white-space:pre-wrap; overflow-wrap:anywhere; }
+code { background:#f2e0d2; padding:1px 5px; border-radius:5px; }
+.figure { border:1px solid #ecd1bf; border-radius:15px; background:#fffdf9; padding:12px; margin:14px 0 20px; break-inside:avoid; }
+.caption { font-weight:800; color:#94401d; font-size:13px; }
+.note { border-left:4px solid #c7652d; background:#fff3e8; padding:10px 12px; border-radius:8px; margin:12px 0; }
+.pagebreak { break-before:page; }
+svg { width:100%; height:auto; display:block; }
+.box { fill:#fff8ef; stroke:#c7652d; stroke-width:2; rx:12; }
+.box2 { fill:#f0fbff; stroke:#21748c; stroke-width:2; rx:12; }
+.store { fill:#fff; stroke:#6b3a24; stroke-width:2; }
+.arrow { stroke:#6b3a24; stroke-width:2.4; fill:none; marker-end:url(#arrow); }
+svg text { font:700 13px Segoe UI, Arial, sans-serif; fill:#241713; }
+svg text.small { font:600 11px Segoe UI, Arial, sans-serif; fill:#6b5148; }
+</style>
+</head>
+<body><div class="page">
+<section class="cover">
+<div class="eyebrow">Rapport technique detaille</div>
+<h1>SkillBridge Big Data Deep Dive: conteneurs, fichiers, code, pipeline et commandes de demonstration</h1>
+<p class="lead">Ce PDF explique en profondeur tout le module <code>apps/bigdata</code>: role de chaque conteneur, role de chaque fichier, fonctionnement de Sqoop, Flume, HDFS, Hive, HBase et MapReduce, impact sur les use cases web, et commandes terminal pour prouver chaque partie.</p>
+<div class="metrics">
+<div class="metric"><b>17072</b>cours unifies</div>
+<div class="metric"><b>13647</b>skills</div>
+<div class="metric"><b>104006</b>liens course-skill</div>
+<div class="metric"><b>11</b>conteneurs documentes</div>
+</div>
+<div class="note">Generation basee sur les fichiers du repository, les rapports <code>output/*.json</code> et les commandes Docker/HDFS/Hive disponibles localement.</div>
+</section>
+
+<section class="pagebreak"><h2>1. Architecture generale Big Data</h2><div class="figure"><p class="caption">Figure 1 - Flux global donnees et analytics</p>
+<svg viewBox="0 0 1100 520" role="img" aria-label="Architecture Big Data">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6b3a24"/></marker></defs>
+<rect x="35" y="45" width="170" height="65" class="box"/><text x="120" y="82" text-anchor="middle">ZIP datasets</text>
+<rect x="270" y="45" width="190" height="65" class="box2"/><text x="365" y="74" text-anchor="middle">Python catalog</text><text x="365" y="94" text-anchor="middle" class="small">clean, enrich, dedupe</text>
+<rect x="525" y="45" width="180" height="65" class="box"/><text x="615" y="74" text-anchor="middle">CSV output</text><text x="615" y="94" text-anchor="middle" class="small">courses, skills, links</text>
+<ellipse cx="850" cy="78" rx="95" ry="42" class="store"/><text x="850" y="75" text-anchor="middle">Supabase</text><text x="850" y="95" text-anchor="middle" class="small">application DB</text>
+<ellipse cx="365" cy="215" rx="95" ry="42" class="store"/><text x="365" y="212" text-anchor="middle">Postgres mirror</text><text x="365" y="232" text-anchor="middle" class="small">Docker source</text>
+<rect x="540" y="185" width="130" height="60" class="box2"/><text x="605" y="220" text-anchor="middle">Sqoop</text>
+<ellipse cx="790" cy="215" rx="95" ry="42" class="store"/><text x="790" y="212" text-anchor="middle">HDFS</text><text x="790" y="232" text-anchor="middle" class="small">raw/processed</text>
+<rect x="215" y="340" width="150" height="60" class="box"/><text x="290" y="375" text-anchor="middle">events.log</text>
+<rect x="430" y="340" width="130" height="60" class="box2"/><text x="495" y="375" text-anchor="middle">Flume</text>
+<rect x="680" y="340" width="130" height="60" class="box"/><text x="745" y="375" text-anchor="middle">Hive</text>
+<rect x="850" y="340" width="150" height="60" class="box2"/><text x="925" y="375" text-anchor="middle">MapReduce</text>
+<ellipse cx="930" cy="465" rx="88" ry="38" class="store"/><text x="930" y="462" text-anchor="middle">HBase</text><text x="930" y="481" text-anchor="middle" class="small">course_stats</text>
+<path d="M205 78 L270 78" class="arrow"/><path d="M460 78 L525 78" class="arrow"/><path d="M705 78 L755 78" class="arrow"/>
+<path d="M615 110 C570 170, 475 190, 450 205" class="arrow"/><path d="M460 215 L540 215" class="arrow"/><path d="M670 215 L695 215" class="arrow"/>
+<path d="M365 110 C330 145, 330 170, 350 178" class="arrow"/>
+<path d="M365 340 C410 310, 515 295, 705 240" class="arrow"/>
+<path d="M365 370 L430 370" class="arrow"/><path d="M560 370 C620 335, 700 285, 760 255" class="arrow"/>
+<path d="M790 257 L745 340" class="arrow"/><path d="M810 257 L925 340" class="arrow"/><path d="M925 400 L930 427" class="arrow"/>
+</svg></div>
+<p>Le pipeline est separe en deux mondes: Supabase comme base officielle de l'application, et PostgreSQL mirror + Hadoop comme laboratoire Big Data. Cette separation evite de mettre Hadoop dans le chemin critique des requetes web.</p>
+<table><thead><tr><th>Couche</th><th>Responsabilite</th><th>Impact</th></tr></thead><tbody><tr><td>Sqoop</td><td>Collecte batch</td><td>Lit les tables PostgreSQL mirror via JDBC et écrit des fichiers texte tabulés dans HDFS.</td><td>Prouve l&#x27;import relationnel massif vers Big Data.</td></tr>
+<tr><td>Flume</td><td>Collecte streaming</td><td>Suit events.log et envoie les lignes JSON vers HDFS avec source exec, channel memory, sink HDFS.</td><td>Relie les actions web au data lake.</td></tr>
+<tr><td>HDFS</td><td>Stockage distribué</td><td>Stocke les zones raw/sqoop, raw/flume, processed/mapreduce.</td><td>Base commune pour Hive et MapReduce.</td></tr>
+<tr><td>Hive</td><td>SQL analytique</td><td>Déclare des tables externes sur les dossiers HDFS et lance les requêtes demo.</td><td>Permet d&#x27;expliquer les données avec SQL.</td></tr>
+<tr><td>MapReduce</td><td>Traitement distribué Java</td><td>Mapper extrait les tokens des événements COURSE_SEARCH/PROJECT_RECOMMENDATION, Reducer somme les compteurs.</td><td>Produit les top mots-clés recherchés.</td></tr>
+<tr><td>HBase</td><td>Serving key/value</td><td>Table course_stats avec familles meta et activity.</td><td>Expose des statistiques rapides par course_id.</td></tr>
+<tr><td>Python</td><td>Préparation et traitement métier</td><td>Nettoyage catalogue, seed mirror, matching projet-skill, génération scripts HBase.</td><td>Fait le lien business entre web app et pipeline.</td></tr></tbody></table></section>
+
+<section class="pagebreak"><h2>2. Etat Docker observe pendant la generation</h2><p>Cette sortie montre les conteneurs visibles via Docker au moment de produire le rapport.</p><pre>NAMES                                   IMAGE                                                    STATUS                 PORTS
+sad_mahavira                            ghcr.io/github/github-mcp-server                         Up 6 hours             8082/tcp
+skillbridge-flume-agent                 skillbridge-flume:1.9.0-hadoop2.7.4                      Up 6 hours             
+bigdata-datanode-2                      bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8          Up 6 hours (healthy)   50075/tcp
+bigdata-datanode-1                      bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8          Up 6 hours (healthy)   50075/tcp
+skillbridge-sqoop-client                skillbridge-sqoop:1.4.7-hadoop2.7.4                      Up 6 hours             
+skillbridge-hbase                       harisekhon/hbase:latest                                  Up 6 hours             0.0.0.0:16010-&gt;16010/tcp, [::]:16010-&gt;16010/tcp
+skillbridge-hive-server                 bde2020/hive:2.3.2-postgresql-metastore                  Up 6 hours             0.0.0.0:10000-&gt;10000/tcp, [::]:10000-&gt;10000/tcp
+skillbridge-hive-metastore              bde2020/hive:2.3.2-postgresql-metastore                  Up 6 hours             0.0.0.0:9083-&gt;9083/tcp, [::]:9083-&gt;9083/tcp
+skillbridge-hive-metastore-postgresql   bde2020/hive-metastore-postgresql:2.3.0                  Up 6 hours             5432/tcp
+skillbridge-nodemanager                 bde2020/hadoop-nodemanager:2.0.0-hadoop2.7.4-java8       Up 6 hours (healthy)   0.0.0.0:8042-&gt;8042/tcp, [::]:8042-&gt;8042/tcp
+skillbridge-resourcemanager             bde2020/hadoop-resourcemanager:2.0.0-hadoop2.7.4-java8   Up 6 hours (healthy)   0.0.0.0:8088-&gt;8088/tcp, [::]:8088-&gt;8088/tcp
+skillbridge-namenode                    bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8          Up 6 hours (healthy)   0.0.0.0:9000-&gt;9000/tcp, [::]:9000-&gt;9000/tcp, 0.0.0.0:9870-&gt;50070/tcp, [::]:9870-&gt;50070/tcp
+skillbridge-postgres-mirror             postgres:16                                              Up 6 hours             0.0.0.0:5433-&gt;5432/tcp, [::]:5433-&gt;5432/tcp</pre></section>
+
+<section class="pagebreak"><h2>3. Detail exhaustif des conteneurs</h2>
+<table><thead><tr><th>Conteneur</th><th>Image</th><th>Fonction</th><th>Impact metier</th><th>Port</th><th>Commande demo</th></tr></thead><tbody><tr><td>postgres-mirror</td><td>postgres:16</td><td>Source relationnelle locale pour le pipeline</td><td>Reçoit le catalogue CSV nettoyé. Sqoop lit cette base au lieu de toucher Supabase.</td><td>5433:5432</td><td>docker exec skillbridge-postgres-mirror psql -U skillbridge -d skillbridge -c &quot;select count(*) from courses;&quot;</td></tr>
+<tr><td>namenode</td><td>bde2020/hadoop-namenode</td><td>Maître HDFS</td><td>Gère les métadonnées HDFS: noms de fichiers, chemins, blocs, réplication.</td><td>9870, 9000</td><td>docker exec skillbridge-namenode hdfs dfsadmin -report</td></tr>
+<tr><td>datanode</td><td>bde2020/hadoop-datanode</td><td>Stockage HDFS</td><td>Stocke physiquement les blocs HDFS. Le projet démarre deux DataNodes pour montrer la distribution.</td><td>50075 interne</td><td>docker ps --filter name=bigdata-datanode</td></tr>
+<tr><td>resourcemanager</td><td>bde2020/hadoop-resourcemanager</td><td>Planificateur YARN</td><td>Coordonne l&#x27;exécution des traitements MapReduce/YARN.</td><td>8088</td><td>docker logs skillbridge-resourcemanager --tail 40</td></tr>
+<tr><td>nodemanager</td><td>bde2020/hadoop-nodemanager</td><td>Worker YARN</td><td>Exécute les tâches que YARN lui assigne.</td><td>8042</td><td>docker logs skillbridge-nodemanager --tail 40</td></tr>
+<tr><td>sqoop-client</td><td>skillbridge-sqoop</td><td>Collecte batch PostgreSQL -&gt; HDFS</td><td>Importe providers, categories, skills, courses, course_skills, project_ideas, saved_courses, course_progress.</td><td>-</td><td>docker exec skillbridge-sqoop-client bash /opt/skillbridge/scripts/04_sqoop_import_mvp.sh</td></tr>
+<tr><td>flume-agent</td><td>skillbridge-flume</td><td>Collecte streaming events.log -&gt; HDFS</td><td>Suit le fichier events.log et pousse chaque ligne JSON vers HDFS.</td><td>-</td><td>docker logs skillbridge-flume-agent --tail 80</td></tr>
+<tr><td>hive-metastore-postgresql</td><td>bde2020/hive-metastore-postgresql</td><td>Base interne du metastore Hive</td><td>Stocke les métadonnées Hive: bases, tables, colonnes, emplacements HDFS.</td><td>5432 interne</td><td>docker logs skillbridge-hive-metastore-postgresql --tail 40</td></tr>
+<tr><td>hive-metastore</td><td>bde2020/hive</td><td>Service metastore Hive</td><td>Expose les définitions de tables à Hive Server.</td><td>9083</td><td>docker logs skillbridge-hive-metastore --tail 40</td></tr>
+<tr><td>hive-server</td><td>bde2020/hive</td><td>Serveur SQL Hive</td><td>Permet d&#x27;exécuter Beeline et les requêtes SQL sur les fichiers HDFS.</td><td>10000</td><td>docker exec skillbridge-hive-server beeline -u jdbc:hive2://localhost:10000 -e &quot;show databases;&quot;</td></tr>
+<tr><td>hbase</td><td>harisekhon/hbase</td><td>Serving key/value course_stats</td><td>Stocke les statistiques finales par course_id: clicks, saves, avg_progress, title.</td><td>16010</td><td>docker exec -i skillbridge-hbase /hbase/bin/hbase shell -n</td></tr></tbody></table>
+<h3>Explication par conteneur</h3>
+<div class="card"><h3>postgres-mirror</h3><p><b>Role:</b> Source relationnelle locale pour le pipeline. Reçoit le catalogue CSV nettoyé. Sqoop lit cette base au lieu de toucher Supabase.</p><p><b>Commande de preuve:</b> <code>docker exec skillbridge-postgres-mirror psql -U skillbridge -d skillbridge -c &quot;select count(*) from courses;&quot;</code></p></div><div class="card"><h3>namenode</h3><p><b>Role:</b> Maître HDFS. Gère les métadonnées HDFS: noms de fichiers, chemins, blocs, réplication.</p><p><b>Commande de preuve:</b> <code>docker exec skillbridge-namenode hdfs dfsadmin -report</code></p></div><div class="card"><h3>datanode</h3><p><b>Role:</b> Stockage HDFS. Stocke physiquement les blocs HDFS. Le projet démarre deux DataNodes pour montrer la distribution.</p><p><b>Commande de preuve:</b> <code>docker ps --filter name=bigdata-datanode</code></p></div><div class="card"><h3>resourcemanager</h3><p><b>Role:</b> Planificateur YARN. Coordonne l&#x27;exécution des traitements MapReduce/YARN.</p><p><b>Commande de preuve:</b> <code>docker logs skillbridge-resourcemanager --tail 40</code></p></div><div class="card"><h3>nodemanager</h3><p><b>Role:</b> Worker YARN. Exécute les tâches que YARN lui assigne.</p><p><b>Commande de preuve:</b> <code>docker logs skillbridge-nodemanager --tail 40</code></p></div><div class="card"><h3>sqoop-client</h3><p><b>Role:</b> Collecte batch PostgreSQL -&gt; HDFS. Importe providers, categories, skills, courses, course_skills, project_ideas, saved_courses, course_progress.</p><p><b>Commande de preuve:</b> <code>docker exec skillbridge-sqoop-client bash /opt/skillbridge/scripts/04_sqoop_import_mvp.sh</code></p></div><div class="card"><h3>flume-agent</h3><p><b>Role:</b> Collecte streaming events.log -&gt; HDFS. Suit le fichier events.log et pousse chaque ligne JSON vers HDFS.</p><p><b>Commande de preuve:</b> <code>docker logs skillbridge-flume-agent --tail 80</code></p></div><div class="card"><h3>hive-metastore-postgresql</h3><p><b>Role:</b> Base interne du metastore Hive. Stocke les métadonnées Hive: bases, tables, colonnes, emplacements HDFS.</p><p><b>Commande de preuve:</b> <code>docker logs skillbridge-hive-metastore-postgresql --tail 40</code></p></div><div class="card"><h3>hive-metastore</h3><p><b>Role:</b> Service metastore Hive. Expose les définitions de tables à Hive Server.</p><p><b>Commande de preuve:</b> <code>docker logs skillbridge-hive-metastore --tail 40</code></p></div><div class="card"><h3>hive-server</h3><p><b>Role:</b> Serveur SQL Hive. Permet d&#x27;exécuter Beeline et les requêtes SQL sur les fichiers HDFS.</p><p><b>Commande de preuve:</b> <code>docker exec skillbridge-hive-server beeline -u jdbc:hive2://localhost:10000 -e &quot;show databases;&quot;</code></p></div><div class="card"><h3>hbase</h3><p><b>Role:</b> Serving key/value course_stats. Stocke les statistiques finales par course_id: clicks, saves, avg_progress, title.</p><p><b>Commande de preuve:</b> <code>docker exec -i skillbridge-hbase /hbase/bin/hbase shell -n</code></p></div>
+</section>
+
+<section class="pagebreak"><h2>4. Inventaire de chaque fichier Big Data</h2>
+<p>Cette table documente le role de chaque fichier source ou artefact important dans <code>apps/bigdata</code>.</p>
+<table><thead><tr><th>Fichier</th><th>Role detaille</th></tr></thead><tbody><tr><td>README.md</td><td>Documentation principale du module Big Data: architecture, rôles, commandes, erreurs fréquentes.</td></tr>
+<tr><td>docker-compose.yml</td><td>Déclare tous les conteneurs: PostgreSQL mirror, Hadoop, Sqoop, Flume, Hive, HBase.</td></tr>
+<tr><td>.env.example</td><td>Variables locales: chemins ZIP, HDFS_BASE, HIVE_DATABASE, connexion mirror.</td></tr>
+<tr><td>requirements.txt</td><td>Dépendances Python, notamment psycopg2-binary.</td></tr>
+<tr><td>data/events/events.log.example</td><td>Événements web de démonstration au format JSON Lines.</td></tr>
+<tr><td>data/events/events.log</td><td>Fichier runtime écrit par Spring Boot et suivi par Flume.</td></tr>
+<tr><td>data/raw/README.md</td><td>Zone explicative pour les données brutes locales.</td></tr>
+<tr><td>flume/skillbridge-events.conf</td><td>Configuration source/channel/sink Flume.</td></tr>
+<tr><td>conf/hive/hive-site.xml</td><td>Connexion Hive au metastore PostgreSQL et options Hive.</td></tr>
+<tr><td>docker/sqoop/Dockerfile</td><td>Image locale Sqoop compatible Hadoop 2.7.4 + PostgreSQL JDBC.</td></tr>
+<tr><td>docker/flume/Dockerfile</td><td>Image locale Flume avec librairies Hadoop nécessaires.</td></tr>
+<tr><td>mapreduce/pom.xml</td><td>Build Maven du job Java MapReduce.</td></tr>
+<tr><td>mapreduce/src/main/java/com/skillbridge/bigdata/TopSearchKeywordsJob.java</td><td>Mapper/Reducer qui compte les mots-clés dans les événements.</td></tr>
+<tr><td>sql/postgres/01_create_seed_schema.sql</td><td>Schema local minimal pour le PostgreSQL mirror.</td></tr>
+<tr><td>sql/postgres/02_seed_project_ideas.sql</td><td>Jeu de projets de démonstration pour le mirror.</td></tr>
+<tr><td>sql/hive/01_create_hive_tables.sql</td><td>Tables externes Hive pointant vers les dossiers HDFS.</td></tr>
+<tr><td>sql/hive/02_demo_queries.sql</td><td>Requêtes analytiques: counts, top providers, top categories, top skills, events.</td></tr>
+<tr><td>sql/hbase/01_create_course_stats.hbase</td><td>Script HBase de création de table course_stats.</td></tr>
+<tr><td>scripts/00_check_prereqs.ps1</td><td>Vérifie Docker, Python, Maven wrapper, datasets.</td></tr>
+<tr><td>scripts/03_create_hdfs_dirs.sh</td><td>Crée /data/skillbridge/raw, processed, export, hive.</td></tr>
+<tr><td>scripts/04_sqoop_import_mvp.sh</td><td>Importe les tables du mirror vers HDFS avec Sqoop.</td></tr>
+<tr><td>scripts/06_run_hive_queries.sh</td><td>Lance les scripts Hive de création et requêtes demo.</td></tr>
+<tr><td>scripts/07_run_mapreduce.ps1</td><td>Compile le job Java puis l&#x27;exécute dans Hadoop.</td></tr>
+<tr><td>scripts/07_run_mapreduce.sh</td><td>Commande Hadoop jar dans le namenode.</td></tr>
+<tr><td>scripts/08_match_project_skills.py</td><td>Détecte les skills dans les projets du mirror.</td></tr>
+<tr><td>scripts/09_load_course_stats_hbase.py</td><td>Génère load_course_stats.hbase et bigdata-summary.json.</td></tr>
+<tr><td>scripts/10_run_mvp_pipeline.ps1</td><td>Orchestre le pipeline Big Data MVP complet.</td></tr>
+<tr><td>scripts/12_merge_and_enrich_catalog.py</td><td>Lit les ZIP, nettoie, déduplique, catégorise, écrit les CSV catalogue.</td></tr>
+<tr><td>scripts/13_push_catalog_to_supabase.py</td><td>Dry-run ou upsert safe vers Supabase catalogue.</td></tr>
+<tr><td>scripts/14_seed_postgres_mirror_from_catalog.py</td><td>Remplit le PostgreSQL mirror depuis les CSV catalogue.</td></tr>
+<tr><td>scripts/15_run_project_recommendation.py</td><td>CLI terminal de recommandation à partir d&#x27;un texte projet.</td></tr>
+<tr><td>scripts/16_run_catalog_build.ps1</td><td>Wrapper PowerShell du build catalogue.</td></tr>
+<tr><td>scripts/17_push_catalog_to_supabase.ps1</td><td>Wrapper PowerShell du push Supabase.</td></tr>
+<tr><td>scripts/18_run_full_terminal_lab.ps1</td><td>Pipeline complet: catalog -&gt; Supabase -&gt; mirror -&gt; Sqoop -&gt; Flume -&gt; Hive -&gt; MapReduce -&gt; Python -&gt; HBase -&gt; CLI.</td></tr>
+<tr><td>scripts/19_clean_bigdata_runtime.ps1</td><td>Nettoyage sûr des fichiers générés.</td></tr>
+<tr><td>scripts/20_verify_app_bigdata_link.ps1</td><td>Vérifie que Spring Boot voit le catalogue Big Data via /api/courses.</td></tr>
+<tr><td>scripts/21_sync_supabase_sequences.py</td><td>Resynchronise les séquences PostgreSQL Supabase après imports explicites.</td></tr>
+<tr><td>scripts/flume-follow-events.sh</td><td>Follower compatible Windows/volume Docker pour envoyer les nouvelles lignes à Flume.</td></tr>
+<tr><td>output/catalog/*.csv</td><td>Livrables catalogue générés.</td></tr>
+<tr><td>output/bigdata-summary.json</td><td>Résumé final lu par le backend/admin dashboard.</td></tr>
+<tr><td>output/recommendation_result.json</td><td>Dernier résultat de recommandation web ou CLI.</td></tr>
+<tr><td>output/load_course_stats.hbase</td><td>Script HBase généré avec les put course_stats.</td></tr></tbody></table></section>
+
+<section class="pagebreak"><h2>5. Installation et preparation des donnees</h2>
+<p>Les donnees viennent de ZIP locaux. Le script <code>12_merge_and_enrich_catalog.py</code> nettoie les titres, descriptions, niveaux, providers, URLs, skills, categories, scores de popularite et supprime les doublons.</p>
+<table><thead><tr><th>Source</th><th>Raw</th><th>Utilise</th><th>Ignore</th></tr></thead><tbody>
+<tr><td>final_cleaned_dataset.csv</td><td>2377</td><td>2377</td><td>0</td></tr>
+<tr><td>all_courses.csv</td><td>1041</td><td>1041</td><td>0</td></tr>
+<tr><td>processed_coursera_data.json</td><td>13174</td><td>13173</td><td>1</td></tr>
+<tr><td>edx_courses.json</td><td>1000</td><td>1000</td><td>0</td></tr>
+</tbody></table>
+<h3>Commandes</h3><pre>cd apps\\bigdata\npython -m pip install -r requirements.txt\npython .\\scripts\\12_merge_and_enrich_catalog.py\nGet-Content .\\output\\catalog\\catalog_build_report.json</pre>
+<h3>Impact</h3><p>Sans cette etape, le web n'a pas un catalogue propre et le pipeline Hadoop n'a pas de tables coherentes a importer.</p></section>
+
+<section class="pagebreak"><h2>6. Sqoop: collecte batch PostgreSQL vers HDFS</h2>
+<p><code>04_sqoop_import_mvp.sh</code> importe huit tables du mirror vers HDFS. Chaque table devient un dossier sous <code>/data/skillbridge/raw/sqoop/&lt;table&gt;</code> avec <code>part-m-00000</code> et <code>_SUCCESS</code>.</p>
+<h3>Tables importees</h3><ul><li>providers</li><li>categories</li><li>skills</li><li>courses</li><li>course_skills</li><li>project_ideas</li><li>saved_courses</li><li>course_progress</li></ul>
+<h3>Preuve mirror PostgreSQL</h3><pre>table_name    | count  
+-----------------+--------
+ courses         |  17072
+ skills          |  13647
+ course_skills   | 104006
+ project_ideas   |     10
+ saved_courses   |     40
+ course_progress |     50
+(6 rows)</pre>
+<h3>Commande de demonstration</h3><pre>docker exec skillbridge-sqoop-client bash /opt/skillbridge/scripts/04_sqoop_import_mvp.sh\ndocker exec skillbridge-namenode hdfs dfs -ls /data/skillbridge/raw/sqoop/courses\ndocker exec skillbridge-namenode hdfs dfs -cat /data/skillbridge/raw/sqoop/courses/part-m-00000 | head</pre></section>
+
+<section class="pagebreak"><h2>7. HDFS: stockage distribue</h2>
+<p>HDFS est le stockage central. Sqoop y depose le batch, Flume y depose le streaming, MapReduce y lit et y ecrit ses resultats.</p>
+<h3>Arborescence observee</h3><pre>drwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/export\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/export/hbase\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/hive\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/processed\ndrwxr-xr-x   - root supergroup          0 2026-05-12 14:13 /data/skillbridge/processed/mapreduce\ndrwxr-xr-x   - root supergroup          0 2026-05-12 14:13 /data/skillbridge/processed/mapreduce/top_search_keywords\n-rw-r--r--   2 root supergroup          0 2026-05-12 14:13 /data/skillbridge/processed/mapreduce/top_search_keywords/_SUCCESS\n-rw-r--r--   2 root supergroup        166 2026-05-12 14:13 /data/skillbridge/processed/mapreduce/top_search_keywords/part-r-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/processed/python\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/raw\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/raw/flume\ndrwxr-xr-x   - root supergroup          0 2026-05-20 17:17 /data/skillbridge/raw/flume/events\n-rw-r--r--   2 root supergroup        870 2026-04-20 10:06 /data/skillbridge/raw/flume/events/events.1776679507079\n-rw-r--r--   2 root supergroup       1364 2026-04-20 10:08 /data/skillbridge/raw/flume/events/events.1776679669807\n-rw-r--r--   2 root supergroup        980 2026-04-20 15:00 /data/skillbridge/raw/flume/events/events.1776697159650\n-rw-r--r--   2 root supergroup        980 2026-04-21 14:56 /data/skillbridge/raw/flume/events/events.1776783351033\n-rw-r--r--   2 root supergroup        980 2026-04-22 07:57 /data/skillbridge/raw/flume/events/events.1776844533695\n-rw-r--r--   2 root supergroup        156 2026-05-12 13:58 /data/skillbridge/raw/flume/events/events.1778594317723\n-rw-r--r--   3 root supergroup        246 2026-05-20 17:15 /data/skillbridge/raw/flume/events/events.1779297307896\n-rw-r--r--   3 root supergroup        415 2026-05-20 17:15 /data/skillbridge/raw/flume/events/events.1779297332916\n-rw-r--r--   3 root supergroup        120 2026-05-20 17:17 /data/skillbridge/raw/flume/events/events.1779297456331\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:55 /data/skillbridge/raw/sqoop\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:51 /data/skillbridge/raw/sqoop/categories\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:51 /data/skillbridge/raw/sqoop/categories/_SUCCESS\n-rw-r--r--   2 root supergroup       2023 2026-04-21 14:51 /data/skillbridge/raw/sqoop/categories/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:55 /data/skillbridge/raw/sqoop/course_progress\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:55 /data/skillbridge/raw/sqoop/course_progress/_SUCCESS\n-rw-r--r--   2 root supergroup       4206 2026-04-21 14:55 /data/skillbridge/raw/sqoop/course_progress/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:53 /data/skillbridge/raw/sqoop/course_skills\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:53 /data/skillbridge/raw/sqoop/course_skills/_SUCCESS\n-rw-r--r--   2 root supergroup    1099200 2026-04-21 14:53 /data/skillbridge/raw/sqoop/course_skills/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:53 /data/skillbridge/raw/sqoop/courses\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:53 /data/skillbridge/raw/sqoop/courses/_SUCCESS\n-rw-r--r--   2 root supergroup   38823808 2026-04-21 14:53 /data/skillbridge/raw/sqoop/courses/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:54 /data/skillbridge/raw/sqoop/project_ideas\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:54 /data/skillbridge/raw/sqoop/project_ideas/_SUCCESS\n-rw-r--r--   2 root supergroup       1888 2026-04-21 14:54 /data/skillbridge/raw/sqoop/project_ideas/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:51 /data/skillbridge/raw/sqoop/providers\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:51 /data/skillbridge/raw/sqoop/providers/_SUCCESS\n-rw-r--r--   2 root supergroup      72193 2026-04-21 14:51 /data/skillbridge/raw/sqoop/providers/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/raw/sqoop/roles\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:54 /data/skillbridge/raw/sqoop/saved_courses\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:54 /data/skillbridge/raw/sqoop/saved_courses/_SUCCESS\n-rw-r--r--   2 root supergroup       1471 2026-04-21 14:54 /data/skillbridge/raw/sqoop/saved_courses/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-21 14:52 /data/skillbridge/raw/sqoop/skills\n-rw-r--r--   2 root supergroup          0 2026-04-21 14:52 /data/skillbridge/raw/sqoop/skills/_SUCCESS\n-rw-r--r--   2 root supergroup    2136362 2026-04-21 14:52 /data/skillbridge/raw/sqoop/skills/part-m-00000\ndrwxr-xr-x   - root supergroup          0 2026-04-20 09:48 /data/skillbridge/raw/sqoop/users</pre>
+<h3>Commandes utiles</h3><pre>docker exec skillbridge-namenode hdfs dfsadmin -report\ndocker exec skillbridge-namenode hdfs dfs -ls -R /data/skillbridge\ndocker exec skillbridge-namenode hdfs dfs -du -h /data/skillbridge/raw/sqoop\ndocker exec skillbridge-namenode hdfs dfs -cat /data/skillbridge/processed/mapreduce/top_search_keywords/part-r-00000</pre></section>
+
+<section class="pagebreak"><h2>8. Flume: streaming des evenements web</h2>
+<p>Spring Boot ecrit des lignes JSON dans <code>data/events/events.log</code>. Flume utilise une source <code>exec</code> qui lance <code>flume-follow-events.sh</code>, un channel memoire, et un sink HDFS.</p>
+<h3>Evenements supportes</h3><ul><li><code>COURSE_SEARCH</code>: recherche catalogue.</li><li><code>COURSE_CLICK</code>: clic vers un cours externe.</li><li><code>COURSE_SAVE</code>: sauvegarde cours.</li><li><code>PROJECT_CREATED</code>: creation idee.</li><li><code>PROJECT_RECOMMENDATION</code>: generation recommandations.</li></ul>
+<h3>Derniers evenements locaux</h3><pre>{&quot;eventType&quot;:&quot;PROJECT_RECOMMENDATION&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-11T22:54:43.178043Z&quot;,&quot;userId&quot;:1,&quot;projectId&quot;:23,&quot;projectTitle&quot;:&quot;Learn the backend skills needed for...&quot;,&quot;projectDescription&quot;:&quot;Learn the backend skills needed for a booking app&quot;,&quot;requestedLimit&quot;:10,&quot;detectedSkills&quot;:[&quot;G Skills&quot;],&quot;matchedCategories&quot;:[&quot;Backend Development&quot;],&quot;topRecommendedCourseIds&quot;:[4905,11851,1154,1201,4849,12680,12687,4906,4907,4929],&quot;scores&quot;:[33,29,27,27,27,27,27,27,27,27]}
+{&quot;eventType&quot;:&quot;PROJECT_CREATED&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-12T10:43:11.515834Z&quot;,&quot;userId&quot;:1,&quot;projectId&quot;:24,&quot;projectTitle&quot;:&quot;i want to creat a complete...&quot;,&quot;projectDescription&quot;:&quot;i want to creat a complete fulstack project with postgresql&quot;}
+{&quot;eventType&quot;:&quot;PROJECT_RECOMMENDATION&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-12T10:43:19.919067700Z&quot;,&quot;userId&quot;:1,&quot;projectId&quot;:24,&quot;projectTitle&quot;:&quot;i want to creat a complete...&quot;,&quot;projectDescription&quot;:&quot;i want to creat a complete fulstack project with postgresql&quot;,&quot;requestedLimit&quot;:5,&quot;detectedSkills&quot;:[&quot;PostgreSQL&quot;],&quot;matchedCategories&quot;:[&quot;Databases&quot;],&quot;topRecommendedCourseIds&quot;:[5134,5266,5267,6575,15532],&quot;scores&quot;:[61,55,55,54,54]}
+{&quot;eventType&quot;:&quot;COURSE_SAVE&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-12T10:43:46.525589600Z&quot;,&quot;userId&quot;:1,&quot;courseId&quot;:5134}
+{&quot;eventType&quot;:&quot;PIPELINE_REPORT_TEST&quot;,&quot;source&quot;:&quot;codex-report&quot;,&quot;timestamp&quot;:&quot;2026-05-12T11:18:59.4738864Z&quot;,&quot;message&quot;:&quot;verification flume events.log to hdfs&quot;}
+{&quot;message&quot;:&quot;verify append with FileShare while flume tails&quot;,&quot;timestamp&quot;:&quot;2026-05-12T13:56:00.8636821Z&quot;,&quot;source&quot;:&quot;codex-fix&quot;,&quot;eventType&quot;:&quot;PIPELINE_FIX_TEST_DOTNET&quot;}
+{&quot;message&quot;:&quot;verify flume polling follower to hdfs&quot;,&quot;timestamp&quot;:&quot;2026-05-12T13:58:35.6069489Z&quot;,&quot;source&quot;:&quot;codex-fix&quot;,&quot;eventType&quot;:&quot;PIPELINE_FIX_TEST_POLLING&quot;}
+{&quot;eventType&quot;:&quot;PROJECT_CREATED&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-20T17:15:03.805106400Z&quot;,&quot;userId&quot;:8,&quot;projectId&quot;:39,&quot;projectTitle&quot;:&quot;Create a small AI study assistant...&quot;,&quot;projectDescription&quot;:&quot;Create a small AI study assistant for students&quot;}
+{&quot;eventType&quot;:&quot;PROJECT_RECOMMENDATION&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-20T17:15:30.383022900Z&quot;,&quot;userId&quot;:8,&quot;projectId&quot;:39,&quot;projectTitle&quot;:&quot;Create a small AI study assistant...&quot;,&quot;projectDescription&quot;:&quot;Create a small AI study assistant for students&quot;,&quot;requestedLimit&quot;:5,&quot;detectedSkills&quot;:[],&quot;matchedCategories&quot;:[&quot;Machine Learning&quot;],&quot;topRecommendedCourseIds&quot;:[16360,1922,9073,12326,16343],&quot;scores&quot;:[38,33,32,32,32]}
+{&quot;eventType&quot;:&quot;COURSE_SAVE&quot;,&quot;source&quot;:&quot;web-app&quot;,&quot;timestamp&quot;:&quot;2026-05-20T17:17:34.197671800Z&quot;,&quot;userId&quot;:8,&quot;courseId&quot;:16360}</pre>
+<h3>Commandes de demonstration</h3><pre>Add-Content .\data\events\events.log &#x27;{&quot;eventType&quot;:&quot;COURSE_SEARCH&quot;,&quot;source&quot;:&quot;demo&quot;,&quot;timestamp&quot;:&quot;2026-05-20T00:00:00Z&quot;,&quot;query&quot;:&quot;spring hive hadoop&quot;}&#x27;
+docker logs skillbridge-flume-agent --tail 80
+docker exec skillbridge-namenode hdfs dfs -ls -R /data/skillbridge/raw/flume/events
+docker exec skillbridge-namenode hdfs dfs -cat /data/skillbridge/raw/flume/events/&lt;events-file&gt;</pre></section>
+
+<section class="pagebreak"><h2>9. Hive: SQL analytique sur HDFS</h2>
+<p>Hive ne copie pas les donnees: il cree des tables externes sur les dossiers HDFS. Les fichiers Sqoop tabules deviennent des tables SQL. Les evenements Flume sont lus comme lignes brutes JSON et interroges avec <code>get_json_object</code>.</p>
+<h3>Counts Hive observes</h3><pre>SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/opt/hive/lib/log4j-slf4j-impl-2.6.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/opt/hadoop-2.7.4/share/hadoop/common/lib/slf4j-log4j12-1.7.10.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.apache.logging.slf4j.Log4jLoggerFactory]
++---------------+
+| hive_courses  |
++---------------+
+| 17072         |
++---------------+
++--------------+
+| hive_events  |
++--------------+
+| 62           |
++--------------+</pre>
+<h3>Commandes demo</h3><pre>docker exec skillbridge-hive-server bash /opt/skillbridge/scripts/06_run_hive_queries.sh
+docker exec skillbridge-hive-server beeline -u jdbc:hive2://localhost:10000 --silent=true --showHeader=true --outputformat=table -e &quot;use skillbridge_bigdata; select level, count(*) from hive_courses group by level;&quot;
+docker exec skillbridge-hive-server beeline -u jdbc:hive2://localhost:10000 --silent=true --showHeader=true --outputformat=table -e &quot;use skillbridge_bigdata; select get_json_object(raw_line, &#x27;$.eventType&#x27;) event_type, count(*) from hive_events group by get_json_object(raw_line, &#x27;$.eventType&#x27;);&quot; </pre></section>
+
+<section class="pagebreak"><h2>10. MapReduce: TopSearchKeywordsJob</h2>
+<p>Le job Java lit les evenements HDFS. Le Mapper ignore les evenements qui ne sont pas <code>COURSE_SEARCH</code> ou <code>PROJECT_RECOMMENDATION</code>. Il tokenise le champ <code>query</code> ou le texte du projet. Le Reducer additionne les occurrences.</p>
+<h3>Resultat observe</h3><pre>airflow	4
+boot	4
+data	4
+developer	5
+engineering	4
+flume	2
+frontend	5
+hadoop	2
+hdfs	2
+hive	4
+learning	5
+machine	5
+python	5
+react	5
+security	4
+spark	4
+spring	4
+sqoop	2</pre>
+<h3>Commandes demo</h3><pre>powershell -ExecutionPolicy Bypass -File .\\scripts\\07_run_mapreduce.ps1\ndocker exec skillbridge-namenode hdfs dfs -ls /data/skillbridge/processed/mapreduce/top_search_keywords\ndocker exec skillbridge-namenode hdfs dfs -cat /data/skillbridge/processed/mapreduce/top_search_keywords/part-r-00000</pre>
+<h3>Impact</h3><p>Ce résultat permet d'expliquer quelles technologies ou intentions reviennent le plus dans les recherches et projets des utilisateurs.</p></section>
+
+<section class="pagebreak"><h2>11. HBase: course_stats</h2>
+<p>Le script Python <code>09_load_course_stats_hbase.py</code> combine les evenements, saved courses et progressions puis genere un script HBase. La table <code>course_stats</code> a deux familles: <code>meta</code> et <code>activity</code>.</p>
+<table><thead><tr><th>courseId</th><th>title</th><th>clicks</th><th>saves</th><th>avg progress</th></tr></thead><tbody><tr><td>1208</td><td>Análisis de Datos de Google Professional Certificate</td><td>0</td><td>1</td><td>80.0</td></tr>
+<tr><td>4861</td><td>AWS: Amazon DynamoDB: Building NoSQL Database-Driven Applications</td><td>0</td><td>1</td><td>10.0</td></tr>
+<tr><td>5064</td><td>HarvardX: Practical Improvement Science in Health Care: A Roadmap for Getting Results</td><td>0</td><td>1</td><td>10.0</td></tr>
+<tr><td>5124</td><td>IBM: DevOps Basics for Everyone</td><td>0</td><td>1</td><td>80.0</td></tr>
+<tr><td>5168</td><td>IBM: Technical Support Basics for Everyone</td><td>0</td><td>1</td><td>25.0</td></tr>
+<tr><td>5322</td><td>SmithsonianX: Teaching Critical Thinking through Art with the National Gallery of Art</td><td>0</td><td>1</td><td>15.0</td></tr>
+<tr><td>5443</td><td>UTAustinX: Linear Algebra - Foundations to Frontiers</td><td>0</td><td>1</td><td>15.0</td></tr>
+<tr><td>5446</td><td>UWashingtonX: Building a Cybersecurity Toolkit</td><td>0</td><td>1</td><td>15.0</td></tr>
+<tr><td>8494</td><td>Elements of AI</td><td>0</td><td>1</td><td>80.0</td></tr>
+<tr><td>8497</td><td>Intelligenza Artificiale</td><td>0</td><td>1</td><td>10.0</td></tr></tbody></table>
+<h3>Commandes demo</h3><pre>python .\scripts\09_load_course_stats_hbase.py
+docker exec -i skillbridge-hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase
+echo &quot;scan &#x27;course_stats&#x27;, {LIMIT =&gt; 5}&quot; | docker exec -i skillbridge-hbase /hbase/bin/hbase shell -n</pre>
+<div class="note">Pendant la generation du rapport, le scan direct HBase a retourne une erreur RegionServer <code>16020 connection refused</code>. Les donnees HBase restent documentees via <code>bigdata-summary.json</code> et <code>load_course_stats.hbase</code>. Pour corriger: redemarrer <code>skillbridge-hbase</code>, attendre 60-90 secondes, puis relancer le scan.</div></section>
+
+<section class="pagebreak"><h2>12. Generate recommendations depuis le web</h2><div class="figure"><p class="caption">Figure 2 - Generate recommendations et trace Big Data</p>
+<svg viewBox="0 0 1100 570" role="img" aria-label="Generate recommendation flow">
+<defs><marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6b3a24"/></marker></defs>
+<rect x="45" y="50" width="160" height="60" class="box2"/><text x="125" y="85" text-anchor="middle">React button</text>
+<rect x="270" y="50" width="190" height="60" class="box"/><text x="365" y="75" text-anchor="middle">POST generate</text><text x="365" y="95" text-anchor="middle" class="small">JWT protected</text>
+<rect x="525" y="50" width="210" height="60" class="box2"/><text x="630" y="85" text-anchor="middle">RecommendationService</text>
+<rect x="95" y="185" width="150" height="55" class="box"/><text x="170" y="208" text-anchor="middle">Load project</text><text x="170" y="227" text-anchor="middle" class="small">owner scoped</text>
+<rect x="305" y="185" width="150" height="55" class="box"/><text x="380" y="208" text-anchor="middle">Tokenize</text><text x="380" y="227" text-anchor="middle" class="small">stop words</text>
+<rect x="515" y="185" width="150" height="55" class="box"/><text x="590" y="208" text-anchor="middle">Detect skills</text><text x="590" y="227" text-anchor="middle" class="small">skills table</text>
+<rect x="725" y="185" width="150" height="55" class="box"/><text x="800" y="208" text-anchor="middle">Rank courses</text><text x="800" y="227" text-anchor="middle" class="small">score 0-100</text>
+<ellipse cx="245" cy="350" rx="100" ry="42" class="store"/><text x="245" y="347" text-anchor="middle">PostgreSQL</text><text x="245" y="366" text-anchor="middle" class="small">snapshots/results</text>
+<rect x="440" y="320" width="190" height="60" class="box"/><text x="535" y="345" text-anchor="middle">events.log</text><text x="535" y="365" text-anchor="middle" class="small">PROJECT_RECOMMENDATION</text>
+<rect x="720" y="320" width="170" height="60" class="box2"/><text x="805" y="345" text-anchor="middle">Response</text><text x="805" y="365" text-anchor="middle" class="small">courses + trace</text>
+<rect x="440" y="465" width="120" height="50" class="box2"/><text x="500" y="496" text-anchor="middle">Flume</text>
+<ellipse cx="665" cy="490" rx="80" ry="36" class="store"/><text x="665" y="495" text-anchor="middle">HDFS</text>
+<rect x="805" y="465" width="120" height="50" class="box"/><text x="865" y="496" text-anchor="middle">Analytics</text>
+<path d="M205 80 L270 80" class="arrow"/><path d="M460 80 L525 80" class="arrow"/>
+<path d="M630 110 C580 150, 250 150, 170 185" class="arrow"/><path d="M245 212 L305 212" class="arrow"/><path d="M455 212 L515 212" class="arrow"/><path d="M665 212 L725 212" class="arrow"/>
+<path d="M800 240 C710 300, 350 300, 245 310" class="arrow"/><path d="M800 240 C730 310, 615 305, 535 320" class="arrow"/><path d="M800 240 L805 320" class="arrow"/>
+<path d="M535 380 L500 465" class="arrow"/><path d="M560 490 L585 490" class="arrow"/><path d="M745 490 L805 490" class="arrow"/>
+</svg></div>
+<p>Quand l'utilisateur clique sur Generate recommendations, Spring Boot execute le moteur rapide: chargement du projet, extraction de tokens, detection des skills, ranking des cours, sauvegarde du snapshot, puis ecriture de l'evenement <code>PROJECT_RECOMMENDATION</code>.</p>
+<p>Le pipeline Big Data n'est pas bloquant: Flume absorbe ensuite l'evenement, HDFS le stocke, Hive peut le compter, MapReduce peut en extraire les keywords.</p></section>
+
+<section class="pagebreak"><h2>13. Use cases et impact Big Data</h2>
+<table><thead><tr><th>Use case web</th><th>API backend</th><th>Donnee ecrite</th><th>Partie Big Data impactee</th><th>Commande de preuve</th></tr></thead><tbody>
+<tr><td>Search courses</td><td>GET /api/courses?q=...</td><td>COURSE_SEARCH dans events.log</td><td>Flume, HDFS, Hive, MapReduce</td><td>hdfs dfs -ls -R /data/skillbridge/raw/flume/events</td></tr>
+<tr><td>Open course</td><td>POST /api/courses/{id}/click</td><td>COURSE_CLICK dans events.log</td><td>Flume, HDFS, HBase stats</td><td>Get-Content data/events/events.log -Tail 10</td></tr>
+<tr><td>Save course</td><td>POST /api/saved-courses/{id}</td><td>saved_courses en PostgreSQL</td><td>Sqoop, Hive, HBase saves</td><td>select count(*) from saved_courses</td></tr>
+<tr><td>Update progress</td><td>PUT /api/progress/{courseId}</td><td>course_progress</td><td>Sqoop, Hive, HBase avg_progress</td><td>select count(*) from course_progress</td></tr>
+<tr><td>Create project</td><td>POST /api/projects</td><td>project_ideas + PROJECT_CREATED</td><td>Sqoop + Flume selon version</td><td>select count(*) from project_ideas</td></tr>
+<tr><td>Generate recommendations</td><td>POST /api/projects/{id}/recommendations/generate</td><td>snapshot/results + PROJECT_RECOMMENDATION</td><td>Flume, HDFS, Hive, MapReduce</td><td>cat top_search_keywords/part-r-00000</td></tr>
+<tr><td>Admin Big Data dashboard</td><td>GET /api/bigdata/status</td><td>lecture JSON/logs</td><td>Consomme output/*.json</td><td>Invoke-RestMethod /api/bigdata/status</td></tr>
+</tbody></table></section>
+
+<section class="pagebreak"><h2>14. Catalogue de commandes terminal pour soutenance</h2>
+<table><thead><tr><th>Partie</th><th>Commande</th><th>Ce que tu montres</th></tr></thead><tbody><tr><td>Préparer les prérequis</td><td>powershell -ExecutionPolicy Bypass -File .\scripts\00_check_prereqs.ps1</td><td>Montre que Docker, Python et datasets existent.</td></tr>
+<tr><td>Construire le catalogue</td><td>powershell -ExecutionPolicy Bypass -File .\scripts\16_run_catalog_build.ps1</td><td>Génère les CSV propres et catalog_build_report.json.</td></tr>
+<tr><td>Voir les counts catalogue</td><td>Get-Content .\output\catalog\catalog_build_report.json</td><td>Prouve les 17k cours, 13k skills, 104k liens.</td></tr>
+<tr><td>Démarrer le mirror</td><td>docker compose up -d postgres-mirror</td><td>Démarre la base relationnelle locale.</td></tr>
+<tr><td>Compter les tables mirror</td><td>docker exec skillbridge-postgres-mirror psql -U skillbridge -d skillbridge -c &quot;select count(*) from courses;&quot;</td><td>Prouve le seed PostgreSQL.</td></tr>
+<tr><td>Créer les dossiers HDFS</td><td>docker exec skillbridge-namenode bash /opt/skillbridge/scripts/03_create_hdfs_dirs.sh</td><td>Montre l&#x27;organisation raw/processed/export.</td></tr>
+<tr><td>Lister HDFS</td><td>docker exec skillbridge-namenode hdfs dfs -ls -R /data/skillbridge</td><td>Prouve les fichiers importés et générés.</td></tr>
+<tr><td>Relancer Sqoop</td><td>docker exec skillbridge-sqoop-client bash /opt/skillbridge/scripts/04_sqoop_import_mvp.sh</td><td>Montre l&#x27;import batch.</td></tr>
+<tr><td>Démontrer Flume</td><td>Add-Content .\data\events\events.log &#x27;{&quot;eventType&quot;:&quot;COURSE_SEARCH&quot;,&quot;source&quot;:&quot;demo&quot;,&quot;timestamp&quot;:&quot;2026-05-20T00:00:00Z&quot;,&quot;query&quot;:&quot;spring hive hadoop&quot;}&#x27;</td><td>Ajoute un événement que Flume doit pousser dans HDFS.</td></tr>
+<tr><td>Vérifier Flume dans HDFS</td><td>docker exec skillbridge-namenode hdfs dfs -ls -R /data/skillbridge/raw/flume/events</td><td>Montre les fichiers events.*.</td></tr>
+<tr><td>Créer et interroger Hive</td><td>docker exec skillbridge-hive-server bash /opt/skillbridge/scripts/06_run_hive_queries.sh</td><td>Crée les tables externes et lance les requêtes demo.</td></tr>
+<tr><td>Compter Hive</td><td>docker exec skillbridge-hive-server beeline -u jdbc:hive2://localhost:10000 --silent=true --showHeader=true --outputformat=table -e &quot;use skillbridge_bigdata; select count(*) from hive_courses; select count(*) from hive_events;&quot;</td><td>Montre les counts SQL.</td></tr>
+<tr><td>Lancer MapReduce</td><td>powershell -ExecutionPolicy Bypass -File .\scripts\07_run_mapreduce.ps1</td><td>Compile et exécute TopSearchKeywordsJob.</td></tr>
+<tr><td>Lire résultat MapReduce</td><td>docker exec skillbridge-namenode hdfs dfs -cat /data/skillbridge/processed/mapreduce/top_search_keywords/part-r-00000</td><td>Affiche keyword + count.</td></tr>
+<tr><td>Matching Python</td><td>python .\scripts\08_match_project_skills.py</td><td>Génère project_skill_matches.csv.</td></tr>
+<tr><td>Générer HBase script</td><td>python .\scripts\09_load_course_stats_hbase.py</td><td>Génère load_course_stats.hbase et bigdata-summary.json.</td></tr>
+<tr><td>Charger HBase</td><td>docker exec -i skillbridge-hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase</td><td>Crée/remplit course_stats.</td></tr>
+<tr><td>Scanner HBase</td><td>echo &quot;scan &#x27;course_stats&#x27;, {LIMIT =&gt; 5}&quot; | docker exec -i skillbridge-hbase /hbase/bin/hbase shell -n</td><td>Affiche les lignes HBase si le RegionServer est prêt.</td></tr>
+<tr><td>Vérifier lien backend</td><td>powershell -ExecutionPolicy Bypass -File .\scripts\20_verify_app_bigdata_link.ps1 -BackendUrl http://localhost:8081 -MinimumCourses 1000</td><td>Prouve que Spring Boot voit le catalogue importé.</td></tr>
+<tr><td>Pipeline complet</td><td>powershell -ExecutionPolicy Bypass -File .\scripts\18_run_full_terminal_lab.ps1 -Project &quot;secure Spring Boot backend with JWT and PostgreSQL&quot;</td><td>Démonstration intégrale pour soutenance.</td></tr></tbody></table></section>
+
+<section class="pagebreak"><h2>15. Lecture des rapports generes</h2>
+<table><thead><tr><th>Rapport</th><th>Role</th></tr></thead><tbody><tr><td>output/catalog/catalog_build_report.json</td><td>Audit des sources, counts finaux, distribution levels/categories/providers.</td></tr>
+<tr><td>output/catalog/supabase_import_report.json</td><td>Dry-run ou apply Supabase, tables touchees, securite no global delete.</td></tr>
+<tr><td>output/mirror_seed_report.json</td><td>Preuve que le mirror local est rempli.</td></tr>
+<tr><td>output/project_skill_matches.csv</td><td>Associations projet -&gt; skills detectees par Python.</td></tr>
+<tr><td>output/bigdata-summary.json</td><td>Resume final lu par le dashboard admin.</td></tr>
+<tr><td>output/recommendation_result.json</td><td>Derniere recommandation web/CLI avec trace pipeline.</td></tr>
+<tr><td>output/app_bigdata_link_report.json</td><td>Preuve que Spring Boot voit le catalogue Big Data via API.</td></tr></tbody></table></section>
+
+<section class="pagebreak"><h2>16. Conclusion technique</h2>
+<p>Le module Big Data de SkillBridge couvre les trois grandes familles attendues dans un projet Big Data pedagogique: ingestion batch avec Sqoop, ingestion streaming avec Flume, stockage distribue HDFS, SQL analytique avec Hive, traitement distribue Java avec MapReduce, et stockage serving avec HBase.</p>
+<p>Son impact applicatif est concret: le catalogue massif nourrit Supabase et le frontend; les evenements web deviennent des donnees analytiques; les recommandations produisent une trace exploitable; l'admin peut expliquer le pipeline avec des commandes terminal et des rapports JSON.</p>
+</section>
+</div></body></html>

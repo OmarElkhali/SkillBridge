@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>SkillBridge - Rapport Big Data et Architecture</title>
+  <style>
+    @page { size: A4; margin: 16mm 14mm; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #241713;
+      background: #f7f2ec;
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.48;
+    }
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: white;
+      padding: 34px 42px;
+    }
+    h1, h2, h3 { color: #1d120f; line-height: 1.14; margin: 0 0 14px; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 24px; padding-top: 10px; border-top: 2px solid #ead8c8; }
+    h3 { font-size: 18px; color: #8a3e1f; }
+    p { margin: 0 0 10px; }
+    ul { margin: 8px 0 14px 22px; padding: 0; }
+    li { margin: 4px 0; }
+    .cover {
+      min-height: 850px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 2px solid #ead8c8;
+      border-radius: 18px;
+      padding: 40px;
+      background: linear-gradient(135deg, #fffaf5, #f4e4d7);
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      font-weight: 800;
+      color: #b24e20;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .subtitle { font-size: 18px; color: #6b5148; max-width: 720px; }
+    .meta {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .metric, .card {
+      border: 1px solid #ead8c8;
+      border-radius: 12px;
+      background: #fffaf5;
+      padding: 14px;
+    }
+    .metric strong { display: block; font-size: 24px; color: #b24e20; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 18px;
+      font-size: 12.5px;
+    }
+    th, td {
+      border: 1px solid #ead8c8;
+      padding: 8px 9px;
+      vertical-align: top;
+    }
+    th { background: #f3dfcf; text-align: left; color: #3a2118; }
+    code, pre {
+      font-family: "Cascadia Mono", Consolas, monospace;
+      background: #241713;
+      color: #f6eadf;
+      border-radius: 8px;
+    }
+    code { padding: 1px 5px; }
+    pre { padding: 12px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; }
+    .figure {
+      margin: 18px 0 24px;
+      padding: 12px;
+      border: 1px solid #ead8c8;
+      border-radius: 14px;
+      background: #fffdf9;
+      break-inside: avoid;
+    }
+    .caption {
+      font-weight: 800;
+      color: #8a3e1f;
+      margin: 0 0 10px;
+      font-size: 13px;
+    }
+    .note {
+      border-left: 4px solid #d46b2c;
+      background: #fff4ea;
+      padding: 10px 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+    }
+    .page-break { break-before: page; }
+    svg { width: 100%; height: auto; display: block; }
+    .box { fill: #fffaf5; stroke: #c86b32; stroke-width: 2; rx: 12; }
+    .box2 { fill: #f2fbff; stroke: #24748c; stroke-width: 2; rx: 12; }
+    .box3 { fill: #f4fff5; stroke: #2d7d4f; stroke-width: 2; rx: 12; }
+    .store { fill: #fff; stroke: #74412c; stroke-width: 2; }
+    .arrow { stroke: #74412c; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+    .label { font: 700 13px "Segoe UI", Arial, sans-serif; fill: #241713; }
+    .small { font: 600 11px "Segoe UI", Arial, sans-serif; fill: #6b5148; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <section class="cover">
+    <div class="eyebrow">Rapport PDF Big Data</div>
+    <h1>SkillBridge: Architecture, pipeline Big Data et fonctionnement par use case</h1>
+    <p class="subtitle">
+      Ce document explique le travail de chaque partie Big Data, le role de chaque conteneur Docker,
+      l'installation des donnees, la liaison avec l'application web et le comportement du pipeline
+      quand l'utilisateur clique sur Generate recommendations.
+    </p>
+    <div class="meta">
+      <div class="metric"><strong>17 075</strong>Cours visibles via le backend</div>
+      <div class="metric"><strong>13 647</strong>Skills dans le catalogue</div>
+      <div class="metric"><strong>11</strong>Services Docker Big Data</div>
+    </div>
+    <div class="note">
+      Regle d'architecture: le frontend React appelle seulement Spring Boot. Supabase reste la base
+      applicative officielle. Hadoop, Hive, Flume, MapReduce et HBase restent terminal-first pour la
+      demonstration Big Data.
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>1. Resume du projet</h2>
+    <p>
+      SkillBridge transforme une idee de projet en parcours d'apprentissage. L'utilisateur decrit ce
+      qu'il veut construire. Le backend detecte les competences, classe les categories techniques et
+      recommande des cours depuis un grand catalogue importe par le pipeline Big Data.
+    </p>
+    <div class="figure">
+      <p class="caption">Figure 1 - Vue generale projet</p>
+      <svg viewBox="0 0 980 330" role="img" aria-label="Architecture generale SkillBridge">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="35" y="80" width="140" height="70" class="box"/><text x="105" y="110" text-anchor="middle" class="label">Utilisateur</text><text x="105" y="130" text-anchor="middle" class="small">idee, cours, progression</text>
+        <rect x="235" y="80" width="145" height="70" class="box2"/><text x="307" y="110" text-anchor="middle" class="label">React + Vite</text><text x="307" y="130" text-anchor="middle" class="small">pages user/admin</text>
+        <rect x="445" y="80" width="155" height="70" class="box"/><text x="522" y="110" text-anchor="middle" class="label">Spring Boot API</text><text x="522" y="130" text-anchor="middle" class="small">JWT, JPA, reco</text>
+        <path d="M675 82 C720 82, 720 148, 675 148 C630 148, 630 82, 675 82" class="store"/><text x="675" y="112" text-anchor="middle" class="label">Supabase</text><text x="675" y="130" text-anchor="middle" class="small">PostgreSQL</text>
+        <rect x="785" y="80" width="150" height="70" class="box3"/><text x="860" y="110" text-anchor="middle" class="label">Big Data</text><text x="860" y="130" text-anchor="middle" class="small">HDFS Hive HBase</text>
+        <path d="M175 115 L235 115" class="arrow"/><path d="M380 115 L445 115" class="arrow"/><path d="M600 115 L630 115" class="arrow"/><path d="M600 145 C680 230, 760 220, 820 150" class="arrow"/>
+        <rect x="245" y="230" width="500" height="55" class="box"/><text x="495" y="255" text-anchor="middle" class="label">Idee de projet -> Skills -> Cours recommandes -> Progression</text><text x="495" y="274" text-anchor="middle" class="small">workflow principal de SkillBridge</text>
+        <path d="M495 230 L495 155" class="arrow"/>
+      </svg>
+    </div>
+    <h3>Objectifs fonctionnels</h3>
+    <ul>
+      <li>Authentifier l'utilisateur avec email/password, Google ou GitHub.</li>
+      <li>Permettre la recherche dans un catalogue de cours volumineux.</li>
+      <li>Generer des recommandations explicables a partir d'une idee de projet.</li>
+      <li>Sauvegarder des cours et suivre la progression.</li>
+      <li>Donner a l'admin une vue catalogue, utilisateurs, pipeline et analytics.</li>
+    </ul>
+  </section>
+
+  <section class="page-break">
+    <h2>2. Architecture technique complete</h2>
+    <div class="figure">
+      <p class="caption">Figure 2 - Architecture applicative et Big Data</p>
+      <svg viewBox="0 0 1050 560" role="img" aria-label="Architecture complete">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="30" y="40" width="990" height="215" fill="#fff7ef" stroke="#ead8c8" rx="18"/>
+        <text x="50" y="70" class="label">Application web</text>
+        <rect x="80" y="105" width="150" height="65" class="box2"/><text x="155" y="134" text-anchor="middle" class="label">Frontend</text><text x="155" y="153" text-anchor="middle" class="small">React + Vite</text>
+        <rect x="310" y="105" width="150" height="65" class="box"/><text x="385" y="134" text-anchor="middle" class="label">Backend</text><text x="385" y="153" text-anchor="middle" class="small">Spring Boot</text>
+        <path d="M545 104 C595 104, 595 171, 545 171 C495 171, 495 104, 545 104" class="store"/><text x="545" y="133" text-anchor="middle" class="label">Supabase</text><text x="545" y="153" text-anchor="middle" class="small">PostgreSQL</text>
+        <rect x="705" y="105" width="185" height="65" class="box3"/><text x="797" y="132" text-anchor="middle" class="label">events.log</text><text x="797" y="152" text-anchor="middle" class="small">JSON Lines web events</text>
+        <path d="M230 137 L310 137" class="arrow"/><path d="M460 137 L495 137" class="arrow"/><path d="M460 165 L705 137" class="arrow"/>
+        <rect x="30" y="295" width="990" height="225" fill="#f7fbff" stroke="#d2e8ef" rx="18"/>
+        <text x="50" y="325" class="label">Pipeline Big Data terminal-first</text>
+        <rect x="70" y="365" width="120" height="60" class="box"/><text x="130" y="392" text-anchor="middle" class="label">Python</text><text x="130" y="411" text-anchor="middle" class="small">catalog</text>
+        <path d="M270 365 C315 365, 315 425, 270 425 C225 425, 225 365, 270 365" class="store"/><text x="270" y="393" text-anchor="middle" class="label">Mirror PG</text><text x="270" y="411" text-anchor="middle" class="small">Docker</text>
+        <rect x="365" y="365" width="105" height="60" class="box"/><text x="417" y="400" text-anchor="middle" class="label">Sqoop</text>
+        <path d="M555 365 C610 365, 610 425, 555 425 C500 425, 500 365, 555 365" class="store"/><text x="555" y="393" text-anchor="middle" class="label">HDFS</text><text x="555" y="411" text-anchor="middle" class="small">raw data</text>
+        <rect x="665" y="350" width="115" height="50" class="box2"/><text x="722" y="380" text-anchor="middle" class="label">Hive</text>
+        <rect x="665" y="425" width="115" height="50" class="box"/><text x="722" y="455" text-anchor="middle" class="label">MapReduce</text>
+        <path d="M870 365 C915 365, 915 425, 870 425 C825 425, 825 365, 870 365" class="store"/><text x="870" y="393" text-anchor="middle" class="label">HBase</text><text x="870" y="411" text-anchor="middle" class="small">course_stats</text>
+        <path d="M190 395 L225 395" class="arrow"/><path d="M315 395 L365 395" class="arrow"/><path d="M470 395 L500 395" class="arrow"/><path d="M610 385 L665 375" class="arrow"/><path d="M610 405 L665 450" class="arrow"/><path d="M780 375 L825 390" class="arrow"/>
+        <path d="M797 170 C790 260, 620 260, 555 365" class="arrow"/><text x="660" y="270" class="small">Flume lit events.log et ecrit dans HDFS</text>
+      </svg>
+    </div>
+    <p>
+      Le backend n'execute pas directement les jobs Hadoop pendant une requete utilisateur. Il ecrit des
+      evenements et lit les rapports produits par le pipeline. Cette separation rend l'application web
+      rapide et garde la partie Big Data demonstrable en terminal.
+    </p>
+  </section>
+
+  <section class="page-break">
+    <h2>3. Installation et preparation des donnees</h2>
+    <p>Le pipeline commence avant Hadoop: les datasets doivent etre disponibles localement.</p>
+    <table>
+      <thead><tr><th>Fichier</th><th>Role</th><th>Utilisation</th></tr></thead>
+      <tbody>
+        <tr><td><code>archive (1).zip</code></td><td>Dataset final cleaned</td><td>Cours, plateformes, skills, ratings, etudiants.</td></tr>
+        <tr><td><code>archive.zip</code></td><td>All courses</td><td>Titres, descriptions, providers, URLs, reviews.</td></tr>
+        <tr><td><code>archive (2).zip</code></td><td>Coursera/edX riche</td><td>Descriptions, niveaux, langues, images, guided projects.</td></tr>
+      </tbody>
+    </table>
+    <div class="figure">
+      <p class="caption">Figure 3 - Installation des donnees et construction catalogue</p>
+      <svg viewBox="0 0 1000 300" role="img" aria-label="Installation donnees">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="45" y="70" width="140" height="70" class="box"/><text x="115" y="98" text-anchor="middle" class="label">ZIP datasets</text><text x="115" y="118" text-anchor="middle" class="small">Downloads</text>
+        <rect x="250" y="70" width="190" height="70" class="box2"/><text x="345" y="98" text-anchor="middle" class="label">12_merge_and</text><text x="345" y="118" text-anchor="middle" class="small">enrich_catalog.py</text>
+        <rect x="505" y="55" width="165" height="100" class="box"/><text x="587" y="84" text-anchor="middle" class="label">CSV propres</text><text x="587" y="106" text-anchor="middle" class="small">courses, skills,</text><text x="587" y="125" text-anchor="middle" class="small">providers, categories</text>
+        <rect x="735" y="55" width="180" height="100" class="box3"/><text x="825" y="84" text-anchor="middle" class="label">Reports</text><text x="825" y="106" text-anchor="middle" class="small">catalog_build</text><text x="825" y="125" text-anchor="middle" class="small">report.json</text>
+        <path d="M185 105 L250 105" class="arrow"/><path d="M440 105 L505 105" class="arrow"/><path d="M670 105 L735 105" class="arrow"/>
+        <rect x="250" y="200" width="420" height="45" class="box"/><text x="460" y="228" text-anchor="middle" class="label">Nettoyage: normalisation, deduplication, categories, popularity_score</text>
+      </svg>
+    </div>
+    <pre>cd apps\bigdata
+python -m pip install -r requirements.txt
+python .\scripts\12_merge_and_enrich_catalog.py</pre>
+    <p>Sorties principales: <code>output/catalog/unified_courses.csv</code>, <code>skills.csv</code>, <code>course_skills_staging.csv</code>, <code>catalog_build_report.json</code>.</p>
+  </section>
+
+  <section class="page-break">
+    <h2>4. Role de chaque conteneur Docker</h2>
+    <table>
+      <thead><tr><th>Conteneur</th><th>Image</th><th>Role exact</th><th>Pourquoi il est necessaire</th></tr></thead>
+      <tbody>
+        <tr><td><code>postgres-mirror</code></td><td>postgres:16</td><td>Base relationnelle locale remplie par les CSV du catalogue.</td><td>Sqoop importe depuis une base SQL stable sans toucher Supabase.</td></tr>
+        <tr><td><code>namenode</code></td><td>bde2020/hadoop-namenode</td><td>Metadata manager HDFS.</td><td>Gere l'arborescence HDFS et sait ou sont les blocs.</td></tr>
+        <tr><td><code>datanode</code></td><td>bde2020/hadoop-datanode</td><td>Stockage physique des blocs HDFS.</td><td>Permet de montrer le stockage distribue; scalable avec <code>--scale datanode=2</code>.</td></tr>
+        <tr><td><code>resourcemanager</code></td><td>bde2020/hadoop-resourcemanager</td><td>Coordinateur YARN.</td><td>Planifie les traitements Hadoop/MapReduce.</td></tr>
+        <tr><td><code>nodemanager</code></td><td>bde2020/hadoop-nodemanager</td><td>Worker YARN.</td><td>Execute les containers de traitement sur le cluster.</td></tr>
+        <tr><td><code>sqoop-client</code></td><td>skillbridge-sqoop</td><td>Import batch PostgreSQL vers HDFS.</td><td>Charge les tables courses, skills, saved_courses, progress, etc.</td></tr>
+        <tr><td><code>flume-agent</code></td><td>skillbridge-flume</td><td>Ingestion streaming depuis <code>events.log</code>.</td><td>Capture les actions web en temps quasi reel vers HDFS.</td></tr>
+        <tr><td><code>hive-metastore-postgresql</code></td><td>bde2020/hive-metastore-postgresql</td><td>Base metadata Hive.</td><td>Stocke les definitions de tables Hive.</td></tr>
+        <tr><td><code>hive-metastore</code></td><td>bde2020/hive</td><td>Service metastore Hive.</td><td>Expose les schemas Hive au Hive Server.</td></tr>
+        <tr><td><code>hive-server</code></td><td>bde2020/hive</td><td>Endpoint SQL Beeline.</td><td>Permet d'interroger les donnees HDFS avec SQL.</td></tr>
+        <tr><td><code>hbase</code></td><td>harisekhon/hbase</td><td>Table key/value finale.</td><td>Stocke les stats par cours: clicks, saves, avg progress.</td></tr>
+      </tbody>
+    </table>
+    <div class="figure">
+      <p class="caption">Figure 4 - Roles des conteneurs</p>
+      <svg viewBox="0 0 1050 420" role="img" aria-label="Conteneurs Docker">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="40" y="45" width="150" height="60" class="box"/><text x="115" y="80" text-anchor="middle" class="label">postgres-mirror</text>
+        <rect x="250" y="45" width="130" height="60" class="box"/><text x="315" y="80" text-anchor="middle" class="label">sqoop-client</text>
+        <rect x="440" y="45" width="130" height="60" class="box3"/><text x="505" y="80" text-anchor="middle" class="label">namenode</text>
+        <rect x="625" y="45" width="130" height="60" class="box3"/><text x="690" y="80" text-anchor="middle" class="label">datanode(s)</text>
+        <rect x="815" y="45" width="150" height="60" class="box2"/><text x="890" y="72" text-anchor="middle" class="label">Hive + HBase</text><text x="890" y="91" text-anchor="middle" class="small">analytics serving</text>
+        <rect x="250" y="175" width="150" height="60" class="box"/><text x="325" y="210" text-anchor="middle" class="label">flume-agent</text>
+        <rect x="440" y="175" width="315" height="60" class="box2"/><text x="597" y="202" text-anchor="middle" class="label">resourcemanager + nodemanager</text><text x="597" y="221" text-anchor="middle" class="small">YARN execution layer</text>
+        <rect x="365" y="305" width="310" height="55" class="box"/><text x="520" y="338" text-anchor="middle" class="label">/opt/skillbridge volume partage</text>
+        <path d="M190 75 L250 75" class="arrow"/><path d="M380 75 L440 75" class="arrow"/><path d="M570 75 L625 75" class="arrow"/><path d="M755 75 L815 75" class="arrow"/>
+        <path d="M325 175 C355 130, 420 115, 505 105" class="arrow"/><path d="M597 175 L597 105" class="arrow"/><path d="M520 305 L520 235" class="arrow"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>5. Pipeline Big Data complet</h2>
+    <p>Le script principal <code>18_run_full_terminal_lab.ps1</code> orchestre tout le laboratoire.</p>
+    <div class="figure">
+      <p class="caption">Figure 5 - Pipeline terminal complet</p>
+      <svg viewBox="0 0 1100 520" role="img" aria-label="Pipeline complet">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="40" y="45" width="130" height="58" class="box"/><text x="105" y="80" text-anchor="middle" class="label">1 Catalog</text>
+        <rect x="225" y="45" width="135" height="58" class="box"/><text x="292" y="80" text-anchor="middle" class="label">2 Supabase</text>
+        <rect x="415" y="45" width="135" height="58" class="box"/><text x="482" y="80" text-anchor="middle" class="label">3 Mirror PG</text>
+        <rect x="605" y="45" width="115" height="58" class="box"/><text x="662" y="80" text-anchor="middle" class="label">4 Sqoop</text>
+        <rect x="775" y="45" width="115" height="58" class="box3"/><text x="832" y="80" text-anchor="middle" class="label">5 HDFS</text>
+        <rect x="945" y="45" width="115" height="58" class="box"/><text x="1002" y="80" text-anchor="middle" class="label">6 Flume</text>
+        <path d="M170 74 L225 74" class="arrow"/><path d="M360 74 L415 74" class="arrow"/><path d="M550 74 L605 74" class="arrow"/><path d="M720 74 L775 74" class="arrow"/>
+        <path d="M1002 103 C980 155, 885 165, 832 103" class="arrow"/>
+        <rect x="205" y="205" width="125" height="58" class="box2"/><text x="267" y="240" text-anchor="middle" class="label">7 Hive</text>
+        <rect x="390" y="205" width="150" height="58" class="box"/><text x="465" y="240" text-anchor="middle" class="label">8 MapReduce</text>
+        <rect x="600" y="205" width="135" height="58" class="box"/><text x="667" y="240" text-anchor="middle" class="label">9 Python</text>
+        <rect x="795" y="205" width="120" height="58" class="box3"/><text x="855" y="240" text-anchor="middle" class="label">10 HBase</text>
+        <rect x="460" y="355" width="190" height="58" class="box2"/><text x="555" y="380" text-anchor="middle" class="label">11 JSON summary</text><text x="555" y="399" text-anchor="middle" class="small">dashboard + rapport</text>
+        <path d="M832 103 C760 165, 345 155, 267 205" class="arrow"/>
+        <path d="M832 103 C760 170, 550 155, 465 205" class="arrow"/>
+        <path d="M482 103 C520 170, 610 165, 667 205" class="arrow"/>
+        <path d="M267 263 C330 340, 465 330, 555 355" class="arrow"/>
+        <path d="M465 263 L555 355" class="arrow"/>
+        <path d="M667 263 C735 320, 810 305, 855 263" class="arrow"/>
+        <path d="M855 263 C820 345, 660 350, 555 355" class="arrow"/>
+      </svg>
+    </div>
+    <table>
+      <thead><tr><th>Etape</th><th>Travail effectue</th><th>Sortie attendue</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Fusion et nettoyage des ZIP.</td><td>CSV catalogue propres.</td></tr>
+        <tr><td>2</td><td>Dry-run ou upsert Supabase.</td><td>Rapport des tables touchees.</td></tr>
+        <tr><td>3</td><td>Seed du PostgreSQL mirror.</td><td>Tables locales remplies.</td></tr>
+        <tr><td>4</td><td>Sqoop importe les tables.</td><td>Fichiers HDFS raw/sqoop.</td></tr>
+        <tr><td>5</td><td>HDFS stocke batch et streaming.</td><td>Zones raw et processed.</td></tr>
+        <tr><td>6</td><td>Flume suit events.log.</td><td>events dans HDFS.</td></tr>
+        <tr><td>7</td><td>Hive cree tables externes.</td><td>Requetes SQL analytiques.</td></tr>
+        <tr><td>8</td><td>MapReduce compte keywords.</td><td>top_search_keywords.</td></tr>
+        <tr><td>9</td><td>Python detecte project skills.</td><td>project_skill_matches.csv.</td></tr>
+        <tr><td>10</td><td>HBase charge course_stats.</td><td>Stats rapides par course_id.</td></tr>
+        <tr><td>11</td><td>JSON final pour dashboard.</td><td>bigdata-summary.json.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="page-break">
+    <h2>6. Use case: Generate recommendations depuis le web</h2>
+    <p>
+      C'est le use case le plus important. L'utilisateur est dans la page detail d'un projet et clique
+      sur <code>Generate recommendations</code>. Le pipeline web rapide s'execute dans Spring Boot,
+      puis un evenement est ecrit pour le pipeline Big Data.
+    </p>
+    <div class="figure">
+      <p class="caption">Figure 6 - Generate recommendations web + Big Data</p>
+      <svg viewBox="0 0 1080 610" role="img" aria-label="Generate recommendations">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="45" y="50" width="150" height="60" class="box2"/><text x="120" y="83" text-anchor="middle" class="label">React ProjectDetail</text>
+        <rect x="270" y="50" width="190" height="60" class="box"/><text x="365" y="75" text-anchor="middle" class="label">POST /projects/{id}</text><text x="365" y="94" text-anchor="middle" class="small">/recommendations/generate</text>
+        <rect x="540" y="50" width="180" height="60" class="box"/><text x="630" y="83" text-anchor="middle" class="label">RecommendationService</text>
+        <path d="M195 80 L270 80" class="arrow"/><path d="M460 80 L540 80" class="arrow"/>
+        <rect x="105" y="180" width="150" height="56" class="box"/><text x="180" y="205" text-anchor="middle" class="label">1 Load project</text><text x="180" y="224" text-anchor="middle" class="small">owner check</text>
+        <rect x="315" y="180" width="150" height="56" class="box"/><text x="390" y="205" text-anchor="middle" class="label">2 Extract tokens</text><text x="390" y="224" text-anchor="middle" class="small">normalize text</text>
+        <rect x="525" y="180" width="150" height="56" class="box"/><text x="600" y="205" text-anchor="middle" class="label">3 Detect skills</text><text x="600" y="224" text-anchor="middle" class="small">skillRepository</text>
+        <rect x="735" y="180" width="150" height="56" class="box"/><text x="810" y="205" text-anchor="middle" class="label">4 Rank courses</text><text x="810" y="224" text-anchor="middle" class="small">score 0-100</text>
+        <path d="M630 110 C600 145, 230 145, 180 180" class="arrow"/>
+        <path d="M255 208 L315 208" class="arrow"/><path d="M465 208 L525 208" class="arrow"/><path d="M675 208 L735 208" class="arrow"/>
+        <path d="M230 335 C280 335, 280 395, 230 395 C180 395, 180 335, 230 335" class="store"/><text x="230" y="360" text-anchor="middle" class="label">DB</text><text x="230" y="379" text-anchor="middle" class="small">snapshots/results</text>
+        <rect x="430" y="330" width="170" height="70" class="box3"/><text x="515" y="357" text-anchor="middle" class="label">events.log</text><text x="515" y="376" text-anchor="middle" class="small">PROJECT_RECOMMENDATION</text>
+        <rect x="705" y="330" width="150" height="70" class="box2"/><text x="780" y="357" text-anchor="middle" class="label">Response JSON</text><text x="780" y="376" text-anchor="middle" class="small">recommendations + trace</text>
+        <path d="M810 236 C725 310, 310 285, 230 335" class="arrow"/>
+        <path d="M810 236 C750 315, 605 305, 515 330" class="arrow"/>
+        <path d="M810 236 L780 330" class="arrow"/>
+        <rect x="430" y="485" width="120" height="50" class="box"/><text x="490" y="515" text-anchor="middle" class="label">Flume</text>
+        <rect x="610" y="485" width="120" height="50" class="box3"/><text x="670" y="515" text-anchor="middle" class="label">HDFS</text>
+        <rect x="790" y="485" width="150" height="50" class="box"/><text x="865" y="515" text-anchor="middle" class="label">Hive/MapReduce</text>
+        <path d="M515 400 L490 485" class="arrow"/><path d="M550 510 L610 510" class="arrow"/><path d="M730 510 L790 510" class="arrow"/>
+      </svg>
+    </div>
+    <h3>Details metier</h3>
+    <ul>
+      <li>Le backend verifie que le projet appartient a l'utilisateur connecte.</li>
+      <li>Le texte est normalise: minuscules, suppression ponctuation, tokens utiles.</li>
+      <li>Les skills sont detectes par correspondance avec la table <code>skills</code>.</li>
+      <li>Les cours candidats sont charges depuis <code>courses</code> et <code>course_skills</code>.</li>
+      <li>Le score combine titre, skills, categorie et bonus popularite/Big Data.</li>
+      <li>Le resultat est sauvegarde dans <code>recommendation_snapshots</code> et <code>recommendation_results</code>.</li>
+      <li>L'evenement <code>PROJECT_RECOMMENDATION</code> part dans <code>events.log</code>, puis Flume/HDFS.</li>
+    </ul>
+  </section>
+
+  <section class="page-break">
+    <h2>7. Autres use cases et liaison Big Data</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Recherche de cours</h3>
+        <p><code>GET /api/courses?q=...</code> lit le catalogue et ecrit <code>COURSE_SEARCH</code> si une recherche existe.</p>
+        <p>Flume envoie cet evenement dans HDFS. MapReduce calcule les top mots cles.</p>
+      </div>
+      <div class="card">
+        <h3>Clic sur un cours</h3>
+        <p><code>POST /api/courses/{id}/click</code> ecrit <code>COURSE_CLICK</code>.</p>
+        <p>Les stats de clics peuvent alimenter Hive et HBase.</p>
+      </div>
+      <div class="card">
+        <h3>Sauvegarder un cours</h3>
+        <p><code>POST /api/saved-courses/{courseId}</code> remplit <code>saved_courses</code>.</p>
+        <p>Sqoop importe cette table vers HDFS; Hive calcule les cours les plus sauvegardes.</p>
+      </div>
+      <div class="card">
+        <h3>Progression</h3>
+        <p><code>PUT /api/progress/{courseId}</code> remplit <code>course_progress</code>.</p>
+        <p>Hive/HBase construisent <code>activity:avg_progress</code> dans <code>course_stats</code>.</p>
+      </div>
+    </div>
+    <div class="figure">
+      <p class="caption">Figure 7 - Evenements et tables par use case</p>
+      <svg viewBox="0 0 1040 430" role="img" aria-label="Use cases events">
+        <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#74412c"/></marker></defs>
+        <rect x="40" y="45" width="160" height="55" class="box2"/><text x="120" y="78" text-anchor="middle" class="label">Search courses</text>
+        <rect x="40" y="125" width="160" height="55" class="box2"/><text x="120" y="158" text-anchor="middle" class="label">Open course</text>
+        <rect x="40" y="205" width="160" height="55" class="box2"/><text x="120" y="238" text-anchor="middle" class="label">Save course</text>
+        <rect x="40" y="285" width="160" height="55" class="box2"/><text x="120" y="318" text-anchor="middle" class="label">Update progress</text>
+        <rect x="310" y="65" width="180" height="80" class="box"/><text x="400" y="96" text-anchor="middle" class="label">events.log</text><text x="400" y="116" text-anchor="middle" class="small">COURSE_SEARCH</text><text x="400" y="134" text-anchor="middle" class="small">COURSE_CLICK</text>
+        <path d="M590 65 C640 65, 640 145, 590 145 C540 145, 540 65, 590 65" class="store"/><text x="590" y="98" text-anchor="middle" class="label">DB tables</text><text x="590" y="118" text-anchor="middle" class="small">saved/progress</text>
+        <rect x="700" y="65" width="120" height="80" class="box"/><text x="760" y="108" text-anchor="middle" class="label">Sqoop</text>
+        <rect x="310" y="245" width="120" height="58" class="box"/><text x="370" y="278" text-anchor="middle" class="label">Flume</text>
+        <rect x="520" y="245" width="120" height="58" class="box3"/><text x="580" y="278" text-anchor="middle" class="label">HDFS</text>
+        <rect x="715" y="245" width="120" height="58" class="box2"/><text x="775" y="278" text-anchor="middle" class="label">Hive</text>
+        <rect x="890" y="245" width="110" height="58" class="box3"/><text x="945" y="278" text-anchor="middle" class="label">HBase</text>
+        <path d="M200 72 L310 95" class="arrow"/><path d="M200 152 L310 115" class="arrow"/><path d="M200 232 C310 195, 470 170, 540 125" class="arrow"/><path d="M200 312 C345 260, 490 210, 560 145" class="arrow"/>
+        <path d="M400 145 L370 245" class="arrow"/><path d="M640 105 L700 105" class="arrow"/><path d="M760 145 C735 200, 650 220, 580 245" class="arrow"/><path d="M430 274 L520 274" class="arrow"/><path d="M640 274 L715 274" class="arrow"/><path d="M835 274 L890 274" class="arrow"/>
+      </svg>
+    </div>
+  </section>
+
+  <section class="page-break">
+    <h2>8. Sorties, verification et demonstration</h2>
+    <table>
+      <thead><tr><th>Resultat</th><th>Chemin ou commande</th><th>Ce qu'il prouve</th></tr></thead>
+      <tbody>
+        <tr><td>Catalogue build report</td><td><code>output/catalog/catalog_build_report.json</code></td><td>Les datasets sont lus, nettoyes et dedupliques.</td></tr>
+        <tr><td>Mirror PostgreSQL</td><td><code>select count(*) from courses;</code></td><td>Le catalogue est pret pour Sqoop.</td></tr>
+        <tr><td>HDFS raw Sqoop</td><td><code>hdfs dfs -ls /data/skillbridge/raw/sqoop/courses</code></td><td>L'import batch fonctionne.</td></tr>
+        <tr><td>HDFS raw Flume</td><td><code>hdfs dfs -ls -R /data/skillbridge/raw/flume/events</code></td><td>Le streaming events.log fonctionne.</td></tr>
+        <tr><td>Hive</td><td><code>select count(*) from hive_courses;</code></td><td>Les fichiers HDFS sont queryables en SQL.</td></tr>
+        <tr><td>MapReduce</td><td><code>top_search_keywords/part-r-00000</code></td><td>Le traitement distribue produit des agregats.</td></tr>
+        <tr><td>HBase</td><td><code>scan 'course_stats'</code></td><td>Les stats finales sont disponibles par course_id.</td></tr>
+        <tr><td>Backend link</td><td><code>20_verify_app_bigdata_link.ps1</code></td><td>Spring Boot voit le catalogue enrichi.</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      Verification locale recente: backend live sur <code>http://localhost:8081</code>, 17 075 cours visibles,
+      login admin OK, endpoint <code>/api/bigdata/status</code> OK, liaison app-catalogue OK.
+    </div>
+    <h3>Scenario de presentation conseille</h3>
+    <ol>
+      <li>Montrer les ZIP et expliquer pourquoi ils sont nettoyes.</li>
+      <li>Lancer ou afficher <code>12_merge_and_enrich_catalog.py</code>.</li>
+      <li>Montrer <code>catalog_build_report.json</code>.</li>
+      <li>Expliquer Supabase officiel vs PostgreSQL mirror local.</li>
+      <li>Montrer Sqoop vers HDFS.</li>
+      <li>Montrer Flume qui lit <code>events.log</code>.</li>
+      <li>Executer une requete Hive.</li>
+      <li>Afficher les top keywords MapReduce.</li>
+      <li>Scanner HBase <code>course_stats</code>.</li>
+      <li>Depuis le web, cliquer Generate recommendations et montrer l'evenement dans Big Data status.</li>
+    </ol>
+  </section>
+
+  <section class="page-break">
+    <h2>9. Conclusion</h2>
+    <p>
+      La partie Big Data de SkillBridge n'est pas seulement un ensemble de conteneurs: elle complete
+      l'application web. Le catalogue massif est construit par Python, publie dans Supabase pour
+      l'application, copie dans un PostgreSQL mirror pour Sqoop, stocke dans HDFS, analyse avec Hive et
+      MapReduce, puis resume dans HBase et des fichiers JSON.
+    </p>
+    <p>
+      Quand l'utilisateur genere des recommandations, le backend donne une reponse rapide et explicable,
+      puis laisse une trace evenementielle. Cette trace peut etre ingeree par Flume, analysee dans HDFS,
+      et reutilisee dans les tableaux de bord admin. C'est la separation essentielle: le web reste rapide,
+      le Big Data reste demonstrable, et les deux sont relies par les donnees.
+    </p>
+  </section>
+</div>
+</body>
+</html>

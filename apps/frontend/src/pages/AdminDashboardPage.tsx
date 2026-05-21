@@ -62,7 +62,12 @@ export function AdminDashboardPage() {
   const scoreDistribution = toCatalogMetrics(recommendations.scoreDistribution);
 
   // Keywords from catalog or events
-  const topKeywords = arr<AnyRecord>(catalog.topKeywords || events.topKeywords || []).map(
+  const topKeywords = arr<AnyRecord>(
+    catalog.topKeywords || 
+    events.topKeywords || 
+    (events.mostSearchedKeywords as AnyRecord)?.topSearchKeywords || 
+    []
+  ).map(
     kw => ({ keyword: str(kw.keyword || kw.name, "unknown"), count: num(kw.count) })
   );
 

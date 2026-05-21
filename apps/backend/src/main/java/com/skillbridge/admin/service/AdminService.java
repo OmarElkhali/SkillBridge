@@ -275,7 +275,11 @@ public class AdminService {
         data.put("recommendationEventsCount", countEvents(events, "PROJECT_RECOMMENDATION"));
         data.put("courseClickEvents", countEvents(events, "COURSE_CLICK"));
         data.put("courseSaveEvents", countEvents(events, "COURSE_SAVE"));
-        data.put("mostSearchedKeywords", bigDataStatusService.topKeywords());
+        Map<String, Object> topKwMap = bigDataStatusService.topKeywords();
+        data.put("mostSearchedKeywords", topKwMap);
+        if (topKwMap != null && topKwMap.containsKey("topSearchKeywords")) {
+            data.put("topKeywords", topKwMap.get("topSearchKeywords"));
+        }
         data.put("eventsLogPath", bigDataStatusService.eventLogPathString());
         data.put("flumeHdfsPath", BigDataEventService.FLUME_HDFS_EVENTS_PATH);
         return data;

@@ -9,19 +9,27 @@ Write-Host "=== SkillBridge app <-> Big Data catalog link check ==="
 Write-Host "Backend URL: $BackendUrl"
 
 try {
-    $courses = Invoke-RestMethod -Uri "$BackendUrl/api/courses" -Method Get
+    $coursesResponse = Invoke-RestMethod -Uri "$BackendUrl/api/courses?page=0&size=5" -Method Get
 } catch {
     throw "Backend API is not reachable at $BackendUrl. Start apps/backend first."
 }
 
-$count = @($courses).Count
+$count = if ($null -ne $coursesResponse.totalElements) {
+    [int] $coursesResponse.totalElements
+} else {
+    @($coursesResponse).Count
+}
 Write-Host "Courses visible through backend API: $count"
 
 if ($count -lt $MinimumCourses) {
     throw "Catalog link looks incomplete. Expected at least $MinimumCourses courses, got $count."
 }
 
-$first = @($courses | Select-Object -First 1)
+$first = if ($null -ne $coursesResponse.content) {
+    @($coursesResponse.content | Select-Object -First 1)
+} else {
+    @($coursesResponse | Select-Object -First 1)
+}
 $result = [ordered]@{
     backend_url = $BackendUrl
     courses_visible = $count
