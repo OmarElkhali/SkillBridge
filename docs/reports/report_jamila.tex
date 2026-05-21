@@ -1,0 +1,2833 @@
+﻿\documentclass[12pt,a4paper]{report}
+
+% ---------------------------------------------------------------------------
+% SkillBridge academic report
+% ---------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{sectsty}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{pdflscape}
+
+\geometry{top=2cm,bottom=2cm,left=2cm,right=2cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\renewcommand{\arraystretch}{1.2}
+\hypersetup{colorlinks=true,linkcolor=sbNavy,urlcolor=sbTeal,citecolor=sbNavy}
+
+\definecolor{sbNavy}{HTML}{1F3A5F}
+\definecolor{sbTeal}{HTML}{1B998B}
+\definecolor{sbOrange}{HTML}{E67E22}
+\definecolor{sbSky}{HTML}{4C86A8}
+\definecolor{sbGold}{HTML}{C9A227}
+\definecolor{sbMint}{HTML}{6CBFB4}
+\definecolor{sbGray}{HTML}{F4F6F8}
+\definecolor{sbDark}{HTML}{20242A}
+\definecolor{sbLine}{HTML}{D8DEE9}
+\arrayrulecolor{sbLine}
+
+\chapterfont{\color{sbNavy}}
+\sectionfont{\color{sbDark}}
+\subsectionfont{\color{sbTeal}}
+
+\lstdefinestyle{reportcode}{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{sbLine},
+    backgroundcolor=\color{sbGray},
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+}
+\lstset{style=reportcode}
+
+\newcommand{\projectName}{SkillBridge}
+\newif\ifimagefound
+\let\originalfbox\fbox
+\renewcommand{\fbox}[1]{%
+    \ifimagefound
+        \global\imagefoundfalse
+    \else
+        \originalfbox{#1}%
+    \fi
+}
+\newcommand{\maybeincludegraphics}[2][]{
+    \IfFileExists{#2}
+        {\global\imagefoundtrue\includegraphics[#1]{#2}\par\vspace{0.35cm}}
+        {\global\imagefoundfalse}
+}
+\newcommand{\diagramimage}[3]{
+    \begin{figure}[H]
+        \centering
+        \IfFileExists{#1}
+        {\includegraphics[width=#2\textwidth]{#1}}
+        {
+            \fcolorbox{sbLine}{sbGray}{
+                \begin{minipage}[c][7cm][c]{0.88\textwidth}
+                    \centering
+                    {\Large Diagram image missing}\\[0.5cm]
+                    \texttt{\detokenize{#1}}\\[0.35cm]
+                    Render the matching PlantUML file from \texttt{plantuml/} and save the image here.
+                \end{minipage}
+            }
+        }
+        \caption{#3}
+    \end{figure}
+}
+\newcommand{\screenshotplaceholder}[3]{
+    \begin{figure}[H]
+        \centering
+        \IfFileExists{#1}
+        {\includegraphics[width=0.92\textwidth]{#1}}
+        {
+            \fcolorbox{sbLine}{sbGray}{
+                \begin{minipage}[c][7cm][c]{0.88\textwidth}
+                    \centering
+                    {\Large #2}\\[0.5cm]
+                    \texttt{\detokenize{#1}}\\[0.35cm]
+                    Add the application screenshot here before compiling the final PDF.
+                \end{minipage}
+            }
+        }
+        \caption{#3}
+    \end{figure}
+}
+
+\begin{document}
+
+% ---------------------------------------------------------------------------
+% Cover
+% ---------------------------------------------------------------------------
+% ---------------- Page de garde ----------------
+\begin{titlepage}
+    \thispagestyle{empty}
+
+    \noindent
+    \begin{minipage}[t]{0.48\textwidth}
+        \IfFileExists{assets/bdiologo.png}
+            {\includegraphics[height=2cm,width=1.6cm]{assets/bdiologo.png}}
+            {\fbox{\rule{0pt}{2cm}\hspace{1cm}BDIO\hspace{1cm}}}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \raggedleft
+        \IfFileExists{assets/ensamlogo.png}
+            {\includegraphics[height=1.6cm]{assets/ensamlogo.png}}
+            {\fbox{\rule{0pt}{1.6cm}\hspace{1cm}ENSAM\hspace{1cm}}}
+    \end{minipage}
+
+    \vspace{3.2cm}
+
+    \begin{center}
+        {\small Projet JEE \& BigData}
+
+        \vspace{0.35cm}
+
+        {\LARGE \bfseries SkillBridge}
+
+        \vspace{0.45cm}
+
+        {\normalsize
+        Plateforme Ã©ducative orientÃ©e projet pour la recommandation de cours
+}
+    \end{center}
+
+    \vspace{4.8cm}
+
+    \noindent
+    \begin{minipage}[t]{0.42\textwidth}
+        {\small RÃ©alisÃ© par :}
+
+        \vspace{0.35cm}
+
+        {\small Elkhali Omar }
+
+        \vspace{0.25cm}
+
+        {\small Moutik Ayoub }
+
+        \vspace{0.25cm}
+
+        {\small Ouzzane Jamila }
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.32\textwidth}
+        {\small EncadrÃ© par :}
+
+        \vspace{0.35cm}
+
+        {\small Pr. EL Faquih Loubna}
+
+        \vspace{0.25cm}
+
+        {\small Pr. HIRCHOUA Bader}
+
+        \vspace{0.25cm}
+
+        {\small Pr. SEKKATE Sara}
+    \end{minipage}
+
+    \vfill
+
+    \begin{center}
+        {\small AU : 25-26}
+    \end{center}
+
+\end{titlepage}
+
+\pagenumbering{roman}
+\chapter*{RÃ©sumÃ©}
+\addcontentsline{toc}{chapter}{RÃ©sumÃ©}
+\projectName{} est une plateforme de parcours dâ€™apprentissage conÃ§ue Ã  partir dâ€™un constat pratique : de nombreux apprenants savent ce quâ€™ils souhaitent rÃ©aliser, mais ne savent pas quelles compÃ©tences ni quels cours peuvent les aider Ã  y parvenir. Lâ€™application permet Ã  un utilisateur de crÃ©er un compte, de soumettre une idÃ©e de projet, de recevoir les compÃ©tences dÃ©tectÃ©es, dâ€™obtenir des recommandations de cours classÃ©es, dâ€™enregistrer des cours et de suivre sa progression. Les administrateurs peuvent gÃ©rer les utilisateurs, le catalogue, les fournisseurs, les catÃ©gories, les compÃ©tences ainsi que les Ã©crans de suivi de lâ€™Ã©tat du module Big Data.
+
+Le projet est organisÃ© autour de trois applications coordonnÃ©es : un backend Spring Boot, un frontend React et un laboratoire Big Data orientÃ© terminal. Le backend applique les principes JEE Ã  travers une architecture en couches, des contrÃ´leurs REST, des entitÃ©s Jakarta Persistence, des repositories, des DTO, la validation et les transactions. La couche de sÃ©curitÃ© utilise Spring Security avec une authentification JWT sans Ã©tat, le hachage des mots de passe avec BCrypt, lâ€™intÃ©gration de la connexion OAuth, lâ€™autorisation au niveau des mÃ©thodes, le renforcement de la configuration CORS, les en-tÃªtes de sÃ©curitÃ© HTTP et la protection contre les attaques par force brute. Le module Big Data illustre lâ€™ingestion batch et streaming avec Sqoop et Flume, le stockage distribuÃ© avec HDFS, lâ€™analyse avec Hive, le traitement avec un job Java MapReduce, lâ€™enrichissement des donnÃ©es avec Python et une couche de service basÃ©e sur HBase.
+
+Ce rapport prÃ©sente lâ€™objectif, lâ€™architecture, le modÃ¨le de donnÃ©es, les algorithmes, la conception de lâ€™API, les contrÃ´les de sÃ©curitÃ©, le pipeline Big Data, les diagrammes UML, la stratÃ©gie de test et le plan de dÃ©monstration de lâ€™application complÃ¨te.
+
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+\pagenumbering{arabic}
+
+% ---------------------------------------------------------------------------
+\chapter{Ã‰tude fonctionnelle et analyse des besoins}
+
+\section{PrÃ©sentation de SkillBridge}
+
+SkillBridge est une plateforme Ã©ducative intelligente permettant de transformer une idÃ©e de projet en un parcours dâ€™apprentissage structurÃ©. Contrairement aux plateformes classiques oÃ¹ lâ€™utilisateur recherche directement un cours, SkillBridge adopte une approche orientÃ©e projet.
+
+Lâ€™utilisateur dÃ©crit le projet quâ€™il souhaite rÃ©aliser en langage naturel. Le systÃ¨me analyse ensuite cette description afin de :
+\begin{itemize}
+    \item dÃ©tecter les compÃ©tences nÃ©cessaires ;
+    \item identifier les catÃ©gories pertinentes ;
+    \item sÃ©lectionner les cours adaptÃ©s ;
+    \item classer les recommandations selon un score explicable.
+\end{itemize}
+
+La plateforme combine :
+\begin{itemize}
+    \item une application web full-stack ;
+    \item un moteur de recommandation ;
+    \item un pipeline Big Data basÃ© sur lâ€™Ã©cosystÃ¨me Hadoop ;
+    \item un tableau de bord analytique destinÃ© aux administrateurs.
+\end{itemize}
+
+Le projet vise ainsi Ã  amÃ©liorer lâ€™orientation pÃ©dagogique des utilisateurs tout en exploitant les donnÃ©es gÃ©nÃ©rÃ©es par la plateforme Ã  des fins analytiques.
+
+\section{Acteurs du systÃ¨me}
+
+Le systÃ¨me met en interaction plusieurs acteurs ayant des rÃ´les diffÃ©rents.
+
+\begin{table}[H]
+    \centering
+    \caption{Acteurs principaux du systÃ¨me}
+    
+    \begin{tabular}{|p{4cm}|p{9cm}|}
+        \hline
+        \textbf{Acteur} & \textbf{RÃ´le} \\
+        \hline
+        
+        Utilisateur &
+        CrÃ©e un compte, consulte le catalogue, crÃ©e des idÃ©es de projet, gÃ©nÃ¨re des recommandations, sauvegarde des cours et suit sa progression. \\
+        
+        \hline
+        
+        Administrateur &
+        GÃ¨re les utilisateurs, les cours, les catÃ©gories, les compÃ©tences et supervise les indicateurs analytiques ainsi que le pipeline Big Data. \\
+        
+        \hline
+        
+        Pipeline Big Data &
+        Collecte, traite, stocke et analyse les donnÃ©es gÃ©nÃ©rÃ©es par lâ€™application. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Besoins fonctionnels}
+
+Les besoins fonctionnels reprÃ©sentent les fonctionnalitÃ©s que doit assurer le systÃ¨me afin de rÃ©pondre aux attentes des utilisateurs.
+
+\subsection{Authentification et gestion des utilisateurs}
+
+Le systÃ¨me doit permettre :
+\begin{itemize}
+    \item la crÃ©ation de comptes utilisateurs ;
+    \item lâ€™authentification sÃ©curisÃ©e ;
+    \item la connexion via email et mot de passe ;
+    \item la connexion via Google et GitHub ;
+    \item la gestion des rÃ´les utilisateur et administrateur.
+\end{itemize}
+
+\subsection{Gestion du catalogue de cours}
+
+Le systÃ¨me doit permettre :
+\begin{itemize}
+    \item la consultation du catalogue de cours ;
+    \item la recherche et le filtrage des cours ;
+    \item la pagination des rÃ©sultats ;
+    \item la gestion des catÃ©gories et fournisseurs ;
+    \item lâ€™administration des ressources pÃ©dagogiques.
+\end{itemize}
+
+\subsection{Gestion des projets}
+
+Le systÃ¨me doit permettre :
+\begin{itemize}
+    \item la crÃ©ation dâ€™idÃ©es de projet ;
+    \item lâ€™analyse des descriptions fournies ;
+    \item la dÃ©tection des compÃ©tences associÃ©es ;
+    \item la gÃ©nÃ©ration de recommandations personnalisÃ©es.
+\end{itemize}
+
+\subsection{Recommandation de cours}
+
+Le moteur de recommandation doit :
+\begin{itemize}
+    \item analyser les mots-clÃ©s du projet ;
+    \item dÃ©tecter les compÃ©tences pertinentes ;
+    \item associer les catÃ©gories correspondantes ;
+    \item calculer un score de pertinence ;
+    \item gÃ©nÃ©rer une liste ordonnÃ©e de cours.
+\end{itemize}
+
+\subsection{Suivi pÃ©dagogique}
+
+Le systÃ¨me doit permettre :
+\begin{itemize}
+    \item la sauvegarde des cours ;
+    \item le suivi de progression ;
+    \item lâ€™affichage des parcours enregistrÃ©s ;
+    \item le suivi des activitÃ©s utilisateur.
+\end{itemize}
+
+\subsection{FonctionnalitÃ©s analytiques}
+
+Le systÃ¨me doit permettre :
+\begin{itemize}
+    \item la collecte des Ã©vÃ©nements utilisateurs ;
+    \item lâ€™analyse des donnÃ©es gÃ©nÃ©rÃ©es ;
+    \item la visualisation des statistiques ;
+    \item la supervision du pipeline Big Data.
+\end{itemize}
+
+\section{Besoins non fonctionnels}
+
+En plus des fonctionnalitÃ©s principales, le systÃ¨me doit respecter plusieurs contraintes non fonctionnelles.
+
+\subsection{SÃ©curitÃ©}
+
+La plateforme doit garantir :
+\begin{itemize}
+    \item la protection des donnÃ©es utilisateurs ;
+    \item la sÃ©curisation des accÃ¨s ;
+    \item le contrÃ´le des autorisations ;
+    \item la protection contre les accÃ¨s non autorisÃ©s.
+\end{itemize}
+
+\subsection{Performance}
+
+Le systÃ¨me doit :
+\begin{itemize}
+    \item rÃ©pondre rapidement aux requÃªtes utilisateurs ;
+    \item sÃ©parer les traitements temps rÃ©el et analytiques ;
+    \item limiter lâ€™impact du pipeline Big Data sur lâ€™application web.
+\end{itemize}
+
+\subsection{ScalabilitÃ©}
+
+Lâ€™architecture doit permettre :
+\begin{itemize}
+    \item lâ€™augmentation du volume de donnÃ©es ;
+    \item lâ€™ajout de nouveaux nÅ“uds Hadoop ;
+    \item lâ€™extension des fonctionnalitÃ©s analytiques.
+\end{itemize}
+
+\subsection{MaintenabilitÃ©}
+
+Le projet doit rester :
+\begin{itemize}
+    \item modulaire ;
+    \item lisible ;
+    \item facilement Ã©volutif ;
+    \item rÃ©utilisable pour des Ã©volutions futures.
+\end{itemize}
+
+\subsection{DisponibilitÃ©}
+
+Le systÃ¨me doit assurer :
+\begin{itemize}
+    \item une disponibilitÃ© continue des fonctionnalitÃ©s principales ;
+    \item une sÃ©paration entre services critiques et traitements analytiques.
+\end{itemize}
+
+\section{Cas dâ€™utilisation}
+
+Les cas dâ€™utilisation permettent de reprÃ©senter les interactions principales entre les acteurs et le systÃ¨me.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/usecase-diagram.png}
+
+    \fbox{
+        \parbox[c][8cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Diagramme de cas dâ€™utilisation UML\\
+            (Utilisateur + Administrateur + fonctionnalitÃ©s principales)
+        }
+    }
+
+    \caption{Diagramme de cas dâ€™utilisation de SkillBridge}
+\end{figure}
+
+\subsection{ScÃ©nario : gÃ©nÃ©ration de recommandations}
+
+Le scÃ©nario principal de la plateforme est la gÃ©nÃ©ration de recommandations pÃ©dagogiques.
+
+\textbf{Acteur principal :} Utilisateur
+
+\textbf{PrÃ©condition :}
+Lâ€™utilisateur est authentifiÃ©.
+
+\textbf{ScÃ©nario principal :}
+\begin{enumerate}
+    \item lâ€™utilisateur crÃ©e une idÃ©e de projet ;
+    \item le systÃ¨me analyse la description ;
+    \item les compÃ©tences sont dÃ©tectÃ©es ;
+    \item les catÃ©gories pertinentes sont identifiÃ©es ;
+    \item le moteur calcule les scores ;
+    \item les cours sont classÃ©s ;
+    \item les recommandations sont affichÃ©es.
+\end{enumerate}
+
+\textbf{Postcondition :}
+Les rÃ©sultats sont enregistrÃ©s dans lâ€™historique des recommandations.
+
+\section{Captures dâ€™Ã©cran principales}
+
+Cette section prÃ©sente quelques interfaces principales de la plateforme.
+
+\subsection{Page de connexion}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/login-page.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.8\textwidth}{
+            \centering
+            Placeholder :\\
+            Capture dâ€™Ã©cran de la page de connexion
+        }
+    }
+
+    \caption{Interface de connexion de SkillBridge}
+\end{figure}
+
+\subsection{Catalogue de cours}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/catalog-page.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Capture du catalogue de cours\\
+            avec filtres et pagination
+        }
+    }
+
+    \caption{Catalogue des cours}
+\end{figure}
+
+\subsection{Recommandations de cours}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/recommendation-page.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Capture des recommandations gÃ©nÃ©rÃ©es
+        }
+    }
+
+    \caption{RÃ©sultats du moteur de recommandation}
+\end{figure}
+
+\subsection{Tableau de bord administrateur}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/admin-dashboard.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Dashboard administrateur et analytics Big Data
+        }
+    }
+
+    \caption{Tableau de bord analytique}
+\end{figure}
+
+\section{Conclusion}
+
+Cette Ã©tude fonctionnelle a permis dâ€™identifier les principaux besoins du systÃ¨me ainsi que les fonctionnalitÃ©s essentielles de la plateforme SkillBridge.
+
+Lâ€™analyse met en Ã©vidence la nÃ©cessitÃ© dâ€™une architecture modulaire capable de sÃ©parer les traitements transactionnels et analytiques, tout en garantissant la sÃ©curitÃ©, la maintenabilitÃ© et la scalabilitÃ© de lâ€™application.
+
+Le chapitre suivant prÃ©sentera la conception et lâ€™architecture globale du systÃ¨me.
+% ---------------------------------------------------------------------------
+\chapter{Conception et architecture du systÃ¨me}
+
+\section{Introduction}
+
+AprÃ¨s lâ€™analyse des besoins fonctionnels et non fonctionnels, cette phase consiste Ã  dÃ©finir lâ€™architecture globale de la plateforme SkillBridge ainsi que les choix techniques adoptÃ©s.
+
+
+\section{Architecture globale}
+
+Lâ€™objectif principal de cette architecture est de :
+\begin{itemize}
+    \item garantir une sÃ©paration claire des responsabilitÃ©s ;
+    \item assurer la sÃ©curitÃ© des Ã©changes ;
+    \item faciliter la maintenabilitÃ© du systÃ¨me ;
+    \item permettre lâ€™intÃ©gration dâ€™un pipeline Big Data indÃ©pendant ;
+    \item assurer lâ€™Ã©volutivitÃ© de la plateforme.
+\end{itemize}
+
+Lâ€™architecture du projet repose sur une approche modulaire sÃ©parant :
+\begin{itemize}
+    \item le frontend React ;
+    \item le backend Spring Boot ;
+    \item la base de donnÃ©es PostgreSQL ;
+    \item les composants Big Data Hadoop.
+\end{itemize}
+
+Le frontend React ne communique jamais directement avec :
+\begin{itemize}
+    \item PostgreSQL ;
+    \item HDFS ;
+    \item Hive ;
+    \item HBase ;
+    \item ou les conteneurs Docker.
+\end{itemize}
+
+Toutes les requÃªtes transitent par le backend Spring Boot qui joue le rÃ´le de couche mÃ©tier et de sÃ©curitÃ©.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/global-architecture.png}
+
+    \fbox{
+        \parbox[c][9cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Architecture globale SkillBridge\\
+            \vspace{0.3cm}
+            React â†’ Spring Boot â†’ PostgreSQL\\
+            +
+            Pipeline Hadoop (Flume, HDFS, Hive, MapReduce, HBase)
+        }
+    }
+
+    \caption{Architecture globale de SkillBridge}
+\end{figure}
+
+\subsection{SÃ©paration des couches}
+
+Le systÃ¨me est organisÃ© selon plusieurs couches indÃ©pendantes :
+
+\begin{table}[H]
+    \centering
+    \caption{Organisation des couches du systÃ¨me}
+
+    \begin{tabular}{|p{4cm}|p{9cm}|}
+        \hline
+        \textbf{Couche} & \textbf{RÃ´le} \\
+        \hline
+
+        Frontend &
+        Interface utilisateur et interactions client. \\
+        
+        \hline
+
+        Backend &
+        API REST, logique mÃ©tier, sÃ©curitÃ© et accÃ¨s aux donnÃ©es. \\
+        
+        \hline
+
+        Base transactionnelle &
+        Stockage des donnÃ©es applicatives temps rÃ©el. \\
+        
+        \hline
+
+        Pipeline Big Data &
+        Collecte, traitement et analyse des donnÃ©es massives. \\
+        
+        \hline
+
+        Dashboard analytique &
+        Visualisation des rÃ©sultats et indicateurs Big Data. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Architecture frontend}
+
+Le frontend de SkillBridge a Ã©tÃ© dÃ©veloppÃ© avec React, Vite et TypeScript.
+
+Cette couche assure :
+\begin{itemize}
+    \item lâ€™affichage des interfaces utilisateur ;
+    \item la gestion de navigation ;
+    \item la communication avec lâ€™API ;
+    \item la gestion des sessions ;
+    \item la protection des routes.
+\end{itemize}
+
+\subsection{Organisation du frontend}
+
+Le frontend est structurÃ© en plusieurs modules :
+
+\begin{table}[H]
+    \centering
+    \caption{Organisation du frontend}
+
+    \begin{tabular}{|p{4cm}|p{9cm}|}
+        \hline
+        \textbf{Dossier} & \textbf{Description} \\
+        \hline
+
+        src/pages &
+        Pages principales de lâ€™application. \\
+        
+        \hline
+
+        src/components &
+        Composants rÃ©utilisables de lâ€™interface. \\
+        
+        \hline
+
+        src/services &
+        Communication avec lâ€™API REST. \\
+        
+        \hline
+
+        src/types &
+        DÃ©finitions TypeScript et DTO frontend. \\
+        
+        \hline
+
+        src/app &
+        Gestion des routes et contexte global. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Gestion des routes}
+
+La navigation est assurÃ©e par React Router.
+
+Le systÃ¨me utilise :
+\begin{itemize}
+    \item des routes publiques ;
+    \item des routes protÃ©gÃ©es ;
+    \item des routes rÃ©servÃ©es aux administrateurs.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.85\textwidth]{figures/frontend-routing.png}
+
+    \fbox{
+        \parbox[c][6cm][c]{0.8\textwidth}{
+            \centering
+            Placeholder :\\
+            Diagramme des routes frontend\\
+            et mÃ©canisme AuthGate/AdminGate
+        }
+    }
+
+    \caption{Protection des routes frontend}
+\end{figure}
+
+\section{Architecture backend}
+
+Le backend repose sur Spring Boot et suit une architecture orientÃ©e services.
+
+Le backend centralise :
+\begin{itemize}
+    \item la logique mÃ©tier ;
+    \item la sÃ©curitÃ© ;
+    \item lâ€™authentification ;
+    \item la gestion des rÃ´les ;
+    \item lâ€™accÃ¨s aux donnÃ©es ;
+    \item les endpoints REST ;
+    \item lâ€™intÃ©gration Big Data.
+\end{itemize}
+
+\subsection{Architecture des modules backend}
+
+Le backend est organisÃ© par domaines fonctionnels.
+
+\begin{table}[H]
+    \centering
+    \caption{Modules backend principaux}
+
+    \begin{tabular}{|p{4cm}|p{9cm}|}
+        \hline
+        \textbf{Module} & \textbf{ResponsabilitÃ©} \\
+        \hline
+
+        security &
+        JWT, Spring Security, OAuth et filtres. \\
+        
+        \hline
+
+        user &
+        Gestion des utilisateurs et rÃ´les. \\
+        
+        \hline
+
+        course &
+        Gestion des cours et catalogue. \\
+        
+        \hline
+
+        recommendation &
+        GÃ©nÃ©ration des recommandations. \\
+        
+        \hline
+
+        projectidea &
+        Gestion des projets utilisateur. \\
+        
+        \hline
+
+        progress &
+        Suivi pÃ©dagogique et progression. \\
+        
+        \hline
+
+        bigdata &
+        IntÃ©gration du pipeline analytique. \\
+        
+        \hline
+
+        admin &
+        Dashboard et statistiques administrateur. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Architecture REST}
+
+La communication entre frontend et backend repose sur une API REST utilisant le format JSON.
+
+Les principales ressources exposÃ©es sont :
+\begin{itemize}
+    \item authentification ;
+    \item utilisateurs ;
+    \item catalogue ;
+    \item projets ;
+    \item recommandations ;
+    \item progression ;
+    \item analytics Big Data.
+\end{itemize}
+
+\subsection{Principaux endpoints REST}
+
+\begin{table}[H]
+\centering
+\caption{Principaux endpoints REST de SkillBridge}
+\begin{tabular}{|p{8.5cm}|p{2cm}|p{6cm}|}
+\hline
+\textbf{Endpoint} & \textbf{AccÃ¨s} & \textbf{RÃ´le} \\
+\hline
+/api/auth/register & Public & CrÃ©ation de compte utilisateur \\
+\hline
+/api/auth/login & Public & Authentification JWT \\
+\hline
+/api/courses & Public & Consultation du catalogue \\
+\hline
+/api/projects & USER & Gestion des projets utilisateur \\
+\hline
+/api/projects/\{id\}/recommendations/generate & USER & GÃ©nÃ©ration des recommandations \\
+\hline
+/api/saved-courses & USER & Sauvegarde des cours \\
+\hline
+/api/progress & USER & Suivi pÃ©dagogique \\
+\hline
+/api/admin/overview & ADMIN & Dashboard administrateur \\
+\hline
+/api/admin/bigdata/* & ADMIN & Supervision du pipeline Big Data \\
+\hline
+\end{tabular}
+\end{table}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/api-architecture.png}
+
+    \fbox{
+        \parbox[c][6cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Architecture API REST\\
+            React $\leftrightarrow$ Spring Boot $\leftrightarrow$ PostgreSQL
+        }
+    }
+
+    \caption{Architecture des Ã©changes REST}
+\end{figure}
+
+\section{SÃ©curitÃ© de lâ€™application}
+
+La sÃ©curitÃ© constitue un Ã©lÃ©ment central de lâ€™architecture de SkillBridge.
+
+Le systÃ¨me adopte une approche backend-centric oÃ¹ toutes les dÃ©cisions critiques sont prises cÃ´tÃ© serveur.
+
+\subsection{Authentification}
+
+Le systÃ¨me supporte :
+\begin{itemize}
+    \item lâ€™authentification email/mot de passe ;
+    \item lâ€™authentification Google OAuth ;
+    \item lâ€™authentification GitHub OAuth.
+\end{itemize}
+
+AprÃ¨s authentification, le backend gÃ©nÃ¨re un JWT utilisÃ© pour sÃ©curiser les requÃªtes suivantes.
+
+\subsection{Gestion des rÃ´les}
+
+Deux rÃ´les principaux sont dÃ©finis :
+\begin{itemize}
+    \item USER ;
+    \item ADMIN.
+\end{itemize}
+
+Les autorisations sont contrÃ´lÃ©es par Spring Security.
+
+\subsection{Mesures de sÃ©curitÃ©}
+
+Plusieurs mÃ©canismes ont Ã©tÃ© mis en place :
+\begin{itemize}
+    \item hashage des mots de passe avec BCrypt ;
+    \item protection des endpoints ;
+    \item validation des rÃ´les ;
+    \item gestion CORS ;
+    \item limitation des tentatives de connexion ;
+    \item protection contre les accÃ¨s non autorisÃ©s.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/jwt-flow.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            SchÃ©ma du flux JWT\\
+            Login â†’ Token â†’ Authorization Header
+        }
+    }
+
+    \caption{Flux dâ€™authentification JWT}
+\end{figure}
+
+\section{ModÃ¨le de donnÃ©es}
+
+Le stockage principal de lâ€™application repose sur PostgreSQL via Supabase.
+
+Le modÃ¨le de donnÃ©es est centrÃ© autour :
+\begin{itemize}
+    \item des utilisateurs ;
+    \item des projets ;
+    \item des cours ;
+    \item des compÃ©tences ;
+    \item des recommandations.
+\end{itemize}
+
+\subsection{Tables principales}
+
+\begin{table}[H]
+    \centering
+    \caption{Principales tables de la base de donnÃ©es}
+
+    \begin{tabular}{|p{4cm}|p{9cm}|}
+        \hline
+        \textbf{Table} & \textbf{Description} \\
+        \hline
+
+        users &
+        Comptes utilisateurs et rÃ´les. \\
+        
+        \hline
+
+        courses &
+        Catalogue des cours disponibles. \\
+        
+        \hline
+
+        skills &
+        CompÃ©tences dÃ©tectÃ©es et associÃ©es. \\
+        
+        \hline
+
+        project\_ideas &
+        Projets crÃ©Ã©s par les utilisateurs. \\
+        
+        \hline
+
+        recommendation\_results &
+        RÃ©sultats gÃ©nÃ©rÃ©s par le moteur. \\
+        
+        \hline
+
+        saved\_courses &
+        Cours sauvegardÃ©s par utilisateur. \\
+        
+        \hline
+
+        course\_progress &
+        Progression pÃ©dagogique des utilisateurs. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Relations entre entitÃ©s}
+
+Le systÃ¨me utilise plusieurs relations :
+\begin{itemize}
+    \item utilisateur â†’ projets ;
+    \item projets â†’ recommandations ;
+    \item cours $\leftrightarrow$ compÃ©tences ;
+    \item utilisateur â†’ progression ;
+    \item utilisateur â†’ favoris.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/database-model.png}
+
+    \fbox{
+        \parbox[c][8cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Diagramme relationnel / MCD\\
+            de la base de donnÃ©es SkillBridge
+        }
+    }
+
+    \caption{ModÃ¨le relationnel simplifiÃ©}
+\end{figure}
+
+\section{Technologies utilisÃ©es}
+
+Le projet repose sur plusieurs technologies complÃ©mentaires.
+
+\begin{table}[H]
+    \centering
+    \caption{Technologies principales utilisÃ©es}
+
+    \begin{tabular}{|p{4cm}|p{4cm}|p{5cm}|}
+        \hline
+        \textbf{Couche} & \textbf{Technologie} & \textbf{RÃ´le} \\
+        \hline
+
+        Frontend &
+        React + Vite &
+        Interface utilisateur dynamique. \\
+        
+        \hline
+
+        Backend &
+        Spring Boot &
+        API REST et logique mÃ©tier. \\
+        
+        \hline
+
+        SÃ©curitÃ© &
+        Spring Security + JWT &
+        Authentification et autorisation. \\
+        
+        \hline
+
+        Base de donnÃ©es &
+        PostgreSQL / Supabase &
+        Stockage transactionnel. \\
+        
+        \hline
+
+        Big Data &
+        Hadoop Ecosystem &
+        Traitement analytique distribuÃ©. \\
+        
+        \hline
+
+        Streaming &
+        Flume &
+        Collecte des Ã©vÃ©nements. \\
+        
+        \hline
+
+        SQL analytique &
+        Hive &
+        Analyse SQL sur HDFS. \\
+        
+        \hline
+
+        Batch &
+        MapReduce &
+        Traitement distribuÃ©. \\
+        
+        \hline
+
+        NoSQL &
+        HBase &
+        Stockage analytique rapide. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Conclusion}
+
+Ce chapitre a prÃ©sentÃ© la conception gÃ©nÃ©rale et lâ€™architecture de la plateforme SkillBridge.
+
+Lâ€™architecture proposÃ©e repose sur une sÃ©paration claire entre :
+\begin{itemize}
+    \item la couche applicative temps rÃ©el ;
+    \item la couche de sÃ©curitÃ© ;
+    \item la couche de persistance ;
+    \item et la couche analytique Big Data.
+\end{itemize}
+
+Cette organisation permet de garantir la modularitÃ©, la maintenabilitÃ© et lâ€™Ã©volutivitÃ© du systÃ¨me.
+
+Le chapitre suivant prÃ©sentera le moteur de recommandation ainsi que les mÃ©canismes de dÃ©tection et de scoring utilisÃ©s par la plateforme.
+% ---------------------------------------------------------------------------
+\chapter{Moteur de recommandation}
+
+\section{Introduction}
+
+Le moteur de recommandation constitue lâ€™un des composants centraux de la plateforme SkillBridge. Son objectif est de transformer une idÃ©e de projet exprimÃ©e en langage naturel en une liste ordonnÃ©e de cours pertinents.
+
+Contrairement aux systÃ¨mes reposant exclusivement sur des modÃ¨les dâ€™intelligence artificielle opaques, le moteur dÃ©veloppÃ© dans SkillBridge adopte une approche dÃ©terministe et explicable. Chaque recommandation produite peut Ãªtre justifiÃ©e Ã  partir :
+\begin{itemize}
+    \item des mots-clÃ©s dÃ©tectÃ©s ;
+    \item des compÃ©tences identifiÃ©es ;
+    \item des catÃ©gories associÃ©es ;
+    \item et du score calculÃ©.
+\end{itemize}
+
+Cette approche permet :
+\begin{itemize}
+    \item dâ€™amÃ©liorer la transparence du systÃ¨me ;
+    \item de faciliter lâ€™interprÃ©tation des rÃ©sultats ;
+    \item de rendre les recommandations auditables ;
+    \item et de simplifier lâ€™analyse acadÃ©mique du projet.
+\end{itemize}
+
+\section{Principe gÃ©nÃ©ral du moteur}
+
+Le fonctionnement gÃ©nÃ©ral du moteur de recommandation suit plusieurs Ã©tapes successives.
+
+\begin{enumerate}
+    \item Lâ€™utilisateur saisit une idÃ©e de projet.
+    
+    \item Le texte est normalisÃ© et analysÃ©.
+    
+    \item Les mots-clÃ©s importants sont extraits.
+    
+    \item Les compÃ©tences correspondantes sont dÃ©tectÃ©es.
+    
+    \item Les catÃ©gories liÃ©es au projet sont identifiÃ©es.
+    
+    \item Les cours candidats sont sÃ©lectionnÃ©s.
+    
+    \item Un score est calculÃ© pour chaque cours.
+    
+    \item Les rÃ©sultats sont classÃ©s et retournÃ©s Ã  lâ€™utilisateur.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/recommendation-pipeline.png}
+
+    \fbox{
+        \parbox[c][8cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Pipeline du moteur de recommandation\\
+            \vspace{0.3cm}
+            Project Idea â†’ Keyword Extraction â†’ Skill Detection\\
+            â†’ Category Matching â†’ Scoring â†’ Ranked Courses
+        }
+    }
+
+    \caption{Pipeline du moteur de recommandation}
+\end{figure}
+
+\section{PrÃ©traitement et normalisation du texte}
+
+Avant de gÃ©nÃ©rer des recommandations, le texte fourni par lâ€™utilisateur doit Ãªtre normalisÃ© afin de faciliter les traitements.
+
+Les principales opÃ©rations rÃ©alisÃ©es sont :
+\begin{itemize}
+    \item conversion en minuscules ;
+    \item suppression des caractÃ¨res spÃ©ciaux ;
+    \item nettoyage des espaces ;
+    \item tokenisation des mots ;
+    \item filtrage des mots peu significatifs.
+\end{itemize}
+
+Cette Ã©tape permet de rÃ©duire les variations syntaxiques et dâ€™amÃ©liorer la dÃ©tection des compÃ©tences.
+
+\section{DÃ©tection des compÃ©tences}
+
+AprÃ¨s normalisation, le systÃ¨me tente dâ€™identifier les compÃ©tences prÃ©sentes dans la description du projet.
+
+Le moteur repose sur :
+\begin{itemize}
+    \item des mots-clÃ©s ;
+    \item des correspondances textuelles ;
+    \item des catÃ©gories techniques ;
+    \item un catalogue enrichi de compÃ©tences.
+\end{itemize}
+
+Par exemple :
+\begin{itemize}
+    \item le mot \textit{React} peut Ãªtre associÃ© au dÃ©veloppement frontend ;
+    \item le mot \textit{Java} peut Ãªtre associÃ© au backend ;
+    \item le mot \textit{Hadoop} peut Ãªtre associÃ© au Big Data.
+\end{itemize}
+
+Les compÃ©tences dÃ©tectÃ©es sont ensuite comparÃ©es aux compÃ©tences associÃ©es aux cours du catalogue.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.85\textwidth]{figures/skill-detection.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.8\textwidth}{
+            \centering
+            Placeholder :\\
+            SchÃ©ma de dÃ©tection des compÃ©tences\\
+            depuis une idÃ©e de projet
+        }
+    }
+
+    \caption{DÃ©tection des compÃ©tences}
+\end{figure}
+
+\section{DÃ©tection des catÃ©gories}
+
+En plus des compÃ©tences, le systÃ¨me identifie des catÃ©gories gÃ©nÃ©rales correspondant au projet utilisateur.
+
+Les principales catÃ©gories utilisÃ©es sont :
+\begin{itemize}
+    \item Web Development ;
+    \item Backend Development ;
+    \item Big Data ;
+    \item DevOps ;
+    \item Machine Learning ;
+    \item Databases ;
+    \item Application Security.
+\end{itemize}
+
+La dÃ©tection des catÃ©gories permet :
+\begin{itemize}
+    \item dâ€™amÃ©liorer la pertinence des recommandations ;
+    \item de filtrer les cours ;
+    \item dâ€™enrichir le calcul du score final.
+\end{itemize}
+
+\section{Algorithme de scoring}
+
+Le classement des cours repose sur un systÃ¨me de scoring dÃ©terministe.
+
+Chaque cours reÃ§oit un score calculÃ© Ã  partir de plusieurs signaux :
+\begin{itemize}
+    \item correspondance du titre ;
+    \item correspondance des compÃ©tences ;
+    \item correspondance des catÃ©gories ;
+    \item bonus de popularitÃ©.
+\end{itemize}
+
+\subsection{Composition du score}
+
+\begin{table}[H]
+    \centering
+    \caption{Composition du score de recommandation}
+
+    \begin{tabular}{|p{4cm}|p{3cm}|p{7cm}|}
+        \hline
+        \textbf{Signal} & \textbf{Score max} & \textbf{Description} \\
+        \hline
+
+        Titre &
+        30 &
+        PrÃ©sence des mots-clÃ©s du projet dans le titre du cours. \\
+        
+        \hline
+
+        CompÃ©tences &
+        40 &
+        Correspondance entre les compÃ©tences dÃ©tectÃ©es et les compÃ©tences du cours. \\
+        
+        \hline
+
+        CatÃ©gorie &
+        20 &
+        Correspondance entre la catÃ©gorie dÃ©tectÃ©e et celle du cours. \\
+        
+        \hline
+
+        Bonus &
+        10 &
+        PopularitÃ© et indicateurs analytiques disponibles. \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Formule gÃ©nÃ©rale}
+
+Le score total est calculÃ© selon la formule suivante :
+
+\[
+Score_{total} =
+Score_{titre}
++
+Score_{competences}
++
+Score_{categorie}
++
+Bonus
+\]
+
+Le score final est limitÃ© Ã  une valeur maximale de 100.
+
+\subsection{Exemple de calcul}
+
+ConsidÃ©rons le projet suivant :
+
+\begin{quote}
+\textit{
+"I want to create a complete website using React and Java"
+}
+\end{quote}
+
+Le systÃ¨me peut produire le rÃ©sultat suivant :
+
+\begin{table}[H]
+    \centering
+    \caption{Exemple de calcul de score}
+
+    \begin{tabular}{|p{5cm}|p{3cm}|}
+        \hline
+        \textbf{Composant} & \textbf{Valeur} \\
+        \hline
+
+        Title Match Score &
+        24 \\
+        
+        \hline
+
+        Skill Match Score &
+        36 \\
+        
+        \hline
+
+        Category Match Score &
+        20 \\
+        
+        \hline
+
+        Popularity Bonus &
+        6.4 \\
+        
+        \hline
+
+        Total &
+        86.4 \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Classement des recommandations}
+
+Une fois les scores calculÃ©s :
+\begin{itemize}
+    \item les cours sont triÃ©s ;
+    \item les meilleurs rÃ©sultats sont sÃ©lectionnÃ©s ;
+    \item les explications sont gÃ©nÃ©rÃ©es ;
+    \item les rÃ©sultats sont sauvegardÃ©s.
+\end{itemize}
+
+Le systÃ¨me peut Ã©galement limiter le nombre de recommandations retournÃ©es.
+
+\section{ExplicabilitÃ© des recommandations}
+
+Lâ€™un des objectifs principaux du moteur est de rendre les recommandations comprÃ©hensibles.
+
+Pour chaque rÃ©sultat, le systÃ¨me conserve :
+\begin{itemize}
+    \item le score total ;
+    \item le dÃ©tail du score ;
+    \item les compÃ©tences dÃ©tectÃ©es ;
+    \item les catÃ©gories associÃ©es ;
+    \item les raisons de la recommandation.
+\end{itemize}
+
+Cette approche permet :
+\begin{itemize}
+    \item dâ€™amÃ©liorer la confiance utilisateur ;
+    \item de simplifier le dÃ©bogage ;
+    \item de rendre les rÃ©sultats auditables ;
+    \item de justifier les recommandations devant un jury acadÃ©mique.
+\end{itemize}
+
+\subsection{Snapshots de recommandations}
+
+Chaque gÃ©nÃ©ration crÃ©e :
+\begin{itemize}
+    \item un \texttt{RecommendationSnapshot} ;
+    \item plusieurs \texttt{RecommendationResult}.
+\end{itemize}
+
+Les snapshots permettent :
+\begin{itemize}
+    \item de conserver lâ€™historique ;
+    \item dâ€™analyser les recommandations gÃ©nÃ©rÃ©es ;
+    \item de reproduire les rÃ©sultats ultÃ©rieurement.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/recommendation-snapshot.png}
+
+    \fbox{
+        \parbox[c][6cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            SchÃ©ma snapshots et recommendation results
+        }
+    }
+
+    \caption{Historisation des recommandations}
+\end{figure}
+
+\section{IntÃ©gration avec le pipeline Big Data}
+
+Le moteur de recommandation est Ã©galement connectÃ© au pipeline analytique.
+
+Lorsquâ€™une recommandation est gÃ©nÃ©rÃ©e :
+\begin{itemize}
+    \item un Ã©vÃ©nement est Ã©crit dans \texttt{events.log} ;
+    \item Flume collecte cet Ã©vÃ©nement ;
+    \item les donnÃ©es sont envoyÃ©es vers HDFS ;
+    \item Hive et MapReduce peuvent analyser les recommandations gÃ©nÃ©rÃ©es.
+\end{itemize}
+
+Cette intÃ©gration permet :
+\begin{itemize}
+    \item lâ€™analyse des comportements utilisateurs ;
+    \item lâ€™identification des technologies populaires ;
+    \item la gÃ©nÃ©ration de statistiques analytiques ;
+    \item lâ€™amÃ©lioration future du systÃ¨me.
+\end{itemize}
+
+\section{Limites du moteur actuel}
+
+MalgrÃ© son efficacitÃ©, le moteur actuel prÃ©sente certaines limites.
+
+\subsection{Approche dÃ©terministe}
+
+Le moteur repose principalement sur des rÃ¨gles fixes :
+\begin{itemize}
+    \item matching textuel ;
+    \item rÃ¨gles de scoring ;
+    \item catÃ©gories prÃ©dÃ©finies.
+\end{itemize}
+
+Cette approche peut limiter :
+\begin{itemize}
+    \item la comprÃ©hension sÃ©mantique ;
+    \item la flexibilitÃ© ;
+    \item la personnalisation avancÃ©e.
+\end{itemize}
+
+\subsection{Absence de Machine Learning}
+
+Le systÃ¨me nâ€™utilise pas encore :
+\begin{itemize}
+    \item de collaborative filtering ;
+    \item dâ€™embeddings ;
+    \item de rÃ©seaux neuronaux ;
+    \item de modÃ¨les NLP avancÃ©s ;
+    \item de modÃ¨les LLM.
+\end{itemize}
+
+\section{Perspectives dâ€™amÃ©lioration}
+
+Plusieurs amÃ©liorations peuvent Ãªtre envisagÃ©es pour les futures versions du projet.
+
+\subsection{Intelligence artificielle}
+
+Le moteur pourrait intÃ©grer :
+\begin{itemize}
+    \item des modÃ¨les NLP ;
+    \item des embeddings sÃ©mantiques ;
+    \item des modÃ¨les Transformers ;
+    \item des LLM ;
+    \item des systÃ¨mes hybrides ML + rÃ¨gles.
+\end{itemize}
+
+\subsection{Personnalisation avancÃ©e}
+
+Le systÃ¨me pourrait Ã©galement exploiter :
+\begin{itemize}
+    \item lâ€™historique utilisateur ;
+    \item les interactions prÃ©cÃ©dentes ;
+    \item les prÃ©fÃ©rences pÃ©dagogiques ;
+    \item les statistiques comportementales.
+\end{itemize}
+
+\subsection{Analyse prÃ©dictive}
+
+Les donnÃ©es analytiques collectÃ©es pourraient servir Ã  :
+\begin{itemize}
+    \item prÃ©dire les besoins utilisateurs ;
+    \item identifier les tendances ;
+    \item amÃ©liorer automatiquement le classement des cours.
+\end{itemize}
+
+\section{Conclusion}
+
+Ce chapitre a prÃ©sentÃ© le moteur de recommandation dÃ©veloppÃ© dans SkillBridge.
+
+Le systÃ¨me repose sur une approche dÃ©terministe et explicable permettant :
+\begin{itemize}
+    \item la dÃ©tection des compÃ©tences ;
+    \item le calcul de scores pertinents ;
+    \item le classement des cours ;
+    \item la traÃ§abilitÃ© des recommandations.
+\end{itemize}
+
+Lâ€™intÃ©gration avec le pipeline Big Data permet Ã©galement de collecter et analyser les comportements utilisateurs afin dâ€™enrichir les fonctionnalitÃ©s analytiques de la plateforme.
+
+Le chapitre suivant prÃ©sentera lâ€™architecture Big Data ainsi que les diffÃ©rents composants Hadoop intÃ©grÃ©s dans le projet.
+
+% ---------------------------------------------------------------------------
+\chapter{Pipeline Big Data et analytique}
+
+\section{Introduction}
+
+En plus de la partie applicative full-stack, le projet SkillBridge intÃ¨gre un pipeline Big Data basÃ© sur lâ€™Ã©cosystÃ¨me Hadoop.
+
+Lâ€™objectif principal de cette couche analytique est de :
+\begin{itemize}
+    \item collecter les Ã©vÃ©nements gÃ©nÃ©rÃ©s par les utilisateurs ;
+    \item traiter des donnÃ©es volumineuses ;
+    \item stocker les donnÃ©es dans un environnement distribuÃ© ;
+    \item exÃ©cuter des traitements analytiques ;
+    \item produire des statistiques exploitables ;
+    \item alimenter le tableau de bord administrateur.
+\end{itemize}
+
+Le pipeline Big Data a Ã©tÃ© conÃ§u de maniÃ¨re indÃ©pendante de lâ€™application transactionnelle afin de prÃ©server les performances de lâ€™API temps rÃ©el.
+
+Le principe fondamental adoptÃ© dans le projet est le suivant :
+\begin{itemize}
+    \item PostgreSQL/Supabase gÃ¨re les opÃ©rations transactionnelles temps rÃ©el ;
+    \item Hadoop gÃ¨re les traitements analytiques batch et streaming.
+\end{itemize}
+
+Cette sÃ©paration permet de construire une architecture scalable et adaptÃ©e aux traitements distribuÃ©s.
+
+\section{Objectif du pipeline Big Data}
+
+Le pipeline Big Data permet de dÃ©montrer plusieurs concepts importants liÃ©s au traitement distribuÃ© des donnÃ©es.
+
+Les objectifs principaux sont :
+\begin{itemize}
+    \item ingestion de donnÃ©es externes ;
+    \item nettoyage et enrichissement du catalogue ;
+    \item collecte des Ã©vÃ©nements utilisateurs ;
+    \item stockage distribuÃ© avec HDFS ;
+    \item analyse SQL avec Hive ;
+    \item traitement batch avec MapReduce ;
+    \item stockage NoSQL avec HBase ;
+    \item visualisation analytique dans le dashboard administrateur.
+\end{itemize}
+
+Le pipeline est Ã©galement utilisÃ© pour enrichir les fonctionnalitÃ©s du moteur de recommandation.
+
+\section{Architecture gÃ©nÃ©rale du pipeline}
+
+Lâ€™architecture Big Data repose sur deux flux principaux :
+\begin{itemize}
+    \item un flux batch ;
+    \item un flux streaming temps rÃ©el.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/bigdata-pipeline.png}
+
+    \fbox{
+        \parbox[c][10cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Architecture complÃ¨te du pipeline Big Data\\
+            \vspace{0.4cm}
+            ZIP/CSV â†’ Python â†’ PostgreSQL Mirror â†’ Sqoop â†’ HDFS\\
+            \vspace{0.2cm}
+            React â†’ Spring Boot â†’ events.log â†’ Flume â†’ HDFS\\
+            \vspace{0.2cm}
+            HDFS â†’ Hive / MapReduce / HBase â†’ Dashboard Admin
+        }
+    }
+
+    \caption{Architecture du pipeline Big Data}
+\end{figure}
+
+\section{Flux batch de prÃ©paration du catalogue}
+
+Le flux batch permet de construire un catalogue de cours propre et exploitable.
+
+Les donnÃ©es initiales proviennent de plusieurs datasets externes au format :
+\begin{itemize}
+    \item ZIP ;
+    \item CSV ;
+    \item JSON.
+\end{itemize}
+
+\subsection{Fusion et nettoyage des donnÃ©es}
+
+Des scripts Python ont Ã©tÃ© utilisÃ©s pour :
+\begin{itemize}
+    \item fusionner les datasets ;
+    \item supprimer les doublons ;
+    \item nettoyer les donnÃ©es ;
+    \item normaliser les catÃ©gories ;
+    \item dÃ©tecter les compÃ©tences ;
+    \item gÃ©nÃ©rer un catalogue unifiÃ©.
+\end{itemize}
+
+Le rÃ©sultat final contient :
+\begin{itemize}
+    \item 17072 cours ;
+    \item 13647 compÃ©tences ;
+    \item 459 fournisseurs ;
+    \item 12 catÃ©gories.
+\end{itemize}
+
+\subsection{Statistiques du catalogue}
+
+\begin{table}[H]
+    \centering
+    \caption{Statistiques du catalogue enrichi}
+
+    \begin{tabular}{|p{6cm}|p{4cm}|}
+        \hline
+        \textbf{Ã‰lÃ©ment} & \textbf{Valeur} \\
+        \hline
+
+        Nombre total de cours &
+        17072 \\
+        
+        \hline
+
+        Nombre de compÃ©tences &
+        13647 \\
+        
+        \hline
+
+        Nombre de catÃ©gories &
+        12 \\
+        
+        \hline
+
+        Nombre de fournisseurs &
+        459 \\
+        
+        \hline
+
+        Relations course\_skills &
+        104006 \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Distribution des catÃ©gories}
+
+Les catÃ©gories les plus reprÃ©sentÃ©es dans le catalogue sont :
+\begin{itemize}
+    \item Machine Learning ;
+    \item Backend Development ;
+    \item Product and UX ;
+    \item Application Security ;
+    \item Cloud Computing ;
+    \item Big Data ;
+    \item DevOps.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.85\textwidth]{figures/catalog-stats.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.8\textwidth}{
+            \centering
+            Placeholder :\\
+            Graphiques statistiques du catalogue\\
+            (catÃ©gories, niveaux, compÃ©tences)
+        }
+    }
+
+    \caption{Statistiques du catalogue enrichi}
+\end{figure}
+
+\section{PostgreSQL mirror local}
+
+Le pipeline analytique nâ€™utilise pas directement la base PostgreSQL officielle de lâ€™application.
+
+Une copie locale appelÃ©e \textbf{PostgreSQL mirror} est utilisÃ©e afin de :
+\begin{itemize}
+    \item Ã©viter dâ€™impacter la base transactionnelle ;
+    \item fournir une source stable pour Sqoop ;
+    \item faciliter les tests Hadoop ;
+    \item permettre la reconstruction du pipeline sans risque.
+\end{itemize}
+
+Le mirror contient :
+\begin{itemize}
+    \item les cours ;
+    \item les compÃ©tences ;
+    \item les catÃ©gories ;
+    \item les projets ;
+    \item les progressions ;
+    \item les donnÃ©es analytiques utiles.
+\end{itemize}
+
+\section{Stockage distribuÃ© avec HDFS}
+
+Le stockage distribuÃ© repose sur HDFS (Hadoop Distributed File System).
+
+HDFS permet :
+\begin{itemize}
+    \item le stockage distribuÃ© des fichiers ;
+    \item la rÃ©plication des blocs ;
+    \item la tolÃ©rance aux pannes ;
+    \item la scalabilitÃ© horizontale.
+\end{itemize}
+
+\subsection{NameNode et DataNodes}
+
+Le cluster Hadoop local est composÃ© :
+\begin{itemize}
+    \item dâ€™un NameNode ;
+    \item de plusieurs DataNodes.
+\end{itemize}
+
+Le NameNode gÃ¨re :
+\begin{itemize}
+    \item les mÃ©tadonnÃ©es ;
+    \item les chemins HDFS ;
+    \item la localisation des blocs.
+\end{itemize}
+
+Les DataNodes assurent :
+\begin{itemize}
+    \item le stockage rÃ©el des donnÃ©es ;
+    \item la rÃ©plication des blocs.
+\end{itemize}
+
+Le projet utilise un cluster avec deux DataNodes afin de dÃ©montrer la scalabilitÃ© horizontale.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/hdfs-cluster.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Architecture HDFS\\
+            NameNode + 2 DataNodes
+        }
+    }
+
+    \caption{Architecture du cluster HDFS}
+\end{figure}
+
+\section{Importation batch avec Sqoop}
+
+Sqoop est utilisÃ© pour importer les donnÃ©es relationnelles du PostgreSQL mirror vers HDFS.
+
+Le flux suivi est le suivant :
+
+\[
+PostgreSQL \rightarrow Sqoop \rightarrow HDFS
+\]
+
+Sqoop permet :
+\begin{itemize}
+    \item dâ€™automatiser les imports relationnels ;
+    \item de transfÃ©rer les tables PostgreSQL vers Hadoop ;
+    \item de gÃ©nÃ©rer les fichiers exploitables dans HDFS.
+\end{itemize}
+
+\subsection{Tables importÃ©es}
+
+Les principales tables importÃ©es sont :
+\begin{itemize}
+    \item courses ;
+    \item skills ;
+    \item categories ;
+    \item providers ;
+    \item project\_ideas ;
+    \item saved\_courses ;
+    \item course\_progress.
+\end{itemize}
+
+\subsection{RÃ©sultats dâ€™import}
+
+Chaque import rÃ©ussi gÃ©nÃ¨re :
+\begin{itemize}
+    \item un fichier \texttt{part-m-00000} ;
+    \item un fichier \texttt{\_SUCCESS}.
+\end{itemize}
+
+La prÃ©sence du fichier \texttt{\_SUCCESS} confirme la rÃ©ussite de lâ€™import batch.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/sqoop-import.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Capture HDFS aprÃ¨s import Sqoop\\
+            avec fichiers \_SUCCESS
+        }
+    }
+
+    \caption{Import batch avec Sqoop}
+\end{figure}
+
+\section{Collecte streaming avec Flume}
+
+Le pipeline utilise Flume pour collecter les Ã©vÃ©nements gÃ©nÃ©rÃ©s par lâ€™application web.
+
+\subsection{Principe de fonctionnement}
+
+Lorsquâ€™un utilisateur effectue une action :
+\begin{itemize}
+    \item Spring Boot Ã©crit un Ã©vÃ©nement JSON dans \texttt{events.log} ;
+    \item Flume surveille ce fichier ;
+    \item les Ã©vÃ©nements sont envoyÃ©s vers HDFS.
+\end{itemize}
+
+Les Ã©vÃ©nements collectÃ©s incluent :
+\begin{itemize}
+    \item COURSE\_SEARCH ;
+    \item COURSE\_CLICK ;
+    \item COURSE\_SAVE ;
+    \item PROJECT\_CREATED ;
+    \item PROJECT\_RECOMMENDATION.
+\end{itemize}
+
+\subsection{Architecture Flume}
+
+Le pipeline Flume repose sur :
+\begin{itemize}
+    \item une source ;
+    \item un channel mÃ©moire ;
+    \item un sink HDFS.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/flume-pipeline.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            Architecture Flume\\
+            events.log â†’ Flume â†’ HDFS
+        }
+    }
+
+    \caption{Collecte streaming avec Flume}
+\end{figure}
+
+\section{Analyse SQL avec Hive}
+
+Hive permet dâ€™exÃ©cuter des requÃªtes SQL sur les fichiers stockÃ©s dans HDFS.
+
+Les principales tables Hive utilisÃ©es sont :
+\begin{itemize}
+    \item hive\_courses ;
+    \item hive\_events ;
+    \item hive\_saved\_courses ;
+    \item hive\_course\_progress.
+\end{itemize}
+
+\subsection{Analyse des Ã©vÃ©nements}
+
+Les logs collectÃ©s par Flume sont stockÃ©s sous forme JSON brute.
+
+Hive permet dâ€™extraire les champs JSON avec :
+\begin{itemize}
+    \item \texttt{get\_json\_object()} ;
+    \item des requÃªtes analytiques ;
+    \item des agrÃ©gations statistiques.
+\end{itemize}
+
+\subsection{RÃ©sultats analytiques}
+
+Les analyses Hive permettent par exemple :
+\begin{itemize}
+    \item de compter les Ã©vÃ©nements ;
+    \item dâ€™identifier les recherches populaires ;
+    \item dâ€™analyser les comportements utilisateurs.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/hive-analysis.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            RequÃªtes Hive et rÃ©sultats analytiques
+        }
+    }
+
+    \caption{Analyse SQL avec Hive}
+\end{figure}
+
+\section{Traitement distribuÃ© avec MapReduce}
+
+Le projet utilise un job MapReduce appelÃ© :
+\texttt{TopSearchKeywordsJob}.
+
+Ce traitement analyse les Ã©vÃ©nements collectÃ©s afin dâ€™identifier les mots-clÃ©s les plus frÃ©quents.
+
+\subsection{Fonctionnement}
+
+Le traitement suit les Ã©tapes classiques :
+\begin{itemize}
+    \item lecture des Ã©vÃ©nements ;
+    \item extraction des mots ;
+    \item phase Map ;
+    \item phase Shuffle ;
+    \item phase Reduce ;
+    \item gÃ©nÃ©ration des rÃ©sultats.
+\end{itemize}
+
+\subsection{RÃ©sultats obtenus}
+
+Les principaux mots-clÃ©s dÃ©tectÃ©s incluent :
+\begin{itemize}
+    \item react ;
+    \item python ;
+    \item machine ;
+    \item spring ;
+    \item frontend ;
+    \item hadoop ;
+    \item hive.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/mapreduce-flow.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            SchÃ©ma MapReduce\\
+            Map â†’ Shuffle â†’ Reduce
+        }
+    }
+
+    \caption{Traitement distribuÃ© MapReduce}
+\end{figure}
+
+\section{Stockage analytique avec HBase}
+
+HBase est utilisÃ© comme couche NoSQL du pipeline.
+
+La table principale utilisÃ©e est :
+\texttt{course\_stats}.
+
+\subsection{Informations stockÃ©es}
+
+Les statistiques stockÃ©es incluent :
+\begin{itemize}
+    \item nombre de clics ;
+    \item nombre de sauvegardes ;
+    \item progression moyenne ;
+    \item titre du cours.
+\end{itemize}
+
+\subsection{Structure des colonnes}
+
+Les familles de colonnes utilisÃ©es sont :
+\begin{itemize}
+    \item meta:title ;
+    \item activity:clicks ;
+    \item activity:saves ;
+    \item activity:avg\_progress.
+\end{itemize}
+
+HBase permet une lecture rapide basÃ©e sur la clÃ© \texttt{courseId}.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.9\textwidth]{figures/hbase-scan.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.85\textwidth}{
+            \centering
+            Placeholder :\\
+            RÃ©sultat scan HBase\\
+            course\_stats
+        }
+    }
+
+    \caption{Stockage analytique avec HBase}
+\end{figure}
+
+\section{Dashboard analytique}
+
+Les rÃ©sultats du pipeline sont exposÃ©s via :
+\begin{itemize}
+    \item des fichiers JSON ;
+    \item des endpoints Spring Boot ;
+    \item un dashboard administrateur.
+\end{itemize}
+
+Le dashboard permet :
+\begin{itemize}
+    \item de visualiser lâ€™Ã©tat du pipeline ;
+    \item dâ€™afficher les statistiques analytiques ;
+    \item de consulter les Ã©vÃ©nements ;
+    \item de vÃ©rifier les traitements Hadoop.
+\end{itemize}
+
+\section{IntÃ©gration avec lâ€™application web}
+
+Le frontend React ne communique jamais directement avec Hadoop.
+
+Le fonctionnement adoptÃ© est :
+\[
+React \rightarrow Spring Boot \rightarrow BigDataOutputs
+\]
+
+Spring Boot :
+\begin{itemize}
+    \item lit les fichiers gÃ©nÃ©rÃ©s ;
+    \item transforme les rÃ©sultats ;
+    \item expose les donnÃ©es via des endpoints REST.
+\end{itemize}
+
+Cette approche garantit :
+\begin{itemize}
+    \item la sÃ©curitÃ© ;
+    \item la modularitÃ© ;
+    \item la stabilitÃ© de lâ€™architecture.
+\end{itemize}
+
+\section{Limites actuelles}
+
+MalgrÃ© son bon fonctionnement, le pipeline prÃ©sente certaines limites.
+
+\begin{itemize}
+    \item Le pipeline reste terminal-first et non totalement automatisÃ©.
+    
+    \item HBase peut nÃ©cessiter un redÃ©marrage avant dÃ©monstration.
+    
+    \item Les Ã©vÃ©nements Hive sont stockÃ©s sous forme JSON brute.
+    
+    \item Certains traitements restent semi-manuels.
+    
+    \item Le systÃ¨me nâ€™utilise pas encore Spark ou Kafka.
+\end{itemize}
+
+\section{Perspectives dâ€™Ã©volution}
+
+Plusieurs amÃ©liorations peuvent Ãªtre envisagÃ©es :
+
+\begin{itemize}
+    \item automatisation complÃ¨te du pipeline ;
+    
+    \item intÃ©gration de Spark Streaming ;
+    
+    \item utilisation de Kafka ;
+    
+    \item analyse temps rÃ©el avancÃ©e ;
+    
+    \item intÃ©gration IA et Machine Learning ;
+    
+    \item dashboards analytiques plus avancÃ©s.
+\end{itemize}
+
+\section{Conclusion}
+
+Ce chapitre a prÃ©sentÃ© lâ€™architecture et le fonctionnement du pipeline Big Data intÃ©grÃ© dans SkillBridge.
+
+Le pipeline combine plusieurs technologies complÃ©mentaires :
+\begin{itemize}
+    \item Python ;
+    \item PostgreSQL mirror ;
+    \item Sqoop ;
+    \item HDFS ;
+    \item Flume ;
+    \item Hive ;
+    \item MapReduce ;
+    \item HBase.
+\end{itemize}
+
+Cette architecture permet de dÃ©montrer :
+\begin{itemize}
+    \item lâ€™ingestion de donnÃ©es ;
+    \item le stockage distribuÃ© ;
+    \item le traitement analytique ;
+    \item la collecte streaming ;
+    \item et la visualisation des rÃ©sultats.
+\end{itemize}
+
+Le chapitre suivant prÃ©sentera le dÃ©ploiement du systÃ¨me, les validations rÃ©alisÃ©es ainsi que les rÃ©sultats obtenus.
+% ---------------------------------------------------------------------------
+\chapter{DÃ©ploiement, validation et rÃ©sultats}
+
+\section{Introduction}
+
+AprÃ¨s le dÃ©veloppement de la plateforme et lâ€™intÃ©gration du pipeline Big Data, plusieurs phases de validation ont Ã©tÃ© rÃ©alisÃ©es afin de vÃ©rifier :
+\begin{itemize}
+    \item le bon fonctionnement de lâ€™application ;
+    \item la stabilitÃ© des services ;
+    \item la communication entre les composants ;
+    \item le fonctionnement du pipeline analytique ;
+    \item la cohÃ©rence des rÃ©sultats gÃ©nÃ©rÃ©s.
+\end{itemize}
+
+Ce chapitre prÃ©sente lâ€™environnement de dÃ©veloppement utilisÃ©, les Ã©tapes de dÃ©ploiement, les validations fonctionnelles ainsi que les rÃ©sultats obtenus.
+
+\section{Environnement de dÃ©veloppement}
+
+Le projet a Ã©tÃ© dÃ©veloppÃ© dans un environnement local basÃ© sur Docker et plusieurs outils de dÃ©veloppement modernes.
+
+\subsection{Environnement logiciel}
+
+\begin{table}[H]
+    \centering
+    \caption{Environnement de dÃ©veloppement}
+
+    \begin{tabular}{|p{5cm}|p{6cm}|}
+        \hline
+        \textbf{Composant} & \textbf{Technologie utilisÃ©e} \\
+        \hline
+
+        SystÃ¨me dâ€™exploitation &
+        Windows \\
+        
+        \hline
+
+        Frontend &
+        React + Vite + TypeScript \\
+        
+        \hline
+
+        Backend &
+        Spring Boot + Java 21 \\
+        
+        \hline
+
+        Base de donnÃ©es &
+        PostgreSQL / Supabase \\
+        
+        \hline
+
+        Big Data &
+        Hadoop Ecosystem \\
+        
+        \hline
+
+        Conteneurisation &
+        Docker + Docker Compose \\
+        
+        \hline
+
+        Scripts &
+        Python + PowerShell \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Architecture de dÃ©ploiement}
+
+Le projet est sÃ©parÃ© en plusieurs modules indÃ©pendants :
+\begin{itemize}
+    \item frontend React ;
+    \item backend Spring Boot ;
+    \item PostgreSQL ;
+    \item cluster Hadoop ;
+    \item pipeline analytique.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/deployment-architecture.png}
+
+    \fbox{
+        \parbox[c][8cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Architecture de dÃ©ploiement\\
+            Frontend + Backend + Docker Hadoop Stack
+        }
+    }
+
+    \caption{Architecture de dÃ©ploiement du projet}
+\end{figure}
+
+\section{DÃ©ploiement de lâ€™application}
+
+\subsection{DÃ©ploiement du backend}
+
+Le backend Spring Boot expose lâ€™ensemble des endpoints REST de lâ€™application.
+
+Le lancement du backend permet :
+\begin{itemize}
+    \item lâ€™accÃ¨s Ã  lâ€™API ;
+    \item lâ€™authentification ;
+    \item la communication avec PostgreSQL ;
+    \item lâ€™exposition des endpoints Big Data.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture du backend dÃ©marrÃ© ;
+    \item capture terminal Spring Boot ;
+    \item logs de dÃ©marrage.
+\end{itemize}
+
+\subsection{DÃ©ploiement du frontend}
+
+Le frontend React permet lâ€™accÃ¨s utilisateur Ã  la plateforme.
+
+Le frontend fournit :
+\begin{itemize}
+    \item les interfaces utilisateur ;
+    \item le catalogue de cours ;
+    \item les projets ;
+    \item les recommandations ;
+    \item le dashboard administrateur.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture du frontend ;
+    \item interface login ;
+    \item interface dashboard.
+\end{itemize}
+
+\subsection{DÃ©ploiement de la stack Big Data}
+
+Le pipeline Big Data est exÃ©cutÃ© dans des conteneurs Docker.
+
+Les principaux services dÃ©marrÃ©s sont :
+\begin{itemize}
+    \item NameNode ;
+    \item DataNodes ;
+    \item Hive ;
+    \item Flume ;
+    \item HBase ;
+    \item PostgreSQL mirror ;
+    \item Sqoop client.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture docker compose ps ;
+    \item capture conteneurs actifs ;
+    \item capture cluster Hadoop.
+\end{itemize}
+
+\section{Validation fonctionnelle}
+
+\subsection{Tests automatisÃ©s}
+
+Le backend contient plusieurs tests automatisÃ©s permettant de vÃ©rifier le bon fonctionnement des composants critiques.
+
+\begin{table}[H]
+\centering
+\caption{Tests automatisÃ©s principaux}
+\begin{tabular}{|p{6cm}|p{7cm}|}
+\hline
+\textbf{Test} & \textbf{Objectif} \\
+\hline
+LoginAttemptServiceTests & VÃ©rification du blocage aprÃ¨s plusieurs tentatives Ã©chouÃ©es \\
+\hline
+RecommendationServiceTests & Validation de la normalisation et extraction des mots-clÃ©s \\
+\hline
+SkillBridgeApplicationTests & VÃ©rification du chargement du contexte Spring Boot \\
+\hline
+\end{tabular}
+\end{table}
+
+Cette phase vise Ã  vÃ©rifier le bon fonctionnement des fonctionnalitÃ©s principales de lâ€™application.
+
+\subsection{Authentification}
+
+Les tests rÃ©alisÃ©s ont permis de valider :
+\begin{itemize}
+    \item lâ€™inscription utilisateur ;
+    \item la connexion ;
+    \item la gÃ©nÃ©ration des JWT ;
+    \item la protection des routes ;
+    \item la gestion des rÃ´les.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture login rÃ©ussi ;
+    \item capture JWT ;
+    \item capture accÃ¨s admin.
+\end{itemize}
+
+\subsection{Gestion du catalogue}
+
+Les fonctionnalitÃ©s validÃ©es incluent :
+\begin{itemize}
+    \item affichage des cours ;
+    \item pagination ;
+    \item filtres ;
+    \item recherche ;
+    \item consultation des dÃ©tails.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture catalogue ;
+    \item capture filtres ;
+    \item capture pagination.
+\end{itemize}
+
+\subsection{GÃ©nÃ©ration des recommandations}
+
+Le moteur de recommandation a Ã©tÃ© validÃ© avec plusieurs projets utilisateurs.
+
+Les tests ont confirmÃ© :
+\begin{itemize}
+    \item la dÃ©tection des compÃ©tences ;
+    \item lâ€™identification des catÃ©gories ;
+    \item le calcul des scores ;
+    \item le classement des cours.
+\end{itemize}
+
+\subsection{Exemple de recommandation}
+
+Projet testÃ© :
+
+\begin{quote}
+\textit{
+"I want to create a complete website using React and Java"
+}
+\end{quote}
+
+RÃ©sultats obtenus :
+\begin{itemize}
+    \item dÃ©tection des compÃ©tences React et Java ;
+    \item catÃ©gories Backend Development et Web Development ;
+    \item gÃ©nÃ©ration de recommandations classÃ©es ;
+    \item score explicable pour chaque rÃ©sultat.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+
+    \maybeincludegraphics[width=0.95\textwidth]{figures/recommendation-result.png}
+
+    \fbox{
+        \parbox[c][7cm][c]{0.9\textwidth}{
+            \centering
+            Placeholder :\\
+            Capture des rÃ©sultats de recommandation
+        }
+    }
+
+    \caption{RÃ©sultats du moteur de recommandation}
+\end{figure}
+
+\subsection{Tests automatisÃ©s}
+
+Le backend contient plusieurs tests automatisÃ©s permettant de vÃ©rifier le bon fonctionnement des composants critiques.
+
+\begin{table}[H]
+\centering
+\caption{Tests automatisÃ©s principaux}
+\begin{tabular}{|p{6cm}|p{7cm}|}
+\hline
+\textbf{Test} & \textbf{Objectif} \\
+\hline
+LoginAttemptServiceTests & VÃ©rification du blocage aprÃ¨s plusieurs tentatives Ã©chouÃ©es \\
+\hline
+RecommendationServiceTests & Validation de la normalisation et extraction des mots-clÃ©s \\
+\hline
+SkillBridgeApplicationTests & VÃ©rification du chargement du contexte Spring Boot \\
+\hline
+\end{tabular}
+\end{table}
+\section{Validation du pipeline Big Data}
+
+\subsection{Validation HDFS}
+
+Le cluster HDFS a Ã©tÃ© validÃ© avec :
+\begin{itemize}
+    \item deux DataNodes actifs ;
+    \item rÃ©plication correcte des blocs ;
+    \item absence de blocs manquants ;
+    \item stockage des fichiers batch et streaming.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture dfsadmin -report ;
+    \item capture DataNodes ;
+    \item capture HDFS browser.
+\end{itemize}
+
+\subsection{Validation Sqoop}
+
+Les imports batch ont Ã©tÃ© vÃ©rifiÃ©s via :
+\begin{itemize}
+    \item la prÃ©sence des fichiers \texttt{\_SUCCESS} ;
+    \item les fichiers \texttt{part-m-00000} ;
+    \item les dossiers gÃ©nÃ©rÃ©s dans HDFS.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture import Sqoop ;
+    \item capture dossiers HDFS.
+\end{itemize}
+
+\subsection{Validation Flume}
+
+Les tests Flume ont confirmÃ© :
+\begin{itemize}
+    \item la collecte des Ã©vÃ©nements ;
+    \item le transfert vers HDFS ;
+    \item la crÃ©ation des fichiers events.*;
+    \item le fonctionnement du pipeline streaming.
+\end{itemize}
+
+\subsection{Validation Hive}
+
+Les requÃªtes Hive ont permis :
+\begin{itemize}
+    \item de lire les donnÃ©es HDFS ;
+    \item dâ€™analyser les Ã©vÃ©nements ;
+    \item dâ€™exÃ©cuter des agrÃ©gations SQL ;
+    \item de compter les Ã©vÃ©nements utilisateurs.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture requÃªtes Hive ;
+    \item capture rÃ©sultats SQL.
+\end{itemize}
+
+\subsection{Validation MapReduce}
+
+Le job \texttt{TopSearchKeywordsJob} a Ã©tÃ© exÃ©cutÃ© avec succÃ¨s.
+
+RÃ©sultats observÃ©s :
+\begin{itemize}
+    \item extraction des mots-clÃ©s ;
+    \item traitement distribuÃ© ;
+    \item gÃ©nÃ©ration des statistiques ;
+    \item Ã©criture des rÃ©sultats dans HDFS.
+\end{itemize}
+
+Les principaux mots-clÃ©s dÃ©tectÃ©s sont :
+\begin{itemize}
+    \item react ;
+    \item python ;
+    \item machine ;
+    \item spring ;
+    \item frontend ;
+    \item hadoop.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture MapReduce ;
+    \item capture output keywords ;
+    \item capture logs job.
+\end{itemize}
+
+\subsection{Validation HBase}
+
+La table \texttt{course\_stats} a Ã©tÃ© gÃ©nÃ©rÃ©e et chargÃ©e avec succÃ¨s.
+
+Les statistiques stockÃ©es incluent :
+\begin{itemize}
+    \item nombre de clics ;
+    \item sauvegardes ;
+    \item progression moyenne ;
+    \item informations de cours.
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{Placeholder :}
+\begin{itemize}
+    \item capture scan HBase ;
+    \item capture course\_stats ;
+    \item capture shell HBase.
+\end{itemize}
+
+\section{RÃ©sultats obtenus}
+
+\subsection{RÃ©sultats applicatifs}
+
+Les principales fonctionnalitÃ©s rÃ©alisÃ©es sont :
+\begin{itemize}
+    \item authentification sÃ©curisÃ©e ;
+    \item catalogue dynamique ;
+    \item gestion des projets ;
+    \item moteur de recommandation ;
+    \item sauvegarde des cours ;
+    \item suivi pÃ©dagogique ;
+    \item dashboard administrateur.
+\end{itemize}
+
+\subsection{RÃ©sultats analytiques}
+
+Le pipeline Big Data a permis :
+\begin{itemize}
+    \item lâ€™ingestion des datasets ;
+    \item le stockage distribuÃ© ;
+    \item lâ€™analyse des Ã©vÃ©nements ;
+    \item le traitement MapReduce ;
+    \item la production dâ€™indicateurs analytiques.
+\end{itemize}
+
+\subsection{RÃ©sumÃ© des rÃ©sultats}
+
+\begin{table}[H]
+    \centering
+    \caption{RÃ©sumÃ© des rÃ©sultats du projet}
+
+    \begin{tabular}{|p{6cm}|p{5cm}|}
+        \hline
+        \textbf{Composant} & \textbf{Ã‰tat} \\
+        \hline
+
+        Frontend React &
+        Fonctionnel \\
+        
+        \hline
+
+        Backend Spring Boot &
+        Fonctionnel \\
+        
+        \hline
+
+        Authentification JWT &
+        Fonctionnelle \\
+        
+        \hline
+
+        PostgreSQL / Supabase &
+        Fonctionnel \\
+        
+        \hline
+
+        Pipeline HDFS &
+        Fonctionnel \\
+        
+        \hline
+
+        Import Sqoop &
+        ValidÃ© \\
+        
+        \hline
+
+        Streaming Flume &
+        Fonctionnel \\
+        
+        \hline
+
+        RequÃªtes Hive &
+        Fonctionnelles \\
+        
+        \hline
+
+        Job MapReduce &
+        ExÃ©cutÃ© avec succÃ¨s \\
+        
+        \hline
+
+        HBase &
+        Fonctionnel \\
+        
+        \hline
+    \end{tabular}
+\end{table}
+
+\section{Discussion}
+
+Le projet SkillBridge dÃ©montre la possibilitÃ© dâ€™intÃ©grer :
+\begin{itemize}
+    \item une application full-stack moderne ;
+    \item un moteur de recommandation ;
+    \item un pipeline Big Data complet ;
+    \item des traitements analytiques distribuÃ©s.
+\end{itemize}
+
+Lâ€™architecture mise en place prÃ©sente plusieurs avantages :
+\begin{itemize}
+    \item sÃ©paration claire des responsabilitÃ©s ;
+    \item modularitÃ© ;
+    \item Ã©volutivitÃ© ;
+    \item sÃ©curitÃ© centralisÃ©e ;
+    \item intÃ©gration analytique avancÃ©e.
+\end{itemize}
+
+Cependant, certaines limites subsistent :
+\begin{itemize}
+    \item pipeline partiellement manuel ;
+    \item absence de traitement temps rÃ©el avancÃ© ;
+    \item moteur de recommandation rule-based ;
+    \item dÃ©pendance aux scripts de dÃ©monstration.
+\end{itemize}
+
+\section{Conclusion}
+
+Ce chapitre a prÃ©sentÃ© les diffÃ©rentes phases de validation rÃ©alisÃ©es sur le projet SkillBridge.
+
+Les rÃ©sultats obtenus dÃ©montrent :
+\begin{itemize}
+    \item le bon fonctionnement de lâ€™application ;
+    \item la stabilitÃ© du pipeline Big Data ;
+    \item lâ€™intÃ©gration rÃ©ussie des technologies Hadoop ;
+    \item la capacitÃ© du systÃ¨me Ã  produire des recommandations et des analyses exploitables.
+\end{itemize}
+
+Lâ€™ensemble du projet constitue ainsi une plateforme full-stack et Big Data cohÃ©rente, modulaire et dÃ©fendable acadÃ©miquement.
+*
+
+\chapter{Validation acadÃ©mique}
+
+\section{JEE et Spring Boot}
+
+\begin{table}[H]
+\centering
+\caption{Concepts JEE appliquÃ©s}
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Concept} & \textbf{ImplÃ©mentation} \\
+\hline
+Architecture en couches & Controllers / Services / Repositories / DTOs \\
+\hline
+API REST & Endpoints REST sÃ©curisÃ©s \\
+\hline
+Persistance JPA & EntitÃ©s relationnelles avec Spring Data JPA \\
+\hline
+Validation & Bean Validation et DTO validation \\
+\hline
+Transactions & Services transactionnels \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Spring Security}
+
+\begin{table}[H]
+\centering
+\caption{Concepts Spring Security appliquÃ©s}
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Concept} & \textbf{ImplÃ©mentation} \\
+\hline
+JWT & Authentification stateless \\
+\hline
+OAuth & Login Google et GitHub \\
+\hline
+Autorisation & RÃ´les USER / ADMIN \\
+\hline
+BCrypt & Hashage des mots de passe \\
+\hline
+Filtres de sÃ©curitÃ© & JwtAuthenticationFilter \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Big Data}
+
+\begin{table}[H]
+\centering
+\caption{Concepts Big Data appliquÃ©s}
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Concept} & \textbf{ImplÃ©mentation} \\
+\hline
+Ingestion batch & Sqoop \\
+\hline
+Streaming & Flume \\
+\hline
+Stockage distribuÃ© & HDFS \\
+\hline
+SQL distribuÃ© & Hive \\
+\hline
+Traitement distribuÃ© & MapReduce \\
+\hline
+NoSQL & HBase \\
+\hline
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------------
+\chapter*{Conclusion gÃ©nÃ©rale}
+\addcontentsline{toc}{chapter}{Conclusion gÃ©nÃ©rale}
+
+Le projet \textbf{SkillBridge} avait pour objectif de concevoir une plateforme Ã©ducative intelligente capable de transformer une idÃ©e de projet en parcours dâ€™apprentissage personnalisÃ©.
+
+Afin dâ€™atteindre cet objectif, une architecture complÃ¨te combinant :
+\begin{itemize}
+    \item dÃ©veloppement full-stack ;
+    \item sÃ©curitÃ© applicative ;
+    \item systÃ¨me de recommandation ;
+    \item et pipeline Big Data ;
+\end{itemize}
+a Ã©tÃ© mise en place.
+
+\vspace{0.5cm}
+
+La plateforme dÃ©veloppÃ©e permet :
+\begin{itemize}
+    \item la gestion des utilisateurs ;
+    \item lâ€™authentification sÃ©curisÃ©e ;
+    \item la consultation du catalogue de cours ;
+    \item la crÃ©ation de projets ;
+    \item la gÃ©nÃ©ration de recommandations personnalisÃ©es ;
+    \item le suivi pÃ©dagogique ;
+    \item ainsi que la supervision analytique via un dashboard administrateur.
+\end{itemize}
+
+Le moteur de recommandation constitue lâ€™un des Ã©lÃ©ments centraux du projet. Celui-ci repose sur une approche dÃ©terministe et explicable basÃ©e sur :
+\begin{itemize}
+    \item lâ€™extraction de mots-clÃ©s ;
+    \item la dÃ©tection des compÃ©tences ;
+    \item lâ€™identification des catÃ©gories ;
+    \item et un systÃ¨me de scoring transparent.
+\end{itemize}
+
+Cette approche permet de produire des recommandations comprÃ©hensibles, traÃ§ables et facilement interprÃ©tables.
+
+\vspace{0.5cm}
+
+Le projet intÃ¨gre Ã©galement un pipeline Big Data complet utilisant plusieurs composants de lâ€™Ã©cosystÃ¨me Hadoop :
+\begin{itemize}
+    \item HDFS ;
+    \item Sqoop ;
+    \item Flume ;
+    \item Hive ;
+    \item MapReduce ;
+    \item HBase.
+\end{itemize}
+
+Cette architecture permet :
+\begin{itemize}
+    \item lâ€™ingestion de donnÃ©es massives ;
+    \item le stockage distribuÃ© ;
+    \item le traitement batch ;
+    \item lâ€™analyse des Ã©vÃ©nements utilisateurs ;
+    \item et la production dâ€™indicateurs analytiques.
+\end{itemize}
+
+Lâ€™un des points importants du projet rÃ©side dans la sÃ©paration claire entre :
+\begin{itemize}
+    \item la couche transactionnelle temps rÃ©el ;
+    \item et la couche analytique Big Data.
+\end{itemize}
+
+Cette organisation amÃ©liore :
+\begin{itemize}
+    \item les performances ;
+    \item la modularitÃ© ;
+    \item la maintenabilitÃ© ;
+    \item et lâ€™Ã©volutivitÃ© du systÃ¨me.
+\end{itemize}
+
+\vspace{0.5cm}
+
+Les validations rÃ©alisÃ©es ont permis de confirmer :
+\begin{itemize}
+    \item le bon fonctionnement de lâ€™application ;
+    \item la stabilitÃ© des services ;
+    \item la communication entre les composants ;
+    \item le bon fonctionnement du pipeline analytique ;
+    \item ainsi que la cohÃ©rence des rÃ©sultats gÃ©nÃ©rÃ©s.
+\end{itemize}
+
+MalgrÃ© les rÃ©sultats obtenus, certaines limites subsistent :
+\begin{itemize}
+    \item le pipeline reste partiellement manuel ;
+    \item le moteur de recommandation est principalement rule-based ;
+    \item certains traitements analytiques pourraient Ãªtre davantage automatisÃ©s ;
+    \item et le systÃ¨me nâ€™intÃ¨gre pas encore de modÃ¨les avancÃ©s dâ€™intelligence artificielle.
+\end{itemize}
+
+\vspace{0.5cm}
+
+Plusieurs perspectives dâ€™Ã©volution peuvent Ãªtre envisagÃ©es :
+\begin{itemize}
+    \item intÃ©gration de modÃ¨les NLP avancÃ©s ;
+    \item utilisation dâ€™embeddings sÃ©mantiques ;
+    \item ajout de modÃ¨les de Machine Learning ;
+    \item intÃ©gration de Spark ou Kafka ;
+    \item automatisation complÃ¨te du pipeline ;
+    \item dÃ©ploiement cloud distribuÃ© ;
+    \item amÃ©lioration des dashboards analytiques ;
+    \item personnalisation avancÃ©e des recommandations.
+\end{itemize}
+
+\vspace{0.5cm}
+
+En conclusion, le projet SkillBridge constitue une plateforme cohÃ©rente combinant application web moderne et pipeline Big Data distribuÃ©. Il dÃ©montre lâ€™intÃ©gration rÃ©ussie de plusieurs technologies complÃ©mentaires dans une architecture modulaire et dÃ©fendable acadÃ©miquement.
+
+Ce projet a Ã©galement permis de mobiliser et consolider des compÃ©tences dans plusieurs domaines :
+\begin{itemize}
+    \item dÃ©veloppement full-stack ;
+    \item sÃ©curitÃ© applicative ;
+    \item gestion des bases de donnÃ©es ;
+    \item traitement Big Data ;
+    \item architecture logicielle ;
+    \item et analyse de donnÃ©es distribuÃ©es.
+\end{itemize}
+
+\end{document}
+

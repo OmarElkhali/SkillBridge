@@ -34,9 +34,10 @@ def env_path(name, fallback):
 
 load_local_env()
 
-ARCHIVE_FINAL = env_path("SKILLBRIDGE_DATASET_FINAL_ZIP", r"C:\Users\omare\Downloads\archive (1).zip")
-ARCHIVE_ALL = env_path("SKILLBRIDGE_DATASET_ALL_COURSES_ZIP", r"C:\Users\omare\Downloads\archive.zip")
-ARCHIVE_RICH = env_path("SKILLBRIDGE_DATASET_RICH_ZIP", r"C:\Users\omare\Downloads\archive (2).zip")
+DOWNLOADS = Path.home() / "Downloads"
+ARCHIVE_FINAL = env_path("SKILLBRIDGE_DATASET_FINAL_ZIP", str(DOWNLOADS / "archive (1).zip"))
+ARCHIVE_ALL = env_path("SKILLBRIDGE_DATASET_ALL_COURSES_ZIP", str(DOWNLOADS / "archive.zip"))
+ARCHIVE_RICH = env_path("SKILLBRIDGE_DATASET_RICH_ZIP", str(DOWNLOADS / "archive (2).zip"))
 
 UNIFIED_COLUMNS = [
     "source_dataset",

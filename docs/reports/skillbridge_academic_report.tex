@@ -1,0 +1,1267 @@
+\documentclass[12pt,a4paper]{report}
+
+% ---------------------------------------------------------------------------
+% SkillBridge academic report
+% ---------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{sectsty}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{pdflscape}
+\usepackage[most]{tcolorbox}
+
+\geometry{top=2cm,bottom=2cm,left=2cm,right=2cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\renewcommand{\arraystretch}{1.2}
+\hypersetup{colorlinks=true,linkcolor=sbNavy,urlcolor=sbTeal,citecolor=sbNavy}
+
+\definecolor{sbNavy}{HTML}{1F3A5F}
+\definecolor{sbTeal}{HTML}{1B998B}
+\definecolor{sbOrange}{HTML}{E67E22}
+\definecolor{sbSky}{HTML}{D8ECF3}
+\definecolor{sbGold}{HTML}{C9A227}
+\definecolor{sbMint}{HTML}{DFF3EF}
+\definecolor{sbAmber}{HTML}{FFF0DD}
+\definecolor{sbInk}{HTML}{17202A}
+\definecolor{sbGray}{HTML}{F4F6F8}
+\definecolor{sbDark}{HTML}{20242A}
+\definecolor{sbLine}{HTML}{D8DEE9}
+\arrayrulecolor{sbLine}
+\rowcolors{2}{sbGray!55}{white}
+
+\chapterfont{\color{sbNavy}}
+\sectionfont{\color{sbTeal}}
+\subsectionfont{\color{sbNavy}}
+\captionsetup{labelfont={bf,color=sbNavy},textfont={color=sbDark},font=small}
+
+\newcommand{\reportnote}[2]{
+    \begin{tcolorbox}[
+        enhanced,
+        colback=#1!10,
+        colframe=#1,
+        arc=2pt,
+        boxrule=0.7pt,
+        left=8pt,
+        right=8pt,
+        top=7pt,
+        bottom=7pt
+    ]
+    #2
+    \end{tcolorbox}
+}
+
+\newcommand{\tablehead}{\rowcolor{sbNavy!12}}
+
+\lstdefinestyle{reportcode}{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{sbTeal},
+    backgroundcolor=\color{sbMint},
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false
+}
+\lstset{style=reportcode}
+
+\newcommand{\projectName}{SkillBridge}
+\newcommand{\diagramimage}[3]{
+    \begin{figure}[H]
+        \centering
+        \IfFileExists{#1}
+        {\includegraphics[width=#2\textwidth]{#1}}
+        {
+            \fcolorbox{sbLine}{sbGray}{
+                \begin{minipage}[c][7cm][c]{0.88\textwidth}
+                    \centering
+                    {\Large Diagram image missing}\\[0.5cm]
+                    \texttt{\detokenize{#1}}\\[0.35cm]
+                    Render the matching PlantUML file from \texttt{plantuml/} and save the image here.
+                \end{minipage}
+            }
+        }
+        \caption{#3}
+    \end{figure}
+}
+\newcommand{\screenshotplaceholder}[3]{
+    \begin{figure}[H]
+        \centering
+        \IfFileExists{#1}
+        {\includegraphics[width=0.92\textwidth]{#1}}
+        {
+            \fcolorbox{sbLine}{sbGray}{
+                \begin{minipage}[c][7cm][c]{0.88\textwidth}
+                    \centering
+                    {\Large #2}\\[0.5cm]
+                    \texttt{\detokenize{#1}}\\[0.35cm]
+                    Add the application screenshot here before compiling the final PDF.
+                \end{minipage}
+            }
+        }
+        \caption{#3}
+    \end{figure}
+}
+
+\begin{document}
+
+% ---------------------------------------------------------------------------
+% Cover
+% ---------------------------------------------------------------------------
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{1.2cm}
+        {\Huge\bfseries \projectName}\\[0.35cm]
+        {\Large Academic Project Report}\\[0.25cm]
+        {\large JEE, Spring Security and Big Data}\\[1.2cm]
+
+        \colorbox{sbNavy}{
+            \begin{minipage}{0.86\textwidth}
+                \centering
+                \vspace{0.45cm}
+                {\color{white}\Large\bfseries Project-Idea-to-Learning-Path Platform}\\[0.35cm]
+                {\color{sbSky}\normalsize A full-stack educational application that transforms a student's project idea into detected skills, explainable course recommendations, learning progress and Big Data analytics.}
+                \vspace{0.45cm}
+            \end{minipage}
+        }\\[1.2cm]
+
+        \begin{tabular}{rl}
+            Academic year: & 2025--2026\\
+            Main subjects: & JEE / Spring Boot, Spring Security, Big Data\\
+            Backend: & Java 21, Spring Boot, Spring MVC, Spring Data JPA\\
+            Frontend: & React, TypeScript, Vite\\
+            Big Data: & Docker, PostgreSQL mirror, Sqoop, HDFS, Flume, Hive, MapReduce, HBase, Python\\
+        \end{tabular}
+
+        \vfill
+        \begin{tabularx}{0.82\textwidth}{X X}
+            \textbf{Prepared by} & \textbf{Supervised by}\\
+            Ayoub Moutik & Pr. EL Faquih Loubna\\
+            Omar Elkhali & Pr. HIRCHOUA Bader\\
+            Jamila Ouzzane & Pr. SEKKATE Sara\\
+        \end{tabularx}
+        \vspace*{0.8cm}
+    \end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\reportnote{sbTeal}{\projectName{} is a learning-path platform designed around a practical observation: many learners know what they want to build, but they do not know which skills and courses will help them build it. The application allows a user to create an account, submit a project idea, receive detected skills, obtain ranked course recommendations, save courses and track progress. Administrators can manage users, the catalog, providers, categories, skills and Big Data status screens.}
+
+The project is organized as three coordinated applications: a Spring Boot backend, a React frontend and a terminal-first Big Data laboratory. The backend applies JEE principles through layered architecture, REST controllers, Jakarta Persistence entities, repositories, DTOs, validation and transactions. The security layer uses Spring Security with stateless JWT authentication, BCrypt password hashing, OAuth login integration, method-level authorization, CORS hardening, HTTP security headers and brute-force protection. The Big Data module demonstrates batch and streaming ingestion with Sqoop and Flume, distributed storage with HDFS, analytics with Hive, processing with a Java MapReduce job, Python data enrichment and an HBase serving layer.
+
+This report documents the purpose, architecture, data model, algorithms, API design, security controls, Big Data pipeline, UML diagrams, testing strategy and demonstration plan of the complete application.
+
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+\pagenumbering{arabic}
+
+% ---------------------------------------------------------------------------
+\chapter{Project Overview}
+
+\section{Problem Statement}
+\reportnote{sbOrange}{\textbf{Core idea.} SkillBridge starts from a project goal, not from a keyword search. The application asks what the learner wants to build, then transforms that goal into skills, categories and course recommendations.}
+
+Online learning resources are abundant, but discovering the right resources remains difficult for a student who starts from a concrete project idea. A learner may say, for example, ``I want to build a secure Spring Boot e-commerce backend with PostgreSQL'', but still be unsure about the skills involved: Java, Spring Boot, REST APIs, JWT, application security, SQL, PostgreSQL, deployment and testing.
+
+\projectName{} addresses this gap by using the project idea as the entry point. It converts the user's description into a structured learning context, detects relevant skills, matches those skills to a curated course catalog and returns an explainable list of recommended courses.
+
+\section{Objectives}
+The project has four main objectives:
+
+\begin{itemize}[leftmargin=*]
+    \item Provide a usable web application where learners can submit project ideas and manage their learning activity.
+    \item Implement a clean JEE/Spring backend with a layered architecture, persistent entities, REST APIs and transactional business logic.
+    \item Implement a serious Spring Security layer with authentication, authorization, JWT tokens, OAuth entry points and defensive controls.
+    \item Demonstrate a Big Data ecosystem using realistic educational datasets, Hadoop storage and processing tools, and analytics exposed back to the application.
+\end{itemize}
+
+\section{Scope}
+The current system includes:
+
+\begin{itemize}[leftmargin=*]
+    \item user registration and login;
+    \item Google and GitHub OAuth login endpoints;
+    \item role-based access for normal users and administrators;
+    \item course, category, provider and skill catalog management;
+    \item project idea creation;
+    \item skill detection and explainable recommendation generation;
+    \item saved courses and progress tracking;
+    \item admin dashboards and catalog analytics;
+    \item Big Data event logging, catalog enrichment and terminal pipeline execution.
+\end{itemize}
+
+\section{Repository Organization}
+\begin{longtable}{p{0.28\textwidth}p{0.64\textwidth}}
+\caption{Main project folders}\\
+\toprule
+\textbf{Path} & \textbf{Role}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Path} & \textbf{Role}\\
+\midrule
+\endhead
+\texttt{apps/backend} & Spring Boot application. It contains controllers, services, repositories, entities, DTOs, configuration, security and tests.\\
+\texttt{apps/frontend} & React + TypeScript + Vite application. It contains routing, pages, authentication context, API client, reusable UI components and charts.\\
+\texttt{apps/bigdata} & Big Data laboratory. It contains Docker Compose services, Sqoop, Flume, Hive, HBase, MapReduce and Python scripts.\\
+\texttt{docs} & Technical documentation and reports. The present LaTeX report is stored under \texttt{docs/reports}.\\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------------------
+\chapter{Functional Analysis}
+
+\section{Actors}
+\begin{longtable}{p{0.25\textwidth}p{0.67\textwidth}}
+\caption{Actors and responsibilities}\\
+\toprule
+\textbf{Actor} & \textbf{Responsibilities}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Actor} & \textbf{Responsibilities}\\
+\midrule
+\endhead
+User & Authenticates, browses the course catalog, creates project ideas, generates recommendations, saves courses, records course clicks and tracks progress.\\
+Administrator & Has all user capabilities, plus user management, catalog administration, admin dashboards and Big Data status/analytics access.\\
+\bottomrule
+\end{longtable}
+
+\section{Use Case Diagram}
+\diagramimage{diagrams/use-case.png}{0.92}{Main use cases}
+
+\section{Functional Requirements}
+\begin{longtable}{p{0.13\textwidth}p{0.42\textwidth}p{0.35\textwidth}}
+\caption{Functional requirements}\\
+\toprule
+\textbf{ID} & \textbf{Requirement} & \textbf{Implementation}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Requirement} & \textbf{Implementation}\\
+\midrule
+\endhead
+FR-01 & Users can register and authenticate. & \texttt{AuthController}, \texttt{AuthService}, JWT response.\\
+FR-02 & Users can authenticate with Google or GitHub. & \texttt{/api/auth/google}, \texttt{/api/auth/github}.\\
+FR-03 & Users can create project ideas. & \texttt{ProjectIdeaController}, \texttt{ProjectIdeaService}.\\
+FR-04 & Users can generate recommendations for a project. & \texttt{RecommendationService.generateForProject}.\\
+FR-05 & Users can save and unsave courses. & \texttt{SavedCourseController}, \texttt{SavedCourseService}.\\
+FR-06 & Users can track progress. & \texttt{ProgressController}, \texttt{ProgressService}.\\
+FR-07 & Authenticated users can read catalog data. & Catalog browsing is part of the logged-in user workflow.\\
+FR-08 & Administrators can manage catalog data. & Admin-protected POST/PUT/DELETE endpoints.\\
+FR-09 & Administrators can manage users. & \texttt{/api/admin/users}, role and active status updates.\\
+FR-10 & Administrators can inspect Big Data status. & \texttt{/api/admin/bigdata/*} and \texttt{/api/bigdata/*}.\\
+\bottomrule
+\end{longtable}
+
+\section{Non-Functional Requirements}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Security}: stateless JWT authentication, role-based authorization, OAuth verification, password hashing and login-rate protection.
+    \item \textbf{Maintainability}: separation into controllers, services, repositories, entities and DTOs.
+    \item \textbf{Explainability}: recommendation scores include title, skill, category and bonus components.
+    \item \textbf{Scalability of analytics}: Hadoop services are separated from the live web request path.
+    \item \textbf{Auditability}: recommendation snapshots and results are stored for later inspection.
+    \item \textbf{Usability}: frontend screens support dashboards, catalog search, projects, saved courses, progress and admin management.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\chapter{Global Architecture}
+
+\section{High-Level Design}
+\reportnote{sbNavy}{\textbf{Architectural principle.} The frontend handles interaction, Spring Boot owns security and business rules, and the Big Data module stays outside the live request path so analytics can scale without slowing normal users.}
+
+\projectName{} is not a single monolithic script. It is a coordinated architecture with three applications:
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Frontend}: React application that handles user interaction and calls the backend API.
+    \item \textbf{Backend}: Spring Boot REST API that owns authentication, authorization, domain rules, recommendation logic and persistence.
+    \item \textbf{Big Data module}: terminal-first Hadoop ecosystem that builds the educational catalog and computes analytics.
+\end{itemize}
+
+\diagramimage{diagrams/global-architecture.png}{0.96}{Global architecture}
+
+\section{Layered Backend Architecture}
+The backend follows a layered design commonly expected in a JEE/Spring project:
+
+\diagramimage{diagrams/layered-backend.png}{0.82}{Backend layered architecture}
+
+\section{Technology Stack}
+\begin{longtable}{p{0.20\textwidth}p{0.28\textwidth}p{0.42\textwidth}}
+\caption{Technology stack}\\
+\toprule
+\textbf{Area} & \textbf{Technology} & \textbf{Purpose}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Area} & \textbf{Technology} & \textbf{Purpose}\\
+\midrule
+\endhead
+Backend & Java 21 & Main backend language.\\
+Backend & Spring Boot 4.0.3 & Application bootstrap, dependency management and runtime configuration.\\
+JEE & Spring MVC / REST & HTTP API layer analogous to enterprise Java web controllers.\\
+JEE & Jakarta Persistence / JPA & Entity mapping and relational persistence.\\
+JEE & Bean Validation & Request validation through DTO constraints.\\
+Security & Spring Security & Authentication, authorization, filters, method security and HTTP hardening.\\
+Security & JJWT & JWT generation and validation.\\
+Database & PostgreSQL / Supabase & Main transactional database.\\
+Frontend & React 19 + TypeScript & Interactive web UI.\\
+Frontend & Vite & Development server and build tooling.\\
+Frontend & Recharts & Admin charts and analytics visualizations.\\
+Big Data & Docker Compose & Local reproducible Hadoop stack.\\
+Big Data & Sqoop & Batch import from PostgreSQL mirror to HDFS.\\
+Big Data & Flume & Streaming ingestion from \texttt{events.log} to HDFS.\\
+Big Data & HDFS & Distributed storage for raw and processed data.\\
+Big Data & Hive & SQL analytics over HDFS files.\\
+Big Data & MapReduce & Batch keyword-count processing job.\\
+Big Data & HBase & Key-value serving table for course statistics.\\
+Big Data & Python & Catalog cleaning, enrichment, recommendation CLI and HBase load script generation.\\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------------------
+\chapter{Backend Application: JEE and Spring Boot}
+
+\section{Backend Package Structure}
+\begin{longtable}{p{0.25\textwidth}p{0.65\textwidth}}
+\caption{Backend packages}\\
+\toprule
+\textbf{Package} & \textbf{Responsibility}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Package} & \textbf{Responsibility}\\
+\midrule
+\endhead
+\texttt{config} & Application properties and shared beans.\\
+\texttt{security} & JWT generation, request filter, authentication entry point, OAuth services, brute-force protection and Spring Security setup.\\
+\texttt{user} & Registration, login, current user, role seeding and admin user management.\\
+\texttt{course} & Courses, categories, providers and catalog search.\\
+\texttt{skill} & Skill catalog and lookup used by recommendations.\\
+\texttt{projectidea} & Project ideas, detected skills, recommendation snapshots and recommendation results.\\
+\texttt{recommendation} & Rule-based project-to-course recommendation engine.\\
+\texttt{savedcourse} & Saved course bookmarks.\\
+\texttt{progress} & Course progress tracking.\\
+\texttt{admin} & Dashboard metrics and Big Data analytics summaries.\\
+\texttt{bigdata} & Event logging and file-based status integration with the terminal pipeline.\\
+\texttt{common} & Base entity, exceptions, API error response and slug utilities.\\
+\bottomrule
+\end{longtable}
+
+\section{REST API Overview}
+\begin{longtable}{p{0.27\textwidth}p{0.15\textwidth}p{0.48\textwidth}}
+\caption{Main REST endpoints}\\
+\toprule
+\textbf{Endpoint} & \textbf{Access} & \textbf{Purpose}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Endpoint} & \textbf{Access} & \textbf{Purpose}\\
+\midrule
+\endhead
+\texttt{POST /api/auth/register} & Public & Create an account and return a JWT.\\
+\texttt{POST /api/auth/login} & Public & Authenticate with email/password and return a JWT.\\
+\texttt{POST /api/auth/google} & Public & Verify a Google ID token and issue an application JWT.\\
+\texttt{POST /api/auth/github} & Public & Exchange GitHub OAuth code and issue an application JWT.\\
+\texttt{GET /api/users/me} & User & Return the current authenticated user.\\
+\texttt{GET /api/courses} & User & Search published courses with pagination and filters.\\
+\texttt{GET /api/courses/admin} & Admin & Search all courses, including unpublished ones.\\
+\texttt{POST/PUT/DELETE /api/courses} & Admin & Manage courses.\\
+\texttt{GET /api/categories} & User & List categories.\\
+\texttt{POST/PUT/DELETE /api/categories} & Admin & Manage categories.\\
+\texttt{GET /api/providers} & User & List providers.\\
+\texttt{POST/PUT/DELETE /api/providers} & Admin & Manage providers.\\
+\texttt{GET /api/skills/search} & User & Search skills with pagination.\\
+\texttt{POST/PUT/DELETE /api/skills} & Admin & Manage skills.\\
+\texttt{POST /api/projects} & User & Create a project idea and append a Big Data event.\\
+\texttt{GET /api/projects} & User & List project ideas owned by the current user.\\
+\texttt{POST /api/projects/\{id\}/recommendations/generate} & User & Generate and persist recommendations.\\
+\texttt{GET /api/projects/\{id\}/recommendations} & User & Read latest recommendation snapshot.\\
+\texttt{GET/POST/DELETE /api/saved-courses} & User & List, save and unsave courses.\\
+\texttt{GET/PUT /api/progress} & User & Read and update course progress.\\
+\texttt{GET /api/admin/overview} & Admin & Dashboard counters.\\
+\texttt{GET /api/admin/bigdata/*} & Admin & Big Data pipeline metrics and command guidance.\\
+\texttt{GET /api/bigdata/*} & Admin & Lower-level Big Data file/status endpoints.\\
+\bottomrule
+\end{longtable}
+
+\section{JPA Domain Model}
+The relational model is built around users, projects, courses and skills. The most important design choice is that \texttt{Skill} is the bridge between project ideas and learning resources.
+
+\diagramimage{diagrams/domain-model.png}{0.98}{Simplified UML class and entity diagram}
+
+\section{Entity Details}
+\begin{longtable}{p{0.24\textwidth}p{0.66\textwidth}}
+\caption{Important entities}\\
+\toprule
+\textbf{Entity} & \textbf{Description}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Entity} & \textbf{Description}\\
+\midrule
+\endhead
+\texttt{User} & Stores account identity, email, hashed password, active status and role.\\
+\texttt{Role} & Stores \texttt{USER} and \texttt{ADMIN}.\\
+\texttt{Course} & Stores title, slug, description, level, language, source URL, thumbnail URL, publication status and popularity score.\\
+\texttt{Category} & Classifies courses by domain, for example Big Data, Backend Development, Databases or Application Security.\\
+\texttt{Provider} & Represents the platform or organization that provides the course.\\
+\texttt{Skill} & Atomic competency used for matching project ideas and courses.\\
+\texttt{ProjectIdea} & User-submitted project title and description.\\
+\texttt{ProjectDetectedSkill} & Stores a detected skill with keyword, source and confidence score.\\
+\texttt{RecommendationSnapshot} & Audit object for one recommendation generation run.\\
+\texttt{RecommendationResult} & Stores each ranked course and the score breakdown.\\
+\texttt{SavedCourse} & Bookmark relation between user and course.\\
+\texttt{CourseProgress} & Tracks status and percentage progress for a user-course pair.\\
+\bottomrule
+\end{longtable}
+
+\section{Repository and Query Design}
+The repository layer uses Spring Data JPA for standard CRUD and custom queries when necessary. The most important custom query is the course search query in \texttt{CourseRepository}. It returns course IDs first, then the service fetches entities with an entity graph. This avoids duplicated rows caused by the many-to-many join between courses and skills.
+
+The course search supports:
+\begin{itemize}[leftmargin=*]
+    \item user and admin catalog visibility through the \texttt{publishedOnly} flag;
+    \item full-text-like filtering over course title, description, category, provider and skill names;
+    \item category, provider, skill and level filters;
+    \item sorting by title or popularity.
+\end{itemize}
+
+\section{Service Layer}
+The service layer owns the real business logic:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{AuthService}: registration, login, OAuth user creation and JWT issuance.
+    \item \texttt{CourseService}: catalog search, size limits, course creation and update.
+    \item \texttt{ProjectIdeaService}: project creation, owner-scoped retrieval and event emission.
+    \item \texttt{RecommendationService}: skill detection, category detection, candidate retrieval, scoring, persistence and Big Data trace generation.
+    \item \texttt{SavedCourseService}: user-owned course bookmarks.
+    \item \texttt{ProgressService}: progress state and percentage management.
+    \item \texttt{AdminService}: dashboard counters, catalog analytics and Big Data summary composition.
+\end{itemize}
+
+\section{Exception Handling}
+The backend contains a central \texttt{GlobalExceptionHandler}. It converts validation and business exceptions into consistent API error responses. This gives the frontend predictable error payloads and keeps controller methods focused on request handling.
+
+% ---------------------------------------------------------------------------
+\chapter{Recommendation Engine}
+
+\section{Purpose}
+The recommendation engine is deliberately explainable. It does not hide the decision process behind an opaque model. Instead, it uses deterministic text normalization, skill matching, category rules and score components that can be defended during an academic presentation.
+
+\section{Algorithm Version}
+The backend identifies the current algorithm as:
+
+\begin{lstlisting}
+bigdata-ready-rule-based-v2
+\end{lstlisting}
+
+\section{Recommendation Sequence}
+\diagramimage{diagrams/recommendation-sequence.png}{0.96}{Recommendation generation sequence}
+
+\section{Text Normalization}
+The engine lowercases text, removes non-alphanumeric characters, collapses spaces and removes stop words. The same normalization is used for project tokens, skill names and category rules.
+
+\section{Skill Detection}
+The backend loads all skills and searches for skill names in the normalized project text. A detected skill is stored as a \texttt{ProjectDetectedSkill} with:
+
+\begin{itemize}[leftmargin=*]
+    \item \texttt{matchedKeyword}: normalized skill expression;
+    \item \texttt{matchSource}: \texttt{SKILL\_NAME};
+    \item \texttt{confidenceScore}: \texttt{0.95};
+    \item a limit of 25 detected skills per project.
+\end{itemize}
+
+\section{Category Detection}
+The system contains deterministic category rules. For example:
+
+\begin{longtable}{p{0.28\textwidth}p{0.60\textwidth}}
+\caption{Examples of category rules}\\
+\toprule
+\textbf{Category} & \textbf{Keywords}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Category} & \textbf{Keywords}\\
+\midrule
+\endhead
+Big Data & Hadoop, HDFS, Hive, HBase, Sqoop, Flume, MapReduce.\\
+Application Security & security, secure, JWT, OAuth, authentication, authorization.\\
+Backend Development & Spring, Spring Boot, Java, REST API, backend, microservice.\\
+Databases & PostgreSQL, SQL, MySQL, database, MongoDB, NoSQL.\\
+Web Development & React, Angular, Vue, JavaScript, TypeScript, frontend.\\
+Machine Learning & machine learning, AI, TensorFlow, PyTorch, data science.\\
+\bottomrule
+\end{longtable}
+
+\section{Scoring Formula}
+Each candidate course receives a score out of 100:
+
+\begin{equation}
+Score = \min(100, TitleScore + SkillScore + CategoryScore + BonusScore)
+\end{equation}
+
+\begin{longtable}{p{0.24\textwidth}p{0.18\textwidth}p{0.48\textwidth}}
+\caption{Recommendation score components}\\
+\toprule
+\textbf{Component} & \textbf{Maximum} & \textbf{Meaning}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Component} & \textbf{Maximum} & \textbf{Meaning}\\
+\midrule
+\endhead
+Title match & 30 & Project keywords and detected skills appear in the course title.\\
+Skill match & 40 & Course skills match detected project skills; descriptions can add skill hits.\\
+Category match & 20 & Course category matches detected project category.\\
+Bonus & 10 & Popularity score and available Big Data course statistics.\\
+\bottomrule
+\end{longtable}
+
+\section{Persistence and Auditability}
+Recommendation generation persists:
+\begin{itemize}[leftmargin=*]
+    \item the project's detected skills;
+    \item a \texttt{RecommendationSnapshot};
+    \item multiple \texttt{RecommendationResult} rows;
+    \item a JSON summary in \texttt{apps/bigdata/output/recommendation\_result.json};
+    \item a \texttt{PROJECT\_RECOMMENDATION} event in \texttt{events.log}.
+\end{itemize}
+
+This design makes the recommendation reproducible and defendable: the application can show not only the recommended course but also why it was recommended.
+
+% ---------------------------------------------------------------------------
+\chapter{Spring Security}
+
+\section{Security Objectives}
+\reportnote{sbTeal}{\textbf{Access rule.} Login is mandatory for application usage. Only authentication entry points are public; normal learning features require a user token, while administration requires the \texttt{ADMIN} role.}
+
+The security layer protects both the mandatory login experience and the administrative features. Its goals are:
+
+\begin{itemize}[leftmargin=*]
+    \item verify user identity;
+    \item avoid server-side session state by using JWT tokens;
+    \item protect administrative endpoints with role checks;
+    \item prevent common web risks such as weak CORS settings and missing hardening headers;
+    \item reduce brute-force login attempts;
+    \item allow OAuth providers while still issuing the application's own JWT.
+\end{itemize}
+
+\section{Security Filter Chain}
+The main security configuration is in \texttt{SecurityConfig}. It:
+\begin{itemize}[leftmargin=*]
+    \item disables CSRF because the API is stateless and token-based;
+    \item enables CORS with configured origins;
+    \item sets \texttt{SessionCreationPolicy.STATELESS};
+    \item enables HTTP headers such as content type options, frame deny, no-referrer and HSTS;
+    \item permits only authentication endpoints before login;
+    \item requires authentication for all other requests;
+    \item adds \texttt{JwtAuthenticationFilter} before \texttt{UsernamePasswordAuthenticationFilter};
+    \item enables method security with \texttt{@EnableMethodSecurity}.
+\end{itemize}
+
+\diagramimage{diagrams/security-request-flow.png}{0.82}{Spring Security request flow}
+
+\section{JWT Authentication}
+When the user logs in or registers successfully, the backend creates a signed JWT containing:
+
+\begin{itemize}[leftmargin=*]
+    \item subject: user email;
+    \item \texttt{userId};
+    \item \texttt{role};
+    \item issued-at time;
+    \item expiration time.
+\end{itemize}
+
+The frontend stores the token in \texttt{localStorage} under \texttt{skillbridge.access-token} and sends it with protected requests as:
+
+\begin{lstlisting}
+Authorization: Bearer <token>
+\end{lstlisting}
+
+\section{Login Sequence}
+\diagramimage{diagrams/login-sequence.png}{0.96}{Email/password authentication sequence}
+
+\section{OAuth Login}
+The backend exposes Google and GitHub login endpoints. OAuth users are mapped to internal \texttt{User} rows. If an OAuth identity does not already exist, the backend creates a user with the default \texttt{USER} role and a generated password hash. After verification, the application still issues its own SkillBridge JWT, keeping frontend API calls uniform.
+
+\section{Authorization Matrix}
+\begin{longtable}{p{0.34\textwidth}p{0.18\textwidth}p{0.38\textwidth}}
+\caption{Authorization matrix}\\
+\toprule
+\textbf{Resource} & \textbf{Role} & \textbf{Protection}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Resource} & \textbf{Role} & \textbf{Protection}\\
+\midrule
+\endhead
+Authentication endpoints & Public & Explicitly permitted by route.\\
+Catalog GET endpoints & User/Admin & Login is mandatory before browsing courses, categories, providers or skills.\\
+Current user endpoint & User/Admin & JWT required.\\
+Project endpoints & User/Admin & JWT required plus owner checks in service logic.\\
+Saved courses and progress & User/Admin & JWT required plus user-scoped service logic.\\
+Admin overview & Admin & \texttt{@PreAuthorize("hasRole('ADMIN')")}.\\
+Catalog mutation endpoints & Admin & \texttt{@PreAuthorize("hasRole('ADMIN')")}.\\
+User management endpoints & Admin & \texttt{@PreAuthorize("hasRole('ADMIN')")}.\\
+Big Data status endpoints & Admin & \texttt{@PreAuthorize("hasRole('ADMIN')")}.\\
+\bottomrule
+\end{longtable}
+
+\section{Defensive Controls}
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\caption{Security controls}\\
+\toprule
+\textbf{Control} & \textbf{Implementation}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Control} & \textbf{Implementation}\\
+\midrule
+\endhead
+Password hashing & BCrypt through \texttt{PasswordEncoder}.\\
+JWT validation & \texttt{JwtAuthenticationFilter} and \texttt{JwtService}. Invalid tokens are treated as unauthenticated.\\
+Brute-force mitigation & \texttt{LoginAttemptService} blocks email/IP combinations after configured failures.\\
+CORS hardening & Allowed origins must be configured; wildcard origins are rejected when credentials are enabled.\\
+HTTP headers & Content type options, frame deny, no-referrer policy and HSTS.\\
+Role checks & \texttt{@PreAuthorize} on admin controllers and mutation endpoints.\\
+Owner checks & Services return not found when a user requests another user's project.\\
+Self-protection for admins & Admins cannot remove their own admin role or deactivate their own account.\\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------------------
+\chapter{Frontend Application}
+
+\section{Role}
+The frontend is responsible for the user experience. It does not directly access Supabase, HDFS, Hive or HBase. It calls only the Spring Boot API, which keeps the security model centralized and prevents secrets from being exposed in the browser.
+
+\section{Frontend Structure}
+\begin{longtable}{p{0.28\textwidth}p{0.62\textwidth}}
+\caption{Frontend folders}\\
+\toprule
+\textbf{Path} & \textbf{Purpose}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Path} & \textbf{Purpose}\\
+\midrule
+\endhead
+\texttt{src/app} & Router and authentication provider.\\
+\texttt{src/components} & Layout shell, brand logo, reusable UI and chart components.\\
+\texttt{src/hooks} & \texttt{useAuth} hook.\\
+\texttt{src/pages} & Login, register, dashboard, courses, projects, project details, saved courses, progress and admin pages.\\
+\texttt{src/services} & API client and token persistence.\\
+\texttt{src/types} & TypeScript interfaces aligned with backend DTOs.\\
+\bottomrule
+\end{longtable}
+
+\section{Routes}
+\begin{longtable}{p{0.27\textwidth}p{0.20\textwidth}p{0.43\textwidth}}
+\caption{Frontend routes}\\
+\toprule
+\textbf{Route} & \textbf{Guard} & \textbf{Screen}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Route} & \textbf{Guard} & \textbf{Screen}\\
+\midrule
+\endhead
+\texttt{/login} & Public-only & Login and OAuth entry points.\\
+\texttt{/register} & Public-only & Account creation.\\
+\texttt{/dashboard} & Authenticated & Main learner overview and quick project prompt.\\
+\texttt{/courses} & Authenticated & Course catalog search, filters, save and start tracking.\\
+\texttt{/projects} & Authenticated & Project idea list and creation.\\
+\texttt{/projects/:id} & Authenticated & Recommendation generation and score explanations.\\
+\texttt{/saved-courses} & Authenticated & Saved course list.\\
+\texttt{/progress} & Authenticated & Course progress updates.\\
+\texttt{/admin} & Admin & Admin dashboard.\\
+\texttt{/admin/users} & Admin & User role and active status management.\\
+\texttt{/admin/courses} & Admin & Course CRUD.\\
+\texttt{/admin/categories} & Admin & Category CRUD.\\
+\texttt{/admin/providers} & Admin & Provider CRUD.\\
+\texttt{/admin/skills} & Admin & Skill CRUD.\\
+\texttt{/admin/bigdata} & Admin & Big Data status and summaries.\\
+\bottomrule
+\end{longtable}
+
+\section{Authentication State}
+\texttt{AuthContext} bootstraps the current user by reading the persisted token, calling \texttt{/api/users/me}, and exposing login, register, OAuth login, refresh and logout functions. \texttt{AuthGate} protects authenticated routes, and \texttt{AdminGate} checks the role before allowing admin screens.
+
+\section{API Client}
+The frontend API client centralizes:
+
+\begin{itemize}[leftmargin=*]
+    \item base URL configuration through \texttt{VITE\_API\_BASE\_URL};
+    \item JWT persistence in \texttt{localStorage};
+    \item automatic \texttt{Authorization} header injection;
+    \item JSON request/response handling;
+    \item error extraction from backend API error payloads;
+    \item query string construction for catalog filters.
+\end{itemize}
+
+\section{Main User Workflow}
+\diagramimage{diagrams/learner-workflow.png}{0.86}{Learner workflow}
+
+% ---------------------------------------------------------------------------
+\chapter{Big Data Application}
+
+\section{Purpose}
+\reportnote{sbOrange}{\textbf{Big Data value.} The pipeline is not decorative: it cleans a large course catalog, imports relational data into HDFS, streams web events, computes analytics and exposes summaries back to the admin dashboard.}
+
+The Big Data module proves that the project does more than store rows in a classic web database. It builds a clean course catalog from real datasets, imports relational data into Hadoop, streams application events, performs SQL analytics, runs a MapReduce job, generates recommendation outputs and loads course statistics into HBase.
+
+\section{Design Principle}
+The web application stays fast and transactional. Hadoop jobs remain terminal-first. This separation is intentional:
+
+\begin{itemize}[leftmargin=*]
+    \item Spring Boot responds quickly to web users.
+    \item Events are appended to a local JSON Lines log.
+    \item Flume ingests events asynchronously into HDFS.
+    \item Batch analytics can be refreshed from the terminal without blocking user requests.
+    \item Admin screens read summarized JSON outputs through Spring Boot APIs.
+\end{itemize}
+
+\section{Big Data Pipeline}
+\diagramimage{diagrams/bigdata-pipeline.png}{0.98}{Terminal-first Big Data pipeline}
+
+\section{Docker Services}
+\begin{longtable}{p{0.27\textwidth}p{0.20\textwidth}p{0.43\textwidth}}
+\caption{Docker Big Data services}\\
+\toprule
+\textbf{Service} & \textbf{Technology} & \textbf{Role}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Service} & \textbf{Technology} & \textbf{Role}\\
+\midrule
+\endhead
+\texttt{postgres-mirror} & PostgreSQL 16 & Local source database for Sqoop.\\
+\texttt{namenode} & HDFS NameNode & HDFS metadata manager.\\
+\texttt{datanode} & HDFS DataNode & HDFS block storage worker; scalable with Docker Compose.\\
+\texttt{resourcemanager} & YARN & Hadoop job scheduler.\\
+\texttt{nodemanager} & YARN & Worker execution service.\\
+\texttt{sqoop-client} & Sqoop & Imports PostgreSQL tables into HDFS.\\
+\texttt{flume-agent} & Flume & Streams \texttt{events.log} into HDFS.\\
+\texttt{hive-metastore-postgresql} & PostgreSQL & Hive metastore database.\\
+\texttt{hive-metastore} & Hive Metastore & Stores Hive schemas and metadata.\\
+\texttt{hive-server} & HiveServer2 & Executes SQL queries through Beeline.\\
+\texttt{hbase} & HBase & Stores serving table \texttt{course\_stats}.\\
+\bottomrule
+\end{longtable}
+
+\section{Catalog Building}
+The catalog builder script \texttt{12\_merge\_and\_enrich\_catalog.py} reads multiple CSV and JSON datasets, normalizes them and writes clean catalog CSV files.
+
+The resulting schema includes:
+\begin{itemize}[leftmargin=*]
+    \item source dataset and source record ID;
+    \item title, slug and description;
+    \item normalized level and language;
+    \item source URL and thumbnail URL;
+    \item provider and category names/slugs;
+    \item skills;
+    \item rating, reviews count, students count and duration;
+    \item popularity score;
+    \item content type and deduplication key.
+\end{itemize}
+
+Validated catalog counts documented in the project:
+
+\begin{longtable}{p{0.45\textwidth}r}
+\caption{Catalog counts after cleaning}\\
+\toprule
+\textbf{Dataset/table} & \textbf{Count}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Dataset/table} & \textbf{Count}\\
+\midrule
+\endhead
+\texttt{unified\_courses} & 17072\\
+\texttt{providers} & 459\\
+\texttt{categories} & 12\\
+\texttt{skills} & 13647\\
+\texttt{course\_skills} & 104006\\
+\bottomrule
+\end{longtable}
+
+\section{Supabase and PostgreSQL Mirror}
+The project intentionally separates the official application database from the Big Data laboratory source:
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Supabase PostgreSQL} is the live application database used by Spring Boot.
+    \item \textbf{PostgreSQL mirror} is a local Docker database that can be reset and reseeded for Sqoop demonstrations.
+\end{itemize}
+
+The safe Supabase upsert touches catalog tables only:
+
+\begin{lstlisting}
+providers, categories, skills, courses, course_skills
+\end{lstlisting}
+
+It does not delete user, project, saved course, progress or recommendation tables.
+
+\section{Sqoop Batch Ingestion}
+Sqoop imports relational tables from \texttt{postgres-mirror} to HDFS:
+
+\begin{lstlisting}
+providers
+categories
+skills
+courses
+course_skills
+project_ideas
+saved_courses
+course_progress
+\end{lstlisting}
+
+Each imported table becomes a folder under:
+
+\begin{lstlisting}
+/data/skillbridge/raw/sqoop/<table>
+\end{lstlisting}
+
+\section{Flume Streaming Ingestion}
+The backend appends JSON Lines events to:
+
+\begin{lstlisting}
+apps/bigdata/data/events/events.log
+\end{lstlisting}
+
+Flume follows this file and writes events into:
+
+\begin{lstlisting}
+/data/skillbridge/raw/flume/events
+\end{lstlisting}
+
+Important event types include:
+\begin{itemize}[leftmargin=*]
+    \item \texttt{PROJECT\_CREATED};
+    \item \texttt{PROJECT\_RECOMMENDATION};
+    \item \texttt{COURSE\_SEARCH};
+    \item \texttt{COURSE\_CLICK};
+    \item \texttt{COURSE\_SAVE}.
+\end{itemize}
+
+\section{Hive Analytics}
+Hive external tables read HDFS files directly. The schema includes relational tables imported by Sqoop and a raw event table for Flume events. Example analytics include:
+
+\begin{itemize}[leftmargin=*]
+    \item number of courses;
+    \item number of events;
+    \item distribution by level;
+    \item top providers;
+    \item top categories;
+    \item top skills;
+    \item top saved courses;
+    \item event counts and search query analysis.
+\end{itemize}
+
+\section{MapReduce Job}
+The Java class \texttt{TopSearchKeywordsJob} implements a classic MapReduce pattern:
+
+\begin{itemize}[leftmargin=*]
+    \item Mapper reads event lines from HDFS.
+    \item It keeps only \texttt{COURSE\_SEARCH} and \texttt{PROJECT\_RECOMMENDATION}.
+    \item It extracts tokens from the query or project text.
+    \item It emits \texttt{(token, 1)} pairs.
+    \item Reducer sums counts per token.
+\end{itemize}
+
+\diagramimage{diagrams/mapreduce-keywords.png}{0.82}{MapReduce top keyword processing}
+
+\section{HBase Serving Layer}
+The script \texttt{09\_load\_course\_stats\_hbase.py} generates commands that create and populate the HBase table:
+
+\begin{lstlisting}
+course_stats
+\end{lstlisting}
+
+Column families:
+\begin{itemize}[leftmargin=*]
+    \item \texttt{meta}: title and course metadata;
+    \item \texttt{activity}: clicks, saves and average progress.
+\end{itemize}
+
+\section{Big Data to Web Application Link}
+The link between Big Data and the web application is practical and controlled:
+
+\begin{itemize}[leftmargin=*]
+    \item Python builds and enriches the catalog.
+    \item The safe upsert loads catalog rows into Supabase.
+    \item Spring Boot reads the catalog through JPA.
+    \item React consumes Spring Boot APIs.
+    \item User actions produce events.
+    \item Flume, Hive, MapReduce and HBase process analytics outside the request path.
+    \item Spring Boot reads generated JSON summaries for admin dashboards.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\chapter{Database Design}
+
+\section{Application Database}
+The application database stores transactional data required by the web app:
+
+\begin{itemize}[leftmargin=*]
+    \item identity: \texttt{users}, \texttt{roles};
+    \item catalog: \texttt{courses}, \texttt{categories}, \texttt{providers}, \texttt{skills}, \texttt{course\_skills};
+    \item learner activity: \texttt{project\_ideas}, \texttt{saved\_courses}, \texttt{course\_progress};
+    \item recommendation audit: \texttt{project\_detected\_skills}, \texttt{recommendation\_snapshots}, \texttt{recommendation\_results}.
+\end{itemize}
+
+\section{Relational Integrity}
+The model uses foreign keys to preserve consistency:
+
+\begin{itemize}[leftmargin=*]
+    \item each user has a role;
+    \item each course has one category and one provider;
+    \item courses and skills are connected through \texttt{course\_skills};
+    \item projects belong to users;
+    \item recommendation snapshots belong to projects;
+    \item recommendation results belong to snapshots and courses;
+    \item saved courses and progress entries are unique per user-course pair.
+\end{itemize}
+
+\section{Big Data Storage Zones}
+\begin{longtable}{p{0.34\textwidth}p{0.56\textwidth}}
+\caption{Big Data storage zones}\\
+\toprule
+\textbf{Zone} & \textbf{Content}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Zone} & \textbf{Content}\\
+\midrule
+\endhead
+\texttt{output/catalog/*.csv} & Clean catalog files generated by Python.\\
+\texttt{postgres-mirror} & Disposable local relational source for Sqoop.\\
+\texttt{/data/skillbridge/raw/sqoop} & Batch relational imports in HDFS.\\
+\texttt{/data/skillbridge/raw/flume/events} & Streaming web events in HDFS.\\
+\texttt{skillbridge\_bigdata} Hive database & External SQL tables over HDFS files.\\
+\texttt{/data/skillbridge/processed/mapreduce} & MapReduce keyword output.\\
+\texttt{course\_stats} HBase table & Course activity stats for fast key-value lookup.\\
+\texttt{output/*.json} & Summaries consumed by the Spring Boot admin API.\\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------------------
+\chapter{Admin and Analytics Features}
+
+\section{Admin Dashboard}
+The admin dashboard combines transactional and Big Data information:
+
+\begin{itemize}[leftmargin=*]
+    \item total users, courses, providers, categories, skills and projects;
+    \item saved courses and progress entries;
+    \item recommendation snapshot and result counts;
+    \item catalog coverage by skill;
+    \item top categories, providers and skills;
+    \item Big Data component statuses and generated file availability.
+\end{itemize}
+
+\section{Big Data Status API}
+The backend exposes Big Data summaries without directly running Hadoop jobs from web requests. This is a good engineering choice: Hadoop commands can be slow, heavy and environment-dependent, while a web API should remain responsive.
+
+The status service reads:
+\begin{itemize}[leftmargin=*]
+    \item \texttt{output/catalog/catalog\_build\_report.json};
+    \item \texttt{output/bigdata-summary.json};
+    \item \texttt{output/recommendation\_result.json};
+    \item \texttt{data/events/events.log}.
+\end{itemize}
+
+\section{Refresh Philosophy}
+The refresh endpoint returns commands instead of launching Hadoop automatically. This makes the demonstration transparent: the operator can show each Big Data technology in the terminal, then refresh the web dashboard to display the new summaries.
+
+% ---------------------------------------------------------------------------
+\chapter{Testing and Validation}
+
+\section{Existing Automated Tests}
+The backend includes focused tests for security and recommendation behavior:
+
+\begin{longtable}{p{0.34\textwidth}p{0.56\textwidth}}
+\caption{Automated tests}\\
+\toprule
+\textbf{Test} & \textbf{Purpose}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Test} & \textbf{Purpose}\\
+\midrule
+\endhead
+\texttt{LoginAttemptServiceTests.blocksAfterConfiguredFailures} & Verifies that failed attempts block a user/IP after the configured threshold.\\
+\texttt{LoginAttemptServiceTests.clearsAttemptStateAfterSuccessfulLogin} & Verifies that successful login resets failed-attempt state.\\
+\texttt{RecommendationServiceTests.extractTokensRemovesStopWordsAndNormalizesText} & Verifies token normalization and stop-word removal for recommendations.\\
+\texttt{SkillBridgeApplicationTests} & Verifies that the Spring application context can load.\\
+\bottomrule
+\end{longtable}
+
+\section{Suggested Validation Commands}
+\begin{lstlisting}
+# Backend tests
+.\mvnw.cmd -f apps\backend\pom.xml test
+
+# Frontend build
+cd apps\frontend
+npm run build
+
+# Big Data catalog build
+cd apps\bigdata
+powershell -ExecutionPolicy Bypass -File .\scripts\16_run_catalog_build.ps1
+
+# Big Data full terminal lab
+powershell -ExecutionPolicy Bypass -File .\scripts\18_run_full_terminal_lab.ps1 -Datanodes 2
+\end{lstlisting}
+
+\section{Manual Acceptance Checks}
+\begin{longtable}{p{0.34\textwidth}p{0.56\textwidth}}
+\caption{Manual acceptance checks}\\
+\toprule
+\textbf{Check} & \textbf{Expected result}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Check} & \textbf{Expected result}\\
+\midrule
+\endhead
+Register a user & User row is created, JWT is returned, frontend enters dashboard.\\
+Login with wrong password repeatedly & Backend blocks after configured failures and returns HTTP 429.\\
+Access admin page as USER & Frontend redirects and backend denies admin endpoints.\\
+Create a project idea & Project is stored and a \texttt{PROJECT\_CREATED} event is appended.\\
+Generate recommendations & Snapshot and result rows are stored; UI shows score breakdown.\\
+Save a course & \texttt{saved\_courses} row exists and course appears in saved page.\\
+Update progress & \texttt{course\_progress} row updates status and percent.\\
+Run Sqoop import & HDFS contains \texttt{\_SUCCESS} and \texttt{part-m-00000} files.\\
+Run Hive queries & Hive returns counts for courses and events.\\
+Run MapReduce & HDFS output contains counted keywords.\\
+Load HBase & \texttt{course\_stats} table can be scanned.\\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------------------
+\chapter{Screenshots}
+
+This chapter intentionally contains placeholders. Add screenshots using the exact paths shown in each placeholder, then compile the report again.
+
+\screenshotplaceholder{screenshots/login.png}{Login Screen}{Login and OAuth access screen}
+\screenshotplaceholder{screenshots/register.png}{Register Screen}{Account creation screen}
+\screenshotplaceholder{screenshots/dashboard.png}{Learner Dashboard}{Learner dashboard with project prompt and statistics}
+\screenshotplaceholder{screenshots/courses.png}{Course Catalog}{Course catalog search and filtering}
+\screenshotplaceholder{screenshots/projects.png}{Projects Page}{Project idea list and creation form}
+\screenshotplaceholder{screenshots/recommendations.png}{Recommendation Detail}{Detected skills, matched categories and ranked course recommendations}
+\screenshotplaceholder{screenshots/saved-courses.png}{Saved Courses}{Saved courses workflow}
+\screenshotplaceholder{screenshots/progress.png}{Progress Tracking}{Course progress tracking screen}
+\screenshotplaceholder{screenshots/admin-dashboard.png}{Admin Dashboard}{Administrative metrics dashboard}
+\screenshotplaceholder{screenshots/admin-catalog.png}{Admin Catalog}{Catalog management interface}
+\screenshotplaceholder{screenshots/admin-users.png}{Admin Users}{User role and activation management}
+\screenshotplaceholder{screenshots/bigdata-status.png}{Big Data Status}{Big Data pipeline status and summaries}
+
+% ---------------------------------------------------------------------------
+\chapter{Academic Evaluation Mapping}
+
+\section{JEE / Spring Boot}
+\begin{longtable}{p{0.34\textwidth}p{0.56\textwidth}}
+\caption{JEE evaluation mapping}\\
+\toprule
+\textbf{Expected concept} & \textbf{Project evidence}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Expected concept} & \textbf{Project evidence}\\
+\midrule
+\endhead
+Layered architecture & Controllers, services, repositories, DTOs and entities are separated.\\
+REST API & Multiple domain REST controllers under \texttt{/api}.\\
+Persistence & JPA entities, relationships, repositories and PostgreSQL.\\
+Transactions & Service classes use \texttt{@Transactional}.\\
+Validation & DTO validation and centralized exception handling.\\
+Pagination and filtering & Course and skill search endpoints.\\
+DTO mapping & Response records hide internal entity structure.\\
+Admin functionality & CRUD screens and endpoints for catalog and users.\\
+\bottomrule
+\end{longtable}
+
+\section{Spring Security}
+\begin{longtable}{p{0.34\textwidth}p{0.56\textwidth}}
+\caption{Spring Security evaluation mapping}\\
+\toprule
+\textbf{Expected concept} & \textbf{Project evidence}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Expected concept} & \textbf{Project evidence}\\
+\midrule
+\endhead
+Authentication & Email/password login, Google OAuth, GitHub OAuth.\\
+Password security & BCrypt hashing.\\
+JWT & Stateless signed tokens with user ID and role claims.\\
+Authorization & URL rules and \texttt{@PreAuthorize}.\\
+Custom user details & \texttt{CustomUserDetailsService} and \texttt{AppUserPrincipal}.\\
+Security filter & \texttt{JwtAuthenticationFilter}.\\
+Brute-force protection & \texttt{LoginAttemptService}.\\
+HTTP hardening & CORS validation, HSTS, no-referrer, frame deny.\\
+\bottomrule
+\end{longtable}
+
+\section{Big Data}
+\begin{longtable}{p{0.34\textwidth}p{0.56\textwidth}}
+\caption{Big Data evaluation mapping}\\
+\toprule
+\textbf{Expected concept} & \textbf{Project evidence}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Expected concept} & \textbf{Project evidence}\\
+\midrule
+\endhead
+Dataset ingestion & Python reads CSV/JSON/ZIP course datasets.\\
+Data cleaning & Normalization, deduplication, slug generation and category inference.\\
+Relational source & PostgreSQL mirror used for Sqoop.\\
+Batch import & Sqoop imports tables into HDFS.\\
+Streaming ingestion & Flume streams \texttt{events.log} into HDFS.\\
+Distributed storage & HDFS NameNode and scalable DataNodes.\\
+SQL analytics & Hive external tables and demo queries.\\
+Batch processing & Java MapReduce keyword-count job.\\
+NoSQL serving & HBase \texttt{course\_stats} table.\\
+Application integration & Spring Boot reads catalog and analytics summaries; React displays them.\\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------------------
+\chapter{Limitations and Future Work}
+
+\section{Current Limitations}
+\begin{itemize}[leftmargin=*]
+    \item The recommendation algorithm is deterministic and explainable, but it is not a trained machine learning model.
+    \item Hadoop jobs are terminal-first; the web application displays summaries rather than launching heavy jobs directly.
+    \item OAuth login depends on correct external provider configuration.
+    \item HBase and Flume require Docker services to be running correctly before demonstration.
+    \item Screenshots must be added manually before final PDF compilation.
+\end{itemize}
+
+\section{Future Improvements}
+\begin{itemize}[leftmargin=*]
+    \item Add semantic embeddings or an LLM-assisted skill extraction step while preserving score explainability.
+    \item Add more integration tests for controller security and ownership checks.
+    \item Add a scheduled analytics refresh process outside the web request path.
+    \item Add richer HBase statistics, such as per-day click and save counters.
+    \item Add a recommendation feedback loop where users mark useful or irrelevant courses.
+    \item Add deployment automation for the backend, frontend and Big Data demo environment.
+\end{itemize}
+
+% ---------------------------------------------------------------------------
+\chapter{Conclusion}
+
+\projectName{} is a complete academic project because it connects three important dimensions: enterprise application development, security and Big Data. The Spring Boot backend demonstrates a JEE-style layered application with REST APIs, JPA persistence, transactions, DTOs, validation and business services. The Spring Security layer provides stateless JWT authentication, OAuth integration, role-based authorization, route hardening and brute-force mitigation. The Big Data module demonstrates a real pipeline with catalog construction, Sqoop, Flume, HDFS, Hive, MapReduce, HBase and Python processing.
+
+The central idea of the application remains simple and useful: start from what the learner wants to build, then recommend what the learner should study. This makes the project understandable for users, technically rich for evaluators and extensible for future intelligent learning-path features.
+
+\appendix
+
+\chapter{Diagram Rendering}
+All architecture and UML diagrams in this report are image-based. Their PlantUML source files are stored under:
+
+\begin{lstlisting}
+docs/reports/plantuml
+\end{lstlisting}
+
+The easiest command from the repository root is:
+
+\begin{lstlisting}
+powershell -ExecutionPolicy Bypass -File .\docs\reports\render-plantuml.ps1
+\end{lstlisting}
+
+Alternatively, render them manually from \texttt{docs/reports} and save the generated PNG files into \texttt{docs/reports/diagrams}:
+
+\begin{lstlisting}
+java -jar plantuml.jar -tpng -o ../diagrams .\plantuml\*.puml
+\end{lstlisting}
+
+The report expects the following image files:
+
+\begin{lstlisting}
+diagrams/use-case.png
+diagrams/global-architecture.png
+diagrams/layered-backend.png
+diagrams/domain-model.png
+diagrams/recommendation-sequence.png
+diagrams/security-request-flow.png
+diagrams/login-sequence.png
+diagrams/learner-workflow.png
+diagrams/bigdata-pipeline.png
+diagrams/mapreduce-keywords.png
+\end{lstlisting}
+
+\chapter{Key Commands}
+\section{Run Backend}
+\begin{lstlisting}
+.\mvnw.cmd -f apps\backend\pom.xml spring-boot:run
+\end{lstlisting}
+
+\section{Run Frontend}
+\begin{lstlisting}
+cd apps\frontend
+npm install
+npm run dev -- --host localhost --port 5173
+\end{lstlisting}
+
+\section{Run Big Data Full Lab}
+\begin{lstlisting}
+cd apps\bigdata
+powershell -ExecutionPolicy Bypass -File .\scripts\18_run_full_terminal_lab.ps1 -Datanodes 2 -Project "secure Spring Boot backend with JWT and PostgreSQL"
+\end{lstlisting}
+
+\section{Verify Big Data Link With Backend}
+\begin{lstlisting}
+cd apps\bigdata
+powershell -ExecutionPolicy Bypass -File .\scripts\20_verify_app_bigdata_link.ps1 -BackendUrl http://localhost:8081
+\end{lstlisting}
+
+\chapter{Important Files}
+\begin{longtable}{p{0.40\textwidth}p{0.50\textwidth}}
+\caption{Important implementation files}\\
+\toprule
+\textbf{File} & \textbf{Role}\\
+\midrule
+\endfirsthead
+\toprule
+\textbf{File} & \textbf{Role}\\
+\midrule
+\endhead
+\texttt{apps/backend/pom.xml} & Backend dependencies and Spring Boot configuration.\\
+\texttt{apps/backend/src/main/java/com/skillbridge/security/SecurityConfig.java} & Main Spring Security configuration.\\
+\texttt{apps/backend/src/main/java/com/skillbridge/security/JwtService.java} & JWT generation and validation.\\
+\texttt{apps/backend/src/main/java/com/skillbridge/user/service/AuthService.java} & Registration, login and OAuth mapping.\\
+\texttt{apps/backend/src/main/java/com/skillbridge/recommendation/RecommendationService.java} & Recommendation algorithm and persistence.\\
+\texttt{apps/backend/src/main/java/com/skillbridge/bigdata/service/BigDataEventService.java} & JSON Lines event writer.\\
+\texttt{apps/frontend/src/app/App.tsx} & Frontend routes and guards.\\
+\texttt{apps/frontend/src/app/AuthContext.tsx} & Frontend authentication state.\\
+\texttt{apps/frontend/src/services/api.ts} & API client and token injection.\\
+\texttt{apps/bigdata/docker-compose.yml} & Hadoop, Sqoop, Flume, Hive and HBase services.\\
+\texttt{apps/bigdata/scripts/12\_merge\_and\_enrich\_catalog.py} & Catalog builder.\\
+\texttt{apps/bigdata/scripts/13\_push\_catalog\_to\_supabase.py} & Safe Supabase upsert.\\
+\texttt{apps/bigdata/scripts/14\_seed\_postgres\_mirror\_from\_catalog.py} & PostgreSQL mirror seeding.\\
+\texttt{apps/bigdata/scripts/15\_run\_project\_recommendation.py} & Terminal recommendation engine.\\
+\texttt{apps/bigdata/mapreduce/src/main/java/com/skillbridge/bigdata/TopSearchKeywordsJob.java} & Java MapReduce job.\\
+\bottomrule
+\end{longtable}
+
+\end{document}

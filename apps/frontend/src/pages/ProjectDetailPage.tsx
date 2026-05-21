@@ -134,9 +134,9 @@ export function ProjectDetailPage() {
 
       {message ? <p className={messageBanner}>{message}</p> : null}
 
-      <section className="grid gap-5 xl:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]">
-        <div className="grid gap-5">
-          <article className={panel}>
+      <section className="grid items-start gap-5 xl:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)]">
+        <div className="grid content-start gap-5 xl:sticky xl:top-6">
+          <article className={cx(panel, "p-5")}>
             <div className="flex items-center justify-between gap-3">
               <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">Detected skills</h3>
               <span className="text-sm text-[#6f5b54]">{recommendations?.detectedSkills.length ?? 0}</span>
@@ -151,7 +151,7 @@ export function ProjectDetailPage() {
             {!recommendations ? <p className={cx(emptyText, "mt-4")}>Run the recommendation engine to populate this section.</p> : null}
           </article>
 
-          <article className={panel}>
+          <article className={cx(panel, "p-5")}>
             <div className="flex items-center justify-between gap-3">
               <h3 className="font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-2xl text-[#261b18]">Matched categories</h3>
               <span className="text-sm text-[#6f5b54]">{recommendations?.matchedCategories.length ?? 0}</span>

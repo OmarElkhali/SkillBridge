@@ -191,7 +191,7 @@ export function AppShell({ children }: PropsWithChildren) {
         </div>
       </aside>
 
-      <main className="min-h-screen min-w-0 overflow-x-hidden px-4 py-24 transition-all duration-300 sm:px-8 lg:ml-[92px] lg:px-12 lg:py-12 flex flex-col items-center">
+      <main className="min-h-screen min-w-0 px-4 py-24 transition-all duration-300 sm:px-8 lg:ml-[92px] lg:px-12 lg:py-12 flex flex-col items-center">
         <div className="w-full min-w-0 max-w-[1600px] flex-grow">
           {children}
         </div>

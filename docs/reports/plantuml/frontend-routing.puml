@@ -1,0 +1,55 @@
+@startuml
+title SkillBridge - Frontend Routing and Guards
+left to right direction
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+skinparam ArrowColor #20242A
+
+actor "User" as User
+actor "Administrator" as Admin
+Admin --|> User
+
+package "Public Routes" #FFF4E8 {
+  ["/login"] as Login
+  ["/register"] as Register
+}
+
+package "AuthGate - JWT required" #EAF7F5 {
+  ["/dashboard"] as Dashboard
+  ["/courses"] as Courses
+  ["/projects"] as Projects
+  ["/projects/:id"] as ProjectDetail
+  ["/saved-courses"] as Saved
+  ["/progress"] as Progress
+}
+
+package "AdminGate - ADMIN role required" #EEF3FA {
+  ["/admin"] as AdminHome
+  ["/admin/users"] as AdminUsers
+  ["/admin/courses"] as AdminCourses
+  ["/admin/categories"] as AdminCategories
+  ["/admin/providers"] as AdminProviders
+  ["/admin/skills"] as AdminSkills
+  ["/admin/bigdata"] as AdminBigData
+}
+
+User --> Login
+User --> Register
+User --> Dashboard
+Dashboard --> Courses
+Dashboard --> Projects
+Projects --> ProjectDetail
+ProjectDetail --> Saved
+Saved --> Progress
+Admin --> AdminHome
+AdminHome --> AdminUsers
+AdminHome --> AdminCourses
+AdminHome --> AdminCategories
+AdminHome --> AdminProviders
+AdminHome --> AdminSkills
+AdminHome --> AdminBigData
+@enduml
+

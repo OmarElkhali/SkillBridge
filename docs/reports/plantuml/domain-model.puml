@@ -1,0 +1,122 @@
+@startuml
+title SkillBridge - Domain Model
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #20242A
+hide methods
+
+class Role {
+  id: Long
+  name: RoleName
+}
+
+class User {
+  id: Long
+  firstName: String
+  lastName: String
+  email: String
+  passwordHash: String
+  active: boolean
+}
+
+class Category {
+  id: Long
+  name: String
+  slug: String
+  description: String
+}
+
+class Provider {
+  id: Long
+  name: String
+  websiteUrl: String
+  description: String
+}
+
+class Skill {
+  id: Long
+  name: String
+  slug: String
+  description: String
+}
+
+class Course {
+  id: Long
+  title: String
+  slug: String
+  description: Text
+  level: CourseLevel
+  language: String
+  sourceUrl: String
+  thumbnailUrl: String
+  published: boolean
+  popularityScore: int
+}
+
+class ProjectIdea {
+  id: Long
+  title: String
+  description: Text
+  status: ProjectStatus
+  createdAt: Instant
+}
+
+class ProjectDetectedSkill {
+  id: Long
+  matchedKeyword: String
+  matchSource: MatchSource
+  confidenceScore: double
+}
+
+class RecommendationSnapshot {
+  id: Long
+  generatedAt: Instant
+  keywordSummary: Text
+  algorithmVersion: String
+  totalResults: int
+}
+
+class RecommendationResult {
+  id: Long
+  rankPosition: int
+  score: int
+  titleMatchScore: int
+  skillMatchScore: int
+  categoryMatchScore: int
+  bonusScore: int
+  explanation: Text
+}
+
+class SavedCourse {
+  id: Long
+  savedAt: Instant
+}
+
+class CourseProgress {
+  id: Long
+  status: ProgressStatus
+  progressPercent: int
+  startedAt: Instant
+  completedAt: Instant
+  lastUpdatedAt: Instant
+}
+
+Role "1" <-- "many" User : role
+User "1" --> "many" ProjectIdea : owns
+User "1" --> "many" SavedCourse : saves
+User "1" --> "many" CourseProgress : tracks
+Category "1" <-- "many" Course : category
+Provider "1" <-- "many" Course : provider
+Course "many" -- "many" Skill : course_skills
+ProjectIdea "1" --> "many" ProjectDetectedSkill : detectedSkills
+Skill "1" <-- "many" ProjectDetectedSkill : skill
+ProjectIdea "1" --> "many" RecommendationSnapshot : snapshots
+RecommendationSnapshot "1" --> "many" RecommendationResult : results
+Course "1" <-- "many" RecommendationResult : recommendedCourse
+Course "1" <-- "many" SavedCourse : savedCourse
+Course "1" <-- "many" CourseProgress : progress
+@enduml
+

@@ -1,0 +1,30 @@
+@startuml
+title SkillBridge - Learner Workflow
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #20242A
+
+start
+:Register or log in;
+:Open dashboard;
+if (Has project idea?) then (yes)
+  :Create project idea;
+else (browse first)
+  :Browse course catalog;
+endif
+:Open project detail page;
+:Generate recommendations;
+:Review detected skills,\nmatched categories and scores;
+if (Course is useful?) then (yes)
+  :Save course;
+  :Start tracking progress;
+  :Update progress percentage;
+else (no)
+  :Search or generate again;
+endif
+:Return to dashboard / projects / progress;
+stop
+@enduml
+

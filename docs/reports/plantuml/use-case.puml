@@ -1,0 +1,103 @@
+@startuml
+left to right direction
+
+skinparam backgroundColor white
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+skinparam actor {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+}
+
+skinparam usecase {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+}
+
+skinparam rectangle {
+  BorderColor black
+  FontColor black
+}
+
+title Diagramme de cas d'utilisation — SkillBridge
+
+actor "Utilisateur" as User
+actor "Administrateur" as Admin
+
+rectangle "Système SkillBridge" {
+
+  package "Authentification" {
+    usecase "S'inscrire" as Register
+    usecase "Se connecter" as Login
+    usecase "Se connecter avec Google" as LoginGoogle
+    usecase "Se connecter avec GitHub" as LoginGitHub
+    usecase "Se déconnecter" as Logout
+  }
+
+  package "Espace utilisateur" {
+    usecase "Consulter le catalogue" as Catalog
+    usecase "Rechercher / filtrer des cours" as SearchCourses
+    usecase "Créer une idée de projet" as CreateProject
+    usecase "Générer des recommandations" as GenerateReco
+    usecase "Sauvegarder un cours" as SaveCourse
+    usecase "Suivre la progression" as Progress
+  }
+
+  package "Administration" {
+    usecase "Gérer les utilisateurs" as ManageUsers
+    usecase "Gérer le catalogue" as ManageCatalog
+    usecase "Gérer les cours" as ManageCourses
+    usecase "Gérer les catégories" as ManageCategories
+    usecase "Gérer les providers" as ManageProviders
+    usecase "Gérer les skills" as ManageSkills
+    usecase "Consulter le dashboard Big Data" as BigDataDashboard
+    usecase "Voir l'état du pipeline" as PipelineStatus
+    usecase "Consulter les statistiques Big Data" as BigDataStats
+    usecase "Voir les analytics de recommandation" as RecoAnalytics
+  }
+}
+
+actor "Google OAuth" as Google
+actor "GitHub OAuth" as GitHub
+
+Admin --|> User
+
+User --> Register
+User --> Login
+User --> Logout
+
+User --> Catalog
+User --> CreateProject
+User --> GenerateReco
+User --> SaveCourse
+User --> Progress
+
+Admin --> ManageUsers
+Admin --> ManageCatalog
+Admin --> BigDataDashboard
+
+LoginGoogle ..> Login : <<extend>>
+LoginGitHub ..> Login : <<extend>>
+
+Google --> LoginGoogle
+GitHub --> LoginGitHub
+
+SearchCourses ..> Catalog : <<extend>>
+SaveCourse ..> Catalog : <<extend>>
+
+GenerateReco ..> CreateProject : <<extend>>
+Progress ..> SaveCourse : <<extend>>
+
+ManageCatalog ..> ManageCourses : <<include>>
+ManageCatalog ..> ManageCategories : <<include>>
+ManageCatalog ..> ManageProviders : <<include>>
+ManageCatalog ..> ManageSkills : <<include>>
+
+BigDataDashboard ..> PipelineStatus : <<include>>
+BigDataDashboard ..> BigDataStats : <<include>>
+BigDataDashboard ..> RecoAnalytics : <<include>>
+
+@enduml

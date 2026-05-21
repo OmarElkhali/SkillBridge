@@ -60,6 +60,13 @@ public class RecommendationService {
             Map.entry("Product and UX", List.of("ux", "ui", "user experience", "product", "figma")),
             Map.entry("Business and Management", List.of("business", "management", "marketing", "finance", "leadership"))
     );
+    private static final Map<String, List<String>> SKILL_ALIAS_RULES = Map.ofEntries(
+            Map.entry("ai", List.of("ai", "artificial intelligence", "generative ai", "machine learning", "deep learning", "data science", "openai", "chatgpt", "gpt", "llm", "large language model", "large language models", "prompt engineering")),
+            Map.entry("assistant", List.of("ai assistant", "ai assistants", "assistant", "chatbot", "chat bot", "conversational ai", "openai", "chatgpt", "gpt", "llm", "large language model", "large language models", "prompt engineering")),
+            Map.entry("gpt", List.of("gpt", "chatgpt", "openai", "generative ai", "llm", "large language model", "large language models", "prompt engineering")),
+            Map.entry("llm", List.of("llm", "large language model", "large language models", "generative ai", "openai", "chatgpt", "gpt", "prompt engineering")),
+            Map.entry("chatbot", List.of("chatbot", "chat bot", "conversational ai", "ai assistant", "openai", "chatgpt", "gpt", "llm", "large language model", "large language models"))
+    );
 
     private final ProjectIdeaRepository projectIdeaRepository;
     private final RecommendationSnapshotRepository recommendationSnapshotRepository;
@@ -155,29 +162,23 @@ public class RecommendationService {
         return normalized.replaceAll("\\s+", " ").trim();
     }
 
-    private List<ProjectDetectedSkill> detectSkills(ProjectIdea projectIdea, String normalizedProjectText, List<Skill> skills) {
+    List<ProjectDetectedSkill> detectSkills(ProjectIdea projectIdea, String normalizedProjectText, List<Skill> skills) {
         String boundedProjectText = " " + normalizedProjectText + " ";
+        Set<String> projectTokens = extractTokens(normalizedProjectText);
         Map<Long, ProjectDetectedSkill> detectedBySkill = new LinkedHashMap<>();
         skills.stream()
                 .sorted(Comparator.comparingInt((Skill skill) -> normalizeText(skill.getName()).length()).reversed())
                 .forEach(skill -> {
-                    Set<String> skillTokens = extractTokens(skill.getName());
-                    if (skillTokens.isEmpty()) {
-                        return;
-                    }
-                    String normalizedSkillName = String.join(" ", skillTokens);
-                    if (normalizedSkillName.isBlank()) {
-                        return;
-                    }
-                    if (!boundedProjectText.contains(" " + normalizedSkillName + " ")) {
+                    SkillDetectionMatch match = detectSkillMatch(boundedProjectText, projectTokens, skill);
+                    if (match == null) {
                         return;
                     }
                     ProjectDetectedSkill detected = new ProjectDetectedSkill();
                     detected.setProjectIdea(projectIdea);
                     detected.setSkill(skill);
-                    detected.setMatchedKeyword(normalizedSkillName);
-                    detected.setMatchSource(MatchSource.SKILL_NAME);
-                    detected.setConfidenceScore(0.95d);
+                    detected.setMatchedKeyword(match.matchedKeyword());
+                    detected.setMatchSource(match.matchSource());
+                    detected.setConfidenceScore(match.confidenceScore());
                     detectedBySkill.put(skill.getId(), detected);
                 });
 
@@ -186,6 +187,52 @@ public class RecommendationService {
             return new ArrayList<>(detected.subList(0, MAX_DETECTED_SKILLS));
         }
         return detected;
+    }
+
+    private SkillDetectionMatch detectSkillMatch(String boundedProjectText, Set<String> projectTokens, Skill skill) {
+        String normalizedSkillName = normalizeText(skill.getName());
+        Set<String> skillTokens = extractTokens(skill.getName());
+        if (normalizedSkillName.isBlank() || skillTokens.isEmpty()) {
+            return null;
+        }
+
+        String boundedSkillName = " " + normalizedSkillName + " ";
+        if (normalizedSkillName.length() > 3 && boundedProjectText.contains(" " + normalizedSkillName + " ")) {
+            return new SkillDetectionMatch(normalizedSkillName, MatchSource.SKILL_NAME, 0.95d);
+        }
+
+        if (skillTokens.size() <= 4 && projectTokens.containsAll(skillTokens)) {
+            return new SkillDetectionMatch(String.join(" ", skillTokens), MatchSource.SKILL_NAME, 0.85d);
+        }
+
+        for (Map.Entry<String, List<String>> entry : SKILL_ALIAS_RULES.entrySet()) {
+            String alias = normalizeText(entry.getKey());
+            if (!projectTextContainsAlias(boundedProjectText, projectTokens, alias)) {
+                continue;
+            }
+            for (String target : entry.getValue()) {
+                if (skillNameMatchesAliasTarget(boundedSkillName, skillTokens, target)) {
+                    return new SkillDetectionMatch(alias, MatchSource.CATEGORY_HINT, 0.72d);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private boolean projectTextContainsAlias(String boundedProjectText, Set<String> projectTokens, String alias) {
+        if (alias.length() <= 3) {
+            return projectTokens.contains(alias);
+        }
+        return boundedProjectText.contains(" " + alias + " ");
+    }
+
+    private boolean skillNameMatchesAliasTarget(String boundedSkillName, Set<String> skillTokens, String target) {
+        String normalizedTarget = normalizeText(target);
+        if (normalizedTarget.length() <= 3) {
+            return skillTokens.contains(normalizedTarget);
+        }
+        return boundedSkillName.contains(" " + normalizedTarget + " ");
     }
 
     private int validateLimit(int requestedLimit) {
@@ -586,6 +633,13 @@ public class RecommendationService {
         return keywordsByCategory.entrySet().stream()
                 .map(entry -> new MatchedCategoryResponse(entry.getKey(), categoryNames.get(entry.getKey()), new ArrayList<>(entry.getValue())))
                 .toList();
+    }
+
+    private record SkillDetectionMatch(
+            String matchedKeyword,
+            MatchSource matchSource,
+            double confidenceScore
+    ) {
     }
 
     private record CourseScoreDetails(

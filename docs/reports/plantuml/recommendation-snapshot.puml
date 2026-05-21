@@ -1,0 +1,72 @@
+@startuml
+title SkillBridge - Recommendation Snapshot Persistence
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+skinparam ArrowColor #20242A
+hide methods
+
+class ProjectIdea {
+  id: Long
+  title: String
+  description: Text
+  status: ProjectStatus
+}
+
+class ProjectDetectedSkill {
+  id: Long
+  matchedKeyword: String
+  matchSource: MatchSource
+  confidenceScore: double
+}
+
+class RecommendationSnapshot {
+  id: Long
+  generatedAt: Instant
+  keywordSummary: Text
+  algorithmVersion: String
+  totalResults: int
+}
+
+class RecommendationResult {
+  id: Long
+  rankPosition: int
+  score: int
+  titleMatchScore: int
+  skillMatchScore: int
+  categoryMatchScore: int
+  bonusScore: int
+  explanation: Text
+}
+
+class Course {
+  id: Long
+  title: String
+  popularityScore: int
+}
+
+class Skill {
+  id: Long
+  name: String
+}
+
+ProjectIdea "1" --> "many" ProjectDetectedSkill : detected skills
+Skill "1" <-- "many" ProjectDetectedSkill : skill
+ProjectIdea "1" --> "many" RecommendationSnapshot : audit history
+RecommendationSnapshot "1" --> "many" RecommendationResult : ranked rows
+Course "1" <-- "many" RecommendationResult : recommended course
+
+note right of RecommendationSnapshot
+Stores one generation event:
+algorithm version, keywords,
+date and number of results.
+end note
+
+note right of RecommendationResult
+Keeps explainable score details
+for defense and auditability.
+end note
+@enduml
+

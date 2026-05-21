@@ -44,3 +44,4 @@ apps/backend/*.log
 apps/frontend/*.log
 apps/frontend/*.pid
 .playwright-cli/
+docs/reports/plantuml.jar
