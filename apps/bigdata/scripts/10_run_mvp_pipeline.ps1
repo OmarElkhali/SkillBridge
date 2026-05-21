@@ -23,6 +23,24 @@ function Run-Native {
     }
 }
 
+function Resolve-Python {
+    if (Get-Command py -ErrorAction SilentlyContinue) {
+        $candidate = (& py -3.10 -c "import sys; print(sys.executable)" 2>$null)
+        if ($LASTEXITCODE -eq 0 -and $candidate) {
+            return $candidate.Trim()
+        }
+    }
+    return "python"
+}
+
+function Run-Python {
+    param(
+        [Parameter(ValueFromRemainingArguments = $true)]
+        [string[]] $Arguments
+    )
+    Run-Native $script:PythonExe @Arguments
+}
+
 function Show-Step {
     param(
         [Parameter(Mandatory = $true)]
@@ -62,11 +80,13 @@ function Show-Verify {
 Write-Host "=== SkillBridge Big Data MVP Pipeline ==="
 Write-Host "Working directory: $root"
 Write-Host "HDFS DataNodes requested: $Datanodes"
+$script:PythonExe = Resolve-Python
+Write-Host "Python executable: $script:PythonExe"
 
 Show-Step "1" "Verification des prerequis" "S'assurer que Docker, Python et les outils minimums sont disponibles."
 & .\scripts\00_check_prereqs.ps1
 Show-Result "Les prerequis locaux ont ete verifies."
-Show-Verify "docker --version; python --version" "Les deux commandes retournent une version."
+Show-Verify "docker --version; $script:PythonExe --version" "Les deux commandes retournent une version."
 
 Show-Step "2" "Build des images Sqoop et Flume" "Preparer les outils de collecte batch et streaming avec des images locales stables."
 Run-Native docker compose build sqoop-client flume-agent
@@ -81,13 +101,14 @@ Show-Result "Le miroir PostgreSQL local est demarre."
 Show-Verify "docker compose ps postgres-mirror" "Le service postgres-mirror est Up."
 
 Show-Step "4" "Installation des dependances Python" "Installer les librairies necessaires au catalogue, au seed et aux traitements Python."
-Run-Native python -m pip install -r requirements.txt
+Run-Python -m pip install --upgrade pip setuptools wheel
+Run-Python -m pip install -r requirements.txt
 Show-Result "Les dependances Python sont installees."
-Show-Verify "python -m pip show psycopg2-binary" "Le package psycopg2-binary est disponible."
+Show-Verify "$script:PythonExe -m pip show psycopg2-binary" "Le package psycopg2-binary est disponible."
 
 Show-Step "5" "Build catalogue et seed du miroir" "Transformer les datasets ZIP en catalogue propre puis remplir le PostgreSQL mirror."
-Run-Native python .\scripts\12_merge_and_enrich_catalog.py
-Run-Native python .\scripts\14_seed_postgres_mirror_from_catalog.py
+Run-Python .\scripts\12_merge_and_enrich_catalog.py
+Run-Python .\scripts\14_seed_postgres_mirror_from_catalog.py
 Show-Result "Le catalogue unifie est genere et le miroir PostgreSQL est rempli."
 Show-Verify "docker compose exec postgres-mirror psql -U skillbridge -d skillbridge -c `"select count(*) from courses;`"" "Le count des cours est superieur a 17000."
 
@@ -129,14 +150,14 @@ Show-Result "Le job MapReduce a produit les top mots-cles."
 Show-Verify "docker compose exec namenode hdfs dfs -cat /data/skillbridge/processed/mapreduce/top_search_keywords/part-r-00000" "Une liste mot-cle + count est affichee."
 
 Show-Step "12" "Matching Python projet vers skills" "Traitement metier: detecter les skills utiles pour les idees de projet."
-Run-Native python .\scripts\08_match_project_skills.py
+Run-Python .\scripts\08_match_project_skills.py
 Show-Result "Python a produit les associations project_id -> skill_id."
 Show-Verify "Get-Content .\output\project_skill_matches.csv" "Le CSV contient les matches projet-skill."
 
 Show-Step "13" "Chargement HBase course_stats" "Stockage resultat: rendre les stats cours consultables en key/value."
 Run-Native docker compose up --detach hbase
 Start-Sleep -Seconds 90
-Run-Native python .\scripts\09_load_course_stats_hbase.py
+Run-Python .\scripts\09_load_course_stats_hbase.py
 Run-Native docker compose exec -T hbase /hbase/bin/hbase shell /opt/skillbridge/output/load_course_stats.hbase
 Show-Result "HBase contient la table course_stats."
 Show-Verify "scan 'course_stats', {LIMIT => 10}" "Des lignes avec activity:clicks, activity:saves et meta:title sont visibles."

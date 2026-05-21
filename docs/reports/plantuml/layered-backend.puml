@@ -1,0 +1,57 @@
+@startuml
+title SkillBridge Backend - Layered Architecture
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+skinparam ArrowColor #20242A
+
+package "Presentation Layer" #F4F6F8 {
+  [REST Controllers] as Controllers
+  [DTO Requests / Responses] as DTOs
+}
+
+package "Security Layer" #FFF4E8 {
+  [SecurityConfig] as SecurityConfig
+  [JwtAuthenticationFilter] as JwtFilter
+  [CustomUserDetailsService] as UserDetails
+}
+
+package "Business Layer" #EAF7F5 {
+  [AuthService] as AuthService
+  [CourseService] as CourseService
+  [ProjectIdeaService] as ProjectService
+  [RecommendationService] as RecommendationService
+  [AdminService] as AdminService
+  [BigDataStatusService] as BigDataStatus
+}
+
+package "Persistence Layer" #EEF3FA {
+  [Spring Data JPA Repositories] as Repositories
+  [JPA Entities] as Entities
+}
+
+database "PostgreSQL / Supabase" as DB
+file "Big Data output JSON\nand events.log" as Files
+
+Controllers --> DTOs
+Controllers --> AuthService
+Controllers --> CourseService
+Controllers --> ProjectService
+Controllers --> RecommendationService
+Controllers --> AdminService
+SecurityConfig --> JwtFilter
+JwtFilter --> UserDetails
+UserDetails --> Repositories
+AuthService --> Repositories
+CourseService --> Repositories
+ProjectService --> Repositories
+RecommendationService --> Repositories
+AdminService --> Repositories
+AdminService --> BigDataStatus
+BigDataStatus --> Files
+Repositories --> Entities
+Repositories --> DB
+@enduml
+

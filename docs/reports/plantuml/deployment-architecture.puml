@@ -1,0 +1,52 @@
+@startuml
+title SkillBridge - Deployment Architecture
+left to right direction
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+skinparam ArrowColor #20242A
+skinparam database {
+  BackgroundColor #FFF4E8
+  BorderColor #E67E22
+}
+
+node "Developer Machine / Demo Host" #F4F6F8 {
+  component "React dev server\nVite :5173" as Frontend
+  component "Spring Boot API\n:8080 / :8081" as Backend
+  folder "apps/bigdata/data/events\nJSON Lines logs" as EventLog
+  folder "apps/bigdata/output\nJSON summaries" as Output
+}
+
+cloud "Supabase Cloud" #EAF7F5 {
+  database "PostgreSQL\nApplication database" as Supabase
+}
+
+node "Docker Compose Big Data Stack" #EEF3FA {
+  database "postgres-mirror\n:5433" as Mirror
+  component "NameNode" as NameNode
+  component "2+ DataNodes" as DataNodes
+  component "Sqoop client" as Sqoop
+  component "Flume agent" as Flume
+  component "Hive Metastore + HiveServer2" as Hive
+  component "YARN ResourceManager\n+ NodeManager" as YARN
+  database "HBase\ncourse_stats" as HBase
+}
+
+Frontend --> Backend : REST / JSON
+Backend --> Supabase : JDBC / JPA
+Backend --> EventLog : append web events
+Backend --> Output : read admin summaries
+Mirror --> Sqoop : relational source
+Sqoop --> NameNode : HDFS batch import
+EventLog --> Flume : file source
+Flume --> NameNode : stream to HDFS
+NameNode --> DataNodes : block metadata / storage
+NameNode --> Hive : external tables
+NameNode --> YARN : MapReduce input/output
+YARN --> Output : keyword summary
+Hive --> Output : SQL analytics summary
+Output --> HBase : load course_stats script
+@enduml
+

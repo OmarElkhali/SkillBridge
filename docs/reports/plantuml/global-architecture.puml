@@ -1,0 +1,41 @@
+@startuml
+title SkillBridge - Global Architecture
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+skinparam rectangle {
+  BackgroundColor #F4F6F8
+  BorderColor #1F3A5F
+}
+skinparam database {
+  BackgroundColor #FFF4E8
+  BorderColor #E67E22
+}
+skinparam ArrowColor #20242A
+
+actor "Learner / Admin" as User
+
+rectangle "apps/frontend\nReact + TypeScript + Vite" as Frontend #EAF7F5
+rectangle "apps/backend\nSpring Boot REST API" as Backend #EAF7F5
+database "Supabase PostgreSQL\nApplication database" as Supabase
+file "events.log\nJSON Lines web events" as Events #F4F6F8
+rectangle "apps/bigdata\nTerminal-first Hadoop lab" as BigData #EEF3FA
+database "HDFS raw / processed zones" as HDFS
+rectangle "Hive SQL\nMapReduce\nHBase course_stats" as Analytics #EEF3FA
+file "output/*.json\nAdmin summaries" as Summaries #F4F6F8
+
+User --> Frontend : browser
+Frontend --> Backend : HTTPS / JSON API
+Backend --> Supabase : Spring Data JPA
+Backend --> Events : append usage events
+Events --> BigData : Flume streaming ingestion
+Supabase ..> BigData : curated catalog copied\nto local mirror
+BigData --> HDFS : Sqoop + Flume
+HDFS --> Analytics : query and process
+Analytics --> Summaries : generated reports
+Summaries ..> Backend : file-based status API
+Backend --> Frontend : dashboards and responses
+@enduml
+

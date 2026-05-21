@@ -17,12 +17,33 @@ function Run-Native {
     }
 }
 
+function Resolve-Python {
+    if (Get-Command py -ErrorAction SilentlyContinue) {
+        $candidate = (& py -3.10 -c "import sys; print(sys.executable)" 2>$null)
+        if ($LASTEXITCODE -eq 0 -and $candidate) {
+            return $candidate.Trim()
+        }
+    }
+    return "python"
+}
+
+function Run-Python {
+    param(
+        [Parameter(ValueFromRemainingArguments = $true)]
+        [string[]] $Arguments
+    )
+    Run-Native $script:PythonExe @Arguments
+}
+
+$script:PythonExe = Resolve-Python
 Write-Host "=== SkillBridge catalog build ==="
+Write-Host "Python executable: $script:PythonExe"
 Write-Host "1) Installing Python dependencies"
-Run-Native python -m pip install -r requirements.txt
+Run-Python -m pip install --upgrade pip setuptools wheel
+Run-Python -m pip install -r requirements.txt
 
 Write-Host "2) Building unified catalog from ZIP datasets"
-Run-Native python .\scripts\12_merge_and_enrich_catalog.py
+Run-Python .\scripts\12_merge_and_enrich_catalog.py
 
 Write-Host "3) Catalog report"
 Get-Content -LiteralPath ".\output\catalog\catalog_build_report.json"

@@ -177,17 +177,19 @@ export function LoginPage() {
 
   return (
     <section className="grid min-h-screen gap-6 bg-gradient-to-br from-[var(--color-surface)] to-[var(--color-surface-muted)] p-4 lg:grid-cols-2 lg:p-8">
-      <div className="relative flex min-h-[520px] flex-col justify-end overflow-hidden rounded-[2.5rem] border-2 border-white/80 bg-gradient-to-br from-[var(--accent-wash)] to-white/60 p-8 shadow-2xl shadow-[var(--accent-wash-strong)] backdrop-blur-xl lg:p-12">
+      <div className="relative flex min-h-[520px] flex-col overflow-hidden rounded-[2.5rem] border-2 border-white/80 bg-gradient-to-br from-[var(--accent-wash)] to-white/60 p-8 shadow-2xl shadow-[var(--accent-wash-strong)] backdrop-blur-xl lg:min-h-[calc(100vh-4rem)] lg:p-12">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 h-64 w-64 rounded-full bg-[var(--color-accent)] opacity-20 blur-[80px]" />
 
-        <img alt="SkillBridge full logo" className="z-10 mb-12 w-full max-w-[500px] self-center drop-shadow-xl" src="/logo.svg" />
-        <div className="relative z-10 grid gap-5">
-          <h1 className="max-w-[14ch] font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-5xl leading-tight tracking-tight text-[var(--color-text-strong)] sm:text-6xl">
-            Build from an idea, <span className="text-[var(--color-accent)] italic">not from a noisy dashboard.</span>
-          </h1>
-          <p className={cx("max-w-xl text-lg leading-relaxed", mutedText)}>
-            Sign in to turn a rough concept into a project path, course suggestions, and a calmer place to keep moving forward.
-          </p>
+        <img alt="SkillBridge full logo" className="relative z-10 mx-auto w-full max-w-[430px] drop-shadow-xl lg:max-w-[500px]" src="/logo.svg" />
+        <div className="relative z-10 flex flex-1 items-center">
+          <div className="grid gap-5">
+            <h1 className="max-w-[14ch] font-['Fraunces',_'Source_Serif_4',_Georgia,_serif] text-5xl leading-tight tracking-tight text-[var(--color-text-strong)] sm:text-6xl">
+              Build from an idea, <span className="text-[var(--color-accent)] italic">not from a noisy dashboard.</span>
+            </h1>
+            <p className={cx("max-w-xl text-lg leading-relaxed", mutedText)}>
+              Sign in to turn a rough concept into a project path, course suggestions, and a calmer place to keep moving forward.
+            </p>
+          </div>
         </div>
       </div>
 

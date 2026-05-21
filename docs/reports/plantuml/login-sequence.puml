@@ -1,0 +1,49 @@
+@startuml
+title SkillBridge - Email/Password Login Sequence
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam sequence {
+  ArrowColor #20242A
+  LifeLineBorderColor #D8DEE9
+  ParticipantBorderColor #1F3A5F
+  ParticipantBackgroundColor #F4F6F8
+}
+
+actor User
+participant "React\nLoginPage" as UI
+participant "AuthController" as Controller
+participant "AuthService" as AuthService
+participant "LoginAttemptService" as Attempts
+participant "AuthenticationManager" as AuthManager
+participant "CustomUserDetailsService" as Details
+database "users / roles" as DB
+participant "PasswordEncoder\nBCrypt" as BCrypt
+participant "JwtService" as JWT
+
+User -> UI : Enter email and password
+UI -> Controller : POST /api/auth/login
+Controller -> AuthService : login(request, clientIp)
+AuthService -> Attempts : isBlocked(email, ip)
+alt blocked
+  Attempts --> AuthService : true
+  AuthService --> Controller : 429 Too Many Requests
+  Controller --> UI : Error response
+else allowed
+  AuthService -> AuthManager : authenticate(email, password)
+  AuthManager -> Details : loadUserByUsername(email)
+  Details -> DB : find user with role
+  DB --> Details : User
+  AuthManager -> BCrypt : matches(raw, passwordHash)
+  BCrypt --> AuthManager : valid
+  AuthManager --> AuthService : authenticated
+  AuthService -> Attempts : recordSuccess(email, ip)
+  AuthService -> JWT : generateToken(principal)
+  JWT --> AuthService : signed JWT
+  AuthService --> Controller : AuthResponse
+  Controller --> UI : accessToken + user summary
+  UI --> User : Redirect to dashboard
+end
+@enduml
+

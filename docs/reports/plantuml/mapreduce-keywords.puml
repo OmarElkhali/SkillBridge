@@ -1,0 +1,26 @@
+@startuml
+title SkillBridge - MapReduce Top Search Keywords
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #20242A
+
+start
+:Read HDFS event files\n/data/skillbridge/raw/flume/events;
+:Mapper receives one JSON line;
+if (eventType is COURSE_SEARCH\nor PROJECT_RECOMMENDATION?) then (yes)
+  :Extract query or project title + description;
+  :Normalize text to lowercase;
+  :Tokenize using pattern [a-z0-9+#.]+;
+  :Remove stop words and one-letter tokens;
+  :Emit (token, 1);
+else (no)
+  :Ignore event;
+endif
+:Shuffle and group values by token;
+:Reducer sums counts per token;
+:Write part-r-00000 to\n/data/skillbridge/processed/mapreduce/top_search_keywords;
+stop
+@enduml
+

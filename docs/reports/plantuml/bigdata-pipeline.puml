@@ -1,0 +1,56 @@
+@startuml
+title SkillBridge - Big Data Pipeline
+left to right direction
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam defaultFontName Arial
+skinparam componentStyle rectangle
+skinparam ArrowColor #20242A
+skinparam database {
+  BackgroundColor #FFF4E8
+  BorderColor #E67E22
+}
+skinparam rectangle {
+  BackgroundColor #F4F6F8
+  BorderColor #1F3A5F
+}
+
+file "CSV / JSON / ZIP\ncourse datasets" as Datasets
+rectangle "Python catalog builder\n12_merge_and_enrich_catalog.py" as Builder #EAF7F5
+file "output/catalog/*.csv\nclean catalog" as Catalog
+rectangle "Safe Supabase upsert\n13_push_catalog_to_supabase.py" as Upsert #EAF7F5
+database "Supabase PostgreSQL\nlive app DB" as Supabase
+database "PostgreSQL mirror\nlocal Docker source" as Mirror
+rectangle "Sqoop batch import" as Sqoop #EEF3FA
+file "events.log\nweb JSON lines" as Events
+rectangle "Flume streaming agent" as Flume #EEF3FA
+database "HDFS raw zone\n/sqoop and /flume" as HDFS
+rectangle "Hive external tables\nSQL analytics" as Hive #EEF3FA
+rectangle "Java MapReduce\nTopSearchKeywordsJob" as MR #EEF3FA
+rectangle "Python project-skill\nmatching and recommendation" as PythonReco #EAF7F5
+database "HBase course_stats\nserving table" as HBase
+file "output/*.json\nadmin summaries" as Summary
+rectangle "Spring Boot admin API\n/api/admin/bigdata/*" as Backend #EAF7F5
+rectangle "React admin dashboard" as Frontend #EAF7F5
+
+Datasets --> Builder
+Builder --> Catalog
+Catalog --> Upsert
+Upsert --> Supabase
+Catalog --> Mirror
+Mirror --> Sqoop
+Sqoop --> HDFS
+Events --> Flume
+Flume --> HDFS
+HDFS --> Hive
+HDFS --> MR
+HDFS --> PythonReco
+MR --> Summary
+Hive --> Summary
+PythonReco --> Summary
+Summary --> HBase
+Summary --> Backend
+Backend --> Frontend
+@enduml
+

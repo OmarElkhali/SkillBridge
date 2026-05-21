@@ -1,0 +1,37 @@
+@startuml
+title SkillBridge - Spring Security Request Flow
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #20242A
+
+start
+:HTTP request reaches Spring Boot;
+:Apply CORS configuration;
+:Apply HTTP security headers\nHSTS, frame deny, no-referrer,\ncontent type options;
+
+if (Public route?) then (yes)
+  :Permit /api/auth/** and public GET catalog endpoints;
+  :Invoke controller;
+  stop
+else (no)
+  :JwtAuthenticationFilter reads Authorization header;
+  if (Bearer token present and valid?) then (yes)
+    :Extract subject, userId and role claims;
+    :CustomUserDetailsService loads active user;
+    :Populate SecurityContext;
+    if (Role / @PreAuthorize allowed?) then (yes)
+      :Invoke protected controller;
+      stop
+    else (no)
+      :Return 403 Forbidden;
+      stop
+    endif
+  else (no)
+    :RestAuthenticationEntryPoint returns 401 Unauthorized;
+    stop
+  endif
+endif
+@enduml
+

@@ -1,0 +1,31 @@
+@startuml
+title SkillBridge - Skill Detection Logic
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 12
+skinparam defaultFontName Arial
+skinparam ArrowColor #20242A
+
+start
+:Receive project title and description;
+:Concatenate project text;
+:Normalize text\nlowercase, remove punctuation,\ncollapse spaces;
+:Extract project tokens and remove stop words;
+:Load all skills from PostgreSQL;
+:Sort skills by normalized name length\ndescending;
+repeat
+  :Normalize skill name;
+  if (Skill phrase appears in project text?) then (yes)
+    :Create ProjectDetectedSkill;
+    :matchedKeyword = normalized skill;
+    :matchSource = SKILL_NAME;
+    :confidenceScore = 0.95;
+  else (no)
+    :Skip skill;
+  endif
+repeat while (More skills?)
+:Keep at most 25 detected skills;
+:Persist detected skills with project;
+stop
+@enduml
+

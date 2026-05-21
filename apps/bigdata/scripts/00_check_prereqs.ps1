@@ -25,12 +25,21 @@ function Test-Command($Name) {
 }
 
 Test-Command docker
-Test-Command python
+if (Get-Command py -ErrorAction SilentlyContinue) {
+    & py -3.10 --version
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "OK: py -3.10"
+    } else {
+        Test-Command python
+    }
+} else {
+    Test-Command python
+}
 
 $datasetPaths = @(
-    @{ Name = "SKILLBRIDGE_DATASET_FINAL_ZIP"; Default = "C:\Users\omare\Downloads\archive (1).zip" },
-    @{ Name = "SKILLBRIDGE_DATASET_ALL_COURSES_ZIP"; Default = "C:\Users\omare\Downloads\archive.zip" },
-    @{ Name = "SKILLBRIDGE_DATASET_RICH_ZIP"; Default = "C:\Users\omare\Downloads\archive (2).zip" }
+    @{ Name = "SKILLBRIDGE_DATASET_FINAL_ZIP"; Default = (Join-Path $env:USERPROFILE "Downloads\archive (1).zip") },
+    @{ Name = "SKILLBRIDGE_DATASET_ALL_COURSES_ZIP"; Default = (Join-Path $env:USERPROFILE "Downloads\archive.zip") },
+    @{ Name = "SKILLBRIDGE_DATASET_RICH_ZIP"; Default = (Join-Path $env:USERPROFILE "Downloads\archive (2).zip") }
 )
 
 foreach ($dataset in $datasetPaths) {

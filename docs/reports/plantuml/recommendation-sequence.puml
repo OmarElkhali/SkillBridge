@@ -1,0 +1,40 @@
+@startuml
+title SkillBridge - Recommendation Generation Sequence
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName Arial
+skinparam sequence {
+  ArrowColor #20242A
+  LifeLineBorderColor #D8DEE9
+  ParticipantBorderColor #1F3A5F
+  ParticipantBackgroundColor #F4F6F8
+}
+
+actor Learner
+participant "React\nProjectDetailPage" as UI
+participant "ProjectIdeaController" as Controller
+participant "RecommendationService" as Reco
+database "PostgreSQL\nSupabase" as DB
+participant "BigDataEventService" as Events
+participant "events.log" as Log
+participant "output/recommendation_result.json" as Output
+
+Learner -> UI : Click Generate Recommendations
+UI -> Controller : POST /api/projects/{id}/recommendations/generate?limit=10
+Controller -> Reco : generateForProject(projectId, user, limit)
+Reco -> DB : Load project with owner check
+Reco -> DB : Load skills and candidate courses
+Reco -> Reco : Normalize text and extract tokens
+Reco -> Reco : Detect skills and categories
+Reco -> Reco : Score courses\nTitle + Skill + Category + Bonus
+Reco -> DB : Save ProjectDetectedSkill rows
+Reco -> DB : Save RecommendationSnapshot
+Reco -> DB : Save RecommendationResult rows
+Reco -> Events : appendEvent(PROJECT_RECOMMENDATION)
+Events -> Log : Write JSON line
+Reco -> Output : Write latest recommendation JSON
+Reco --> Controller : RecommendationResponse
+Controller --> UI : JSON with score breakdown
+UI --> Learner : Display ranked recommendations
+@enduml
